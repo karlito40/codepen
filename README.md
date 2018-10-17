@@ -1,1 +1,3 @@
-[vue-timeline-component.now.sh](https://vue-timeline-component.now.sh/) >>> [README](vue-timeline-component/)
+- vue-timeline-component
+  - [DEMO](https://vue-timeline-component.now.sh/)
+  - [README](vue-timeline-component/)
