@@ -84,8 +84,8 @@ export default {
         top:rect.top - context.top, 
       });
 
-      TweenMax.set(el.querySelector('.menu-unfold'), { paddingTop: headerHeight, display: 'block' });
-      TweenMax.set(el.querySelectorAll('.menu-unfold p'), { opacity: 0, y: 15 });
+      TweenMax.set(el.querySelector('.menu-unfold'), { paddingTop: headerHeight, display: 'block', opacity: 0, y: 15 });
+      // TweenMax.set(el.querySelectorAll('.menu-unfold p'), { opacity: 0, y: 15 });
 
       const tl = new TimelineMax();
       tl.to(el, 0.5, { top: 0, left: 0, width: '100%', height: '100%', ease: Power2.easeOut});
@@ -93,7 +93,8 @@ export default {
       tl.to(el.querySelector('.menu-footer'), 0, { top: 0 }, 0);
       // tl.to(el.querySelector('.menu-footer'), 0.33, { fontSize: '2em', paddingLeft: headerPaddingLeft, lineHeight: headerHeight, height: headerHeight, ease: Power2.easeIn}, 0);
       // tl.staggerTo(el.querySelectorAll('.menu-unfold p'), 0.4, { opacity: 1, y: 0 }, 0.15);
-      tl.to(el.querySelectorAll('.menu-unfold p'), 0.2, { opacity: 1, y: 0 });
+      // tl.to(el.querySelectorAll('.menu-unfold p'), 0.2, { opacity: 1, y: 0 });
+      tl.to(el.querySelectorAll('.menu-unfold'), 0.2, { opacity: 1, y: 0 });
 
       return tl;
     }
