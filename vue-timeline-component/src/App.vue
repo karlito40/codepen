@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <h1>Vue timeline</h1>
     <div class="menus">
       <SourcePointTimeline
         v-for="(menu, index) in menus"
