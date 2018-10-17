@@ -21,6 +21,7 @@
           <div class="menu-content" >
             <div class="menu-case">{{ menu.id }}</div>
             <div class="menu-unfold">
+              <p><strong>Click again to get back to the home screen</strong></p>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend vel nisi in accumsan. Cras eu magna accumsan, ullamcorper elit eget, pretium ipsum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut commodo ligula nulla, non euismod magna posuere eget. Maecenas non nisi lobortis, vestibulum dui in, faucibus lectus. Sed mauris mauris, dapibus vitae sagittis egestas, varius nec nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Phasellus blandit ut erat a commodo. Sed et est suscipit, condimentum ex eu, porta nisi.</p>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend vel nisi in accumsan. Cras eu magna accumsan, ullamcorper elit eget, pretium ipsum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut commodo ligula nulla, non euismod magna posuere eget. Maecenas non nisi lobortis, vestibulum dui in, faucibus lectus. Sed mauris mauris, dapibus vitae sagittis egestas, varius nec nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Phasellus blandit ut erat a commodo. Sed et est suscipit, condimentum ex eu, porta nisi.</p>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend vel nisi in accumsan. Cras eu magna accumsan, ullamcorper elit eget, pretium ipsum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut commodo ligula nulla, non euismod magna posuere eget. Maecenas non nisi lobortis, vestibulum dui in, faucibus lectus. Sed mauris mauris, dapibus vitae sagittis egestas, varius nec nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Phasellus blandit ut erat a commodo. Sed et est suscipit, condimentum ex eu, porta nisi.</p>
@@ -41,9 +42,9 @@
 </template>
 
 <script>
-import Timeline from './components/Timeline'
+// import Timeline from './components/Timeline'
 import SourcePointTimeline from './components/SourcePointTimeline'
-import { TimelineMax, TweenMax, TimelineLite, Power2 } from 'gsap/all';
+import { TimelineMax, TweenMax, Power2, TweenLite } from 'gsap/all';
 
 export default {
   name: 'app',
@@ -78,9 +79,9 @@ export default {
       const headerHeight = headerStyle.getPropertyValue('height');
 
       TweenMax.set(el, {
-        position: 'absolute',
-        left: rect.left - context.left, 
-        top: rect.top - context.top, 
+        position: 'absolute',
+        left:rect.left - context.left, 
+        top:rect.top - context.top, 
       });
 
       TweenMax.set(el.querySelector('.menu-unfold'), { paddingTop: headerHeight, display: 'block' });
