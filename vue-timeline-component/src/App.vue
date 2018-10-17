@@ -3,7 +3,7 @@
     <header class="header-app" ref="headerApp">
       <!-- <div class="avatar" :style="{background:'url(https://pbs.twimg.com/profile_images/543855558348902402/8SNwBKWg_400x400.png) cover no-repeat'}"></div> -->
       <div class="avatar" :style="{background: 'url(https://pbs.twimg.com/profile_images/543855558348902402/8SNwBKWg_400x400.png)', backgroundSize: 'cover'}"></div>
-      <h1>Click on a message :)</h1>
+      <h1>Click on a tile :)</h1>
     </header>
 
     <div class="menus">
@@ -33,7 +33,7 @@
             </div>
           </div>
           <div class="menu-footer">
-              <div class="menu-footer-body">Message</div>
+              <div class="menu-footer-body">Message {{ menu.id }}</div>
             </div>
         </div>
       </SourcePointTimeline>
