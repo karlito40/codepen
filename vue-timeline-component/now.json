@@ -1,0 +1,17 @@
+{
+  "name": "vue-timeline-component",
+  "type": "static",
+  "alias": "vue-timeline-component",
+  "static": {
+    "public": "dist",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "files": [
+    "dist"
+  ]
+}
