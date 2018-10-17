@@ -119,7 +119,7 @@ body {
 #app {
   width: 100%;
   max-width: 600px;
-  margin: 50px auto 0 auto;
+  margin: 0 auto;
   position: relative;
 }
 
