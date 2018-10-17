@@ -8,10 +8,15 @@ export default {
   props: { ...Timeline.props },
   methods: {
     setupHandler(sourcePoint) {
-      const fromEl = this.$refs.from;
+      const fromEl = this.$refs.container.firstChild;
       const fromRect = fromEl.getBoundingClientRect();
 
-      TweenMax.set(sourcePoint.firstChild, { minHeight: '100%', minWidth: '100%'});
+      TweenMax.set(sourcePoint.firstChild, { 
+        minHeight: '100%', 
+        minWidth: '100%',
+        height: 'auto',
+      });
+      
       TweenMax.set(sourcePoint, {
         position: 'fixed',
         zIndex: 9999,
@@ -26,12 +31,12 @@ export default {
     }
   },
   render(h) {
-
-    return h('div', { ref: 'from' }, [
+    return h('div', { ref: 'container' }, [
       this.$slots.default,
       h('Timeline', { 
         props: { ...this.$props, setup: this.setupHandler }, 
-        class: 'source-point' 
+        class: 'source-point',
+        on: this.$listeners
       }, cloneVNode(this.$slots.default, h))
     ]);
   }

@@ -40,15 +40,23 @@ export default {
       }
 
       if(this.show) {
+        this.$emit('enter');
+
         this.tl
           .play()
-          .eventCallback('onComplete', done);
+          .eventCallback('onComplete', () => {
+            this.$emit('enterComplete');
+            done();
+          });
       } else {
+        this.$emit('leave');
+
         this.tl
           .reverse()
           .eventCallback('onReverseComplete', () => {
             this.tl = null;
             done();
+            this.$emit('leaveComplete');
           });
       }
     }
