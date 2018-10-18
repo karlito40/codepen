@@ -11,7 +11,6 @@
         :show="menu.show" 
         :key="menu.id" 
         @enter="enterMenu(menu)"
-        @enterComplete="enterCompleteMenu(menu)"
         @leave="leaveMenu(menu)"
         @leaveComplete="leaveCompleteMenu(menu)"
         :setup="fullscreenSetup"
@@ -53,13 +52,18 @@ export default {
     SourcePointTimeline,
   },
   beforeRouteUpdate(to, from, next) {
+    if(this.routeUpdateDone) {
+      // We have to trigger the callback of the previous route to avoid memory leak
+      this.flushRoute(false);
+    }
+
     this.routeUpdateDone = next;
     const trigger = (to && to.name === 'article')
       ? to : (from && from.name === 'article')
         ? from : null;
 
     if(to && to.name === 'article') {
-      this.flushRoute();
+      this.flushRoute();  // We display the article in <router-view/> asap
     }
 
     if(trigger) {
@@ -67,9 +71,9 @@ export default {
     }
   },
   methods: {
-    flushRoute() {
+    flushRoute(...args) {
       if(this.routeUpdateDone) {
-        this.routeUpdateDone();
+        this.routeUpdateDone(...args);
         this.routeUpdateDone = null;
       }
     },
@@ -87,17 +91,21 @@ export default {
       menu.unfold = true;
       TweenLite.to(window, 0.3, { scrollTo: "#app" });
     },
-    enterCompleteMenu() {
-      this.flushRoute();
-    },
     leaveMenu(menu) {
       TweenLite.to(window, 1.5, { scrollTo: document.querySelector(`.menu-${menu.id}`) });
     },
     leaveCompleteMenu(menu) {
       menu.unfold = false;
 
+      const routeDone = this.routeUpdateDone;
       setTimeout(() => {
-        this.flushRoute();
+        if(routeDone && routeDone !== this.routeUpdateDone) {
+          // The route is not the good one anymore
+          // We have to trigger the callback of the previous route to avoid memory leak
+          routeDone(false);
+        } else {
+          this.flushRoute();
+        }
       }, 200);
       
     },
