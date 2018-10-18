@@ -2,7 +2,7 @@
   <div id="app" ref="app">
     <header class="header-app" ref="headerApp">
       <div class="avatar" :style="{background: 'url(https://pbs.twimg.com/profile_images/543855558348902402/8SNwBKWg_400x400.png)', backgroundSize: 'cover'}"></div>
-      <h1>Click on a tile :)</h1>
+      <h1>Click on a tile - Router Version</h1>
     </header>
 
     <div class="menus">
