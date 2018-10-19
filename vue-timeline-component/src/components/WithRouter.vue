@@ -54,7 +54,7 @@ export default {
   beforeRouteUpdate(to, from, next) {
     if(this.routeUpdateDone) {
       // We have to trigger the callback of the previous route to avoid memory leak
-      this.flushRoute(false);
+      this.ackRoute(false);
     }
 
     this.routeUpdateDone = next;
@@ -63,7 +63,7 @@ export default {
         ? from : null;
 
     if(to && to.name === 'article') {
-      this.flushRoute();  // We display the article in <router-view/> asap
+      this.ackRoute();  // We display the article in <router-view/> asap
     }
 
     if(trigger) {
@@ -71,7 +71,7 @@ export default {
     }
   },
   methods: {
-    flushRoute(...args) {
+    ackRoute(...args) {
       if(this.routeUpdateDone) {
         this.routeUpdateDone(...args);
         this.routeUpdateDone = null;
@@ -97,14 +97,14 @@ export default {
     leaveCompleteMenu(menu) {
       menu.unfold = false;
 
-      const routeDone = this.routeUpdateDone;
+      const previousRouteAck = this.routeUpdateDone;
       setTimeout(() => {
-        if(routeDone && routeDone !== this.routeUpdateDone) {
+        if(previousRouteAck && previousRouteAck !== this.routeUpdateDone) {
           // The route is not the good one anymore
           // We have to trigger the callback of the previous route to avoid memory leak
-          routeDone(false);
+          previousRouteAck(false);
         } else {
-          this.flushRoute();
+          this.ackRoute();
         }
       }, 200);
       
