@@ -1,0 +1,60 @@
+<template>
+  <v-app dark>
+    <v-navigation-drawer 
+      app 
+      mini-variant
+      mini-variant-width="60"
+      clipped
+      permanent
+      class="tools-sidebar"
+    >
+      <SidebarTool/>
+    </v-navigation-drawer>
+
+    <v-navigation-drawer 
+      app 
+      clipped
+      right
+      permanent
+      width="270"
+      class="scheme-sidebar"
+    >
+      <SidebarScheme/>
+    </v-navigation-drawer>
+
+    <v-toolbar 
+      app 
+      height="40"
+      clipped-left
+      flat
+      class="toolbar-options"
+    ></v-toolbar>
+    <v-content>
+      <MainScreen/>
+    </v-content>
+  </v-app>
+</template>
+
+<script>
+import SidebarTool from './components/SidebarTool';
+import SidebarScheme from './components/SidebarScheme';
+import MainScreen from './components/MainScreen';
+
+export default {
+  name: 'app',
+  components: { 
+    SidebarTool, 
+    SidebarScheme, 
+    MainScreen 
+  },
+}
+</script>
+
+<style scoped>
+
+.toolbar-options {
+  background-color: #424242 !important;
+  border-bottom: 1px solid hsla(0,0%,100%,.12);
+}
+
+</style>
