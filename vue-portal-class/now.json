@@ -1,0 +1,17 @@
+{
+  "name": "vue-portal-class",
+  "type": "static",
+  "alias": "vue-portal-class",
+  "static": {
+    "public": "dist",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "files": [
+    "dist"
+  ]
+}

@@ -1,3 +1,7 @@
 - vue-timeline-component
   - [DEMO](https://vue-timeline-component.now.sh/)
-  - [README](vue-timeline-component/)
+  - [Source](vue-timeline-component/)
+- vue-portal-class
+  - [DEMO](https://vue-portal-class.now.sh/)
+  - [Example](vue-portal-class/)
+  - [Source](https://github.com/karlito40/vue-portal-class)
