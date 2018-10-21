@@ -35,14 +35,42 @@
 </template>
 
 <script>
-import library from '../fixtures/library';
+// import library from '../fixtures/library';
+import { libraries } from '@/libraries';
 
 export default {
   name: 'Library',
   data() {
-    return { items: library };
+    return { items: createItems() };
   }
 }
+
+function createItems() {
+  const items = [];
+  for(let library of libraries) {
+    if(library.namespace === 'Reserved') {
+      continue;
+    }
+
+    items.push({ header: library.namespace })  
+    items.push({ divider: true });
+
+    Object.values(library.store).forEach(c => {
+      items.push({
+        id: items.length,
+        title: `<${c.name}/>`,
+        subtitle: `${c.name} component`
+      });
+      
+      items.push({ divider: true });
+    });
+  }
+
+  return items;
+
+}
+
+
 </script>
 
 <style scoped>

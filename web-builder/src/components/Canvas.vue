@@ -1,12 +1,17 @@
 <template>
-  <div class="canvas">
-dzadazdad
-  </div>
+  <v-app light>
+    <div class="canvas">
+      dzadazdad
+      <ArticleSemantic>
+        ldazldlaz semantic !
+      </ArticleSemantic>
+    </div>
+  </v-app>
 </template>
 
 <script>
 export default {
-  name: 'Canvas'
+  name: 'Canvas',
 }
 </script>
 

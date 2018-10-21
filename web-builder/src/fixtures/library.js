@@ -1,5 +1,5 @@
 const components = {
-  Common: {components: ['Div', 'Link', 'Span'], header: true},
+  Common: ['Div', 'Link', 'Span'],
   Semantic: ['Section', 'Article', 'Nav', 'Aside', 'Header', 'Footer'],
   Media: ['Image', 'Video', 'Youtube'],
   Form: ['Form', 'Input', 'Textarea', 'Button', 'TextField'],
