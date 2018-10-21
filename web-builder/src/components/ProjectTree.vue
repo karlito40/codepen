@@ -16,14 +16,16 @@
 
 <script>
 import { getCurrentPage } from '../fixtures/project';
+import clone from 'clone';
 
 export default {
-  name: 'LayerTree',
+  name: 'ProjectTree',
   data: () => ({
     // open: ['public'],
     open: [],
     tree: [],
-    items: getCurrentPage().tree
+    // items: getCurrentPage().tree[0].children
+    items: clone(getCurrentPage().tree)
   })
 }
 

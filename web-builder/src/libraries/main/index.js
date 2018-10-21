@@ -1,7 +1,7 @@
 import Layer from './Layer';
 
 export default {
-  namespace: 'Reserved',
+  namespace: 'Main',
   store: {
     [Layer.name]: Layer
   }

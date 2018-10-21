@@ -1,0 +1,17 @@
+{
+  "name": "vue-web-builder",
+  "type": "static",
+  "alias": "vue-web-builder",
+  "static": {
+    "public": "dist",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "files": [
+    "dist"
+  ]
+}

@@ -11,7 +11,10 @@ import Rule from './Rule';
 
 export default {
   name: 'MainScreen',
-  components: { Canvas, Rule }
+  components: { Canvas, Rule },
+  methods: {
+    log: console.log
+  }
 }
 </script>
 

@@ -1,8 +1,10 @@
 <template>
   <v-layout column align-center class="pt-2">
-    <span class="group pa-2" v-for="(tool, index) in tools" :key="index">
+    <span class="group" v-for="(tool, index) in tools" :key="index">
       <v-tooltip right>
-        <v-icon slot="activator" @click="pick(tool)">{{tool.icon}}</v-icon>
+        <v-btn icon slot="activator" @click="pick(tool)">
+          <v-icon>{{tool.icon}}</v-icon>
+        </v-btn>
         <span>{{tool.description}}</span>
       </v-tooltip>
     </span>

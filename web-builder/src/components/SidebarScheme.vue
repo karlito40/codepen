@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import LayerTree from './LayerTree';
+import ProjectTree from './ProjectTree';
 import Library from './Library';
 import PageList from './PageList';
 
@@ -19,7 +19,7 @@ export default {
   data() {
     return { 
       schemeTabs: [
-        {title: 'Layers', component: LayerTree },
+        {title: 'Project', component: ProjectTree },
         {title: 'Pages', component: PageList },
         {title: 'Library', component: Library },
       ]
