@@ -12,17 +12,15 @@
 <script>
 import LayerTree from './LayerTree';
 import Library from './Library';
+import PageList from './PageList';
 
-const Pages = {
-  name: 'Pages'
-}
 export default {
   name: 'SidebarScheme',
   data() {
     return { 
       schemeTabs: [
         {title: 'Layers', component: LayerTree },
-        {title: 'Pages', component: Pages },
+        {title: 'Pages', component: PageList },
         {title: 'Library', component: Library },
       ]
     };

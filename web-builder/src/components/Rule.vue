@@ -6,11 +6,15 @@
       :class="dir" 
       :ref="dir" 
       :key="dir"
-      :style="stylingRule(dir)"
+      :style="$data[dir].style"
     >
-      <div class="px" v-for="px in $data[dir].range" :key="px">
+      <div class="px" 
+        v-for="indicator in $data[dir].indicators" 
+        :key="indicator.content"
+        :style="indicator.style"
+      >
         <div class="indicator"></div>
-        <div class="text">{{px}}</div>
+        <div class="text">{{indicator.content}}</div>
       </div>
     </div>
   </div>
@@ -22,8 +26,8 @@ export default {
   name: 'Rule',
   data() {
     return {
-      vertical: {range: [], padding: 0, size: 0},
-      horizontal: {range: [], padding: 0, size: 0},
+      vertical: {indicators: [], style: {}},
+      horizontal: {indicators: [], style: {}},
     }
   },
   methods: {
@@ -33,7 +37,6 @@ export default {
 
       if(dir === 'vertical') {
         paddingTarget = 'paddingTop';
-        paddingTarget = 'paddingTop';
         dimTarget = 'height';
       }
 
@@ -42,7 +45,7 @@ export default {
         [dimTarget]: this[dir].size + 'px',
       }
     },
-    createInterval([startAt, endAt], size) {
+    createInterval(dir, [startAt, endAt], size) {
       const previous = Array(Math.abs(startAt))
         .fill()
         .map((v, index) => -index)
@@ -54,8 +57,30 @@ export default {
         .map((v, index) => index)
         .filter(px => (px % WITH_INTERVAL) === 0);
 
-      const skipPixel = Math.abs(startAt) - Math.abs(previous[0]);
-      return {range: [...previous, ...next], padding: skipPixel, size};
+      const padding = Math.abs(startAt) - Math.abs(previous[0]);
+
+      let positionTarget = 'left';
+      let sizeTarget = 'width';
+      if(dir === 'vertical') {
+        positionTarget = 'top';
+        sizeTarget = 'height';
+      }
+
+      const indicators = [...previous, ...next].map((indicator, i) => {
+        return {
+          content: indicator,
+          style: {
+            [positionTarget]: (i * WITH_INTERVAL + padding) + 'px'
+          }
+        }
+      });
+
+      return {
+        indicators, 
+        style: {
+          [sizeTarget]: size + 'px'
+        }
+      };
     }
   },
   mounted() {
@@ -66,8 +91,8 @@ export default {
     const width = parseInt(style.width, 10);
     const height = parseInt(style.height, 10)
 
-    this.horizontal = this.createInterval([-paddingLeft, width - paddingLeft], width);
-    this.vertical = this.createInterval([-paddingTop, height - paddingTop], height);
+    this.horizontal = this.createInterval('horizontal', [-paddingLeft, width - paddingLeft], width);
+    this.vertical = this.createInterval('vertical', [-paddingTop, height - paddingTop], height);
   }
 }
 </script>
@@ -82,10 +107,9 @@ $RULE_SIZE: 20px;
   position: absolute;
   top: 0;
   left: 0;
-  display: flex;
   font-size: 8px;
   overflow: hidden;
-  background: #b9b6b6;
+  background: #ffe0ad;
 
 }
 
@@ -96,16 +120,11 @@ $RULE_SIZE: 20px;
 
   .rule.vertical {
     width: $RULE_SIZE;
-    flex-direction: column;
   }
 
-.px {
-  flex-shrink: 0;
-  flex-grow: 0;
-}
+.px { position: absolute; }
 
   .horizontal .px {
-    margin-right: $WITH_INTERVAL;
     height: 100%;
     width: 1px;
   }
@@ -126,7 +145,6 @@ $RULE_SIZE: 20px;
   }
 
   .vertical .px {
-    margin-bottom: $WITH_INTERVAL;
     height: 1px;
     width: 100%;
   }

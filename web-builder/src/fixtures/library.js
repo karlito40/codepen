@@ -1,50 +1,34 @@
-export default [
-  {
-    title: '<Div/>',
-    subtitle: "Div component"
-  },
-  { divider: true, inset: true },
-  {
-    title: '<Link/>',
-    subtitle: "Link component"
-  },
-  { divider: true, inset: true },
-  {
-    title: '<Image/>',
-    subtitle: "Image component"
-  },
-  { divider: true, inset: true },
-  {
-    title: '<Video/>',
-    subtitle: "Video component"
-  },
-  { divider: true, inset: true },
-  {
-    title: '<Youtube/>',
-    subtitle: "Youtube component"
-  },
-  { divider: true, inset: true },
-  {
-    title: '<Article/>',
-    subtitle: "Article component"
-  },
-  {
-    title: '<Section/>',
-    subtitle: "Section component"
-  },
-  { header: '@vuetify' },
-  {
-    title: '<Carousel/>',
-    subtitle: "Carousel component"
-  },
-  { header: '@karlito40' },
-  {
-    title: '<Animation/>',
-    subtitle: "Animation component"
-  },
-  { header: 'Personal' },
-  {
-    title: '<Form/>',
-    subtitle: "Form component"
-  },
-]
+const components = {
+  Common: {components: ['Div', 'Link', 'Span'], header: true},
+  Semantic: ['Section', 'Article', 'Nav', 'Aside', 'Header', 'Footer'],
+  Media: ['Image', 'Video', 'Youtube'],
+  Form: ['Form', 'Input', 'Textarea', 'Button', 'TextField'],
+  '@vuetify': ['Carousel'],
+  '@karlito40': ['Timeline'],
+  'Current Project': ['Form'],
+}
+
+const library = [];
+for(let [category, value] of Object.entries(components)) {
+  const meta = Array.isArray(value) 
+    ? { components: value, header: true }
+    : value;
+  
+  if(meta.header) {
+    library.push({ header: category })  
+  }
+  
+  library.push({ divider: true });
+
+  meta.components.forEach(c => {
+    library.push({
+      id: library.length,
+      title: `<${c}/>`,
+      subtitle: `${c} component`
+    });
+    
+    library.push({ divider: true });
+  });
+}
+
+export default library;
