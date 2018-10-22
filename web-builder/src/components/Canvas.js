@@ -43,24 +43,45 @@ export default {
       }
       
       if(typeof node !== 'object') {
-        return node;
+        return node; // Simple Text
       }
       
-      const options = node.options || {};
+      const tooltip = h('div', { 
+        class: 'builder-tools', 
+        props: { slot: 'builder-tools'}
+      }, 'lalala');
 
+      const options = node.options || {};
+      const directives = [
+        { name: 'resizable', value: true, },
+        { name: 'draggable', value: true, },
+        { name: 'drawable', value: node.id, },
+      ];
+      
       return h(node.component, {
         ...options,
+        class: 'node-component',
         attrs: { 
           ...options.attrs,
           'data-bid': node.id
         },
         on: this.$listeners,
-      }, this.renderTree(h, node.children));
+        directives: [
+          ...(options.directives || []), 
+          ...directives
+        ], 
+      }, [
+        tooltip,
+        this.renderTree(h, node.children)
+      ]);
     },
   },
   render(h) {
     return h('v-app', { props: { id: 'builder', light: true }, style: styles.app }, [
-      h('div', { class: 'canvas', style: styles.canvas }, this.renderTree(h, tree))
+      h('div', { 
+        class: 'canvas', 
+        style: styles.canvas, 
+      }, this.renderTree(h, tree))
     ])
   }
 }

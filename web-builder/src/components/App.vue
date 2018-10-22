@@ -36,9 +36,9 @@
 </template>
 
 <script>
-import SidebarTool from './components/SidebarTool';
-import SidebarScheme from './components/SidebarScheme';
-import Main from './components/Main';
+import SidebarTool from './SidebarTool';
+import SidebarScheme from './SidebarScheme';
+import Main from './Main';
 
 export default {
   name: 'app',
@@ -49,6 +49,15 @@ export default {
   },
 }
 </script>
+
+<style>
+.builder-tools {
+  display: none;
+}
+.node-component:hover > .builder-tools {
+  display: block;
+}
+</style>
 
 <style scoped>
 

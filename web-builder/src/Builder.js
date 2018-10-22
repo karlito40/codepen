@@ -4,10 +4,9 @@ import Library from './libraries';
 const Plugin = {
   install(Vue) {
     Vue.use(Library);
-
-    Vue.directive('resize', {
+    
+    Vue.directive('resizable', {
       bind (el, binding) {
-        // false
         resizable(el, binding);
       },
       update(el, binding){
@@ -19,7 +18,7 @@ const Plugin = {
       }
     })
 
-    Vue.directive('drag', {
+    Vue.directive('draggable', {
       bind (el, binding) {
         // false
         draggable(el, binding);
@@ -33,6 +32,8 @@ const Plugin = {
         // vnode.data.on.dragComplete();
       }
     });
+
+    Vue.directive('drawable', (el, binding) => {})
   }
 }
 
@@ -42,7 +43,7 @@ export default Plugin;
 function unsetDraggable(el) {
   interact(el)
     .draggable(false)
-    .off('dragstart', initPosition)
+    .off('dragstart', fromPosition)
     .off('dragmove', dragMoveListener);
 }
 
@@ -51,23 +52,24 @@ function draggable(el, binding) {
     return unsetDraggable(el);
   }
 
-  const draggableOptions = binding.value || {
+  // const draggableOptions = binding.value || {
+  const draggableOptions = {
     restrict: {
       restriction: 'parent',
       elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
     },
   };
-
+  
   interact(el)
     .draggable(draggableOptions)
-    .on('dragstart', initPosition)
+    .on('dragstart', fromPosition)
     .on('dragmove', dragMoveListener)
 }
 
 function unsetResizable(el) {
   interact(el)
       .resizable(false)
-      .off('resizestart', initPosition)
+      .off('resizestart', fromPosition)
       .off('resizemove', resizeMoveListener);
 }
 
@@ -76,7 +78,8 @@ function resizable(el, binding) {
     return unsetResizable(el);
   }
 
-  const restrictOptions = binding.value || {
+  // const restrictOptions = binding.value || {
+  const restrictOptions = {
     restrictEdges: {
       outer: 'parent',
       endOnly: true,
@@ -85,23 +88,22 @@ function resizable(el, binding) {
       min: { width: 100, height: 50 },
     },
   };
-  
+
   interact(el)
     .resizable({
       edges: { left: true, right: true, bottom: true, top: true },
       ...restrictOptions
     })
-    .on('resizestart', initPosition)
+    .on('resizestart', fromPosition)
     .on('resizemove', resizeMoveListener);
 }
 
 function dragMoveListener(event) {
   const { target } = event;
-  
   moveTarget(target, event.dx, event.dy);
 }
 
-function initPosition(event) {
+function fromPosition(event) {
   const { target } = event;
   const { top, left } = window.getComputedStyle(target);
 

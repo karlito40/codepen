@@ -1,22 +1,40 @@
+import uniqid from 'uniqid';
+
 // TODO: transform to component
+const headerId = uniqid();
 const testTree = [
   {
+    id: uniqid(),
     name: 'Root',
     component: 'LayerMain',
     options: {
-      style: { 
-        height: '1000px', 
-        width: '500px' 
-      }
+      style: { height: '1000px', width: '500px' }
     },
     // children: [
-    //   // 'Odzdz',
+    //   'Child text',
     //   {
-    //     name: 'Toto',
+    //     id: headerId,
+    //     name: 'Header',
+    //     component: 'LayerMain',
+    //     notify: [
+          
+    //     ]
+    //   },
+    //   {
+    //     id: uniqid(),
+    //     name: 'Content',
     //     component: 'LayerMain',
     //     options: {
-    //       props: {x: 3}
+    //       props: { 
+    //         follow: headerId
+    //       }
     //     }
+    //   },
+    //   {
+    //     id: uniqid(),
+    //     name: 'Footer',
+    //     component: 'LayerMain',
+    //     follow: headerId
     //   }
     // ]
   },
@@ -24,6 +42,7 @@ const testTree = [
 
 const homeTree = [
   {
+    id: uniqid(),
     name: 'Root',
     component: 'LayerMain',
     options: {
@@ -55,6 +74,7 @@ const homeTree = [
 
 const basicTree = [
   {
+    id: uniqid(),
     name: 'Root',
     component: 'LayerMain',
     options: {
@@ -64,6 +84,7 @@ const basicTree = [
 ];
 
 const workspace = {
+  id: uniqid(),
   currentPage: 'Home',
   pages: [{
     name: 'Home',
@@ -71,6 +92,7 @@ const workspace = {
     tree: testTree 
   },
   {
+    id: uniqid(),
     name: 'Contact',
     tree: [
       {

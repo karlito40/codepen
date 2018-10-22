@@ -1,10 +1,7 @@
 <template>
-  <div class="layer" ref="container" 
-    @click="toggle"
-    v-resize="activeResizable" 
-    v-drag="activeDraggable"
-  >
+  <div class="layer" ref="container">
     Layer
+    <slot name="builder-tools"/>
     <slot/>
   </div>
 </template>

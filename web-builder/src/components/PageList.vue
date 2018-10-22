@@ -5,7 +5,7 @@
         <v-list-tile-content/>
         <v-list-tile-action>
           <v-tooltip left>
-            <v-btn icon slot="activator">
+            <v-btn icon slot="activator" @click="addPage('Test')">
               <v-icon>add_circle</v-icon>
             </v-btn>
             <span>New page</span>
@@ -28,12 +28,21 @@
 </template>
 
 <script>
-import project from '../fixtures/workspace';
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'PageList',
-  data() {
-    return { pages: project.pages };
+  computed: {
+    ...mapState({
+      pages: state => state.workspace.pages
+    }),
+  },
+  methods: {
+    ...mapActions([
+      'addPage'
+    ])
   }
+  
+  
 }
 </script>
