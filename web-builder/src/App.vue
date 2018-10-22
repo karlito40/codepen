@@ -30,7 +30,7 @@
       class="toolbar-options"
     ></v-toolbar>
     <v-content>
-      <MainScreen/>
+      <Main/>
     </v-content>
   </v-app>
 </template>
@@ -38,14 +38,14 @@
 <script>
 import SidebarTool from './components/SidebarTool';
 import SidebarScheme from './components/SidebarScheme';
-import MainScreen from './components/MainScreen';
+import Main from './components/Main';
 
 export default {
   name: 'app',
   components: { 
     SidebarTool, 
     SidebarScheme, 
-    MainScreen 
+    Main 
   },
 }
 </script>

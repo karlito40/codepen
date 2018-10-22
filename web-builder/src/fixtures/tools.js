@@ -5,10 +5,25 @@ export default [
     description: 'Draw layers',
     icon: 'create'
   },
+  // {
+  //   name: 'redraw',
+  //   description: 'Resize & Move layers',
+  //   icon: 'zoom_out_map'
+  // },
   {
-    name: 'redraw',
-    description: 'Resize & Move layers',
-    icon: 'zoom_out_map'
+    name: 'text',
+    description: 'Add text',
+    icon: 'title'
+  },
+  {
+    name: 'link',
+    description: 'Add link',
+    icon: 'link'
+  },
+  {
+    name: 'image',
+    description: 'Add image',
+    icon: 'image'
   },
   {
     name: 'zoom',

@@ -25,10 +25,10 @@
       </template>
     </v-list>  
   </div>
-  
 </template>
+
 <script>
-import project from '../fixtures/project';
+import project from '../fixtures/workspace';
 
 export default {
   name: 'PageList',

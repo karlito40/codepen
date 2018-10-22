@@ -20,7 +20,7 @@ function importAll (r) {
   const res = [];
   r.keys().forEach(fileName => {
     // Load only the main file from a library
-    if(fileName.split('/').length === 2) {
+    if(fileName.split('/').length !== 3) {
       return;
     }
 

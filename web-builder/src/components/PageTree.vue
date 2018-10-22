@@ -5,7 +5,7 @@
     :items="items"
     activatable
     item-key="name"
-    class="body-1 layer-tree"
+    class="body-1 page-tree"
     open-on-click
   >
     <template slot="prepend" slot-scope="{ item, open, leaf }">
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { getCurrentPage } from '../fixtures/project';
+import { getCurrentPage } from '../fixtures/workspace';
 import clone from 'clone';
 
 export default {

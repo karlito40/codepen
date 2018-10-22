@@ -4,18 +4,21 @@ const testTree = [
     name: 'Root',
     component: 'LayerMain',
     options: {
-      style: { height: '1000px' }
-    },
-    children: [
-      'Odzdz',
-      {
-        name: 'Toto',
-        component: 'LayerMain',
-        options: {
-          props: {x: 3}
-        }
+      style: { 
+        height: '1000px', 
+        width: '500px' 
       }
-    ]
+    },
+    // children: [
+    //   // 'Odzdz',
+    //   {
+    //     name: 'Toto',
+    //     component: 'LayerMain',
+    //     options: {
+    //       props: {x: 3}
+    //     }
+    //   }
+    // ]
   },
 ];
 
@@ -60,7 +63,7 @@ const basicTree = [
   },
 ];
 
-const project = {
+const workspace = {
   currentPage: 'Home',
   pages: [{
     name: 'Home',
@@ -78,8 +81,8 @@ const project = {
   }]
 };
 
-export default project;
+export default workspace;
 
 export function getCurrentPage() {
-  return project.pages.find(page => page.name === project.currentPage);
+  return workspace.pages.find(page => page.name === workspace.currentPage);
 }
