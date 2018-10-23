@@ -69,12 +69,6 @@ export default {
     },
   },
   render(h) {
-    // return h('v-app', { props: { id: 'builder', light: true }, style: styles.app }, [
-    //   h('div', { 
-    //     class: 'canvas', 
-    //     style: styles.canvas, 
-    //   }, this.renderTree(h, tree))
-    // ])
     return h('div', { 
       class: 'canvas', 
       style: styles.canvas, 

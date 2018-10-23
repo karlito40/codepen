@@ -1,1 +1,2 @@
-include postcss-selector-parser for style encapsulation
+☐ include postcss-selector-parser for style encapsulation
+☐ test remove listener on drag/resize unset

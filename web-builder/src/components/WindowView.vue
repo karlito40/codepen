@@ -8,7 +8,7 @@ import Vue from 'vue';
 export default {
   name: 'frame',
   render(h) {
-    return  h('iframe', {
+    return h('iframe', {
     	on: { load: this.onLoad }
     })
   },
@@ -34,7 +34,7 @@ export default {
       })
 
       this.app = new Vue({
-      	name: 'frameApp',
+        name: 'frameApp',
         data: { children: Object.freeze(children) }, 
         render(h) {
           return h('div', this.children);

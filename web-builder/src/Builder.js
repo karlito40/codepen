@@ -1,4 +1,5 @@
-import interact from 'interactjs';
+import resizable from './utils/interact/Resizable';
+import draggable from './utils/interact/Draggable';
 import Library from './libraries';
 
 const Plugin = {
@@ -6,11 +7,11 @@ const Plugin = {
     Vue.use(Library);
     
     Vue.directive('resizable', {
-      bind (el, binding) {
-        resizable(el, binding);
+      inserted (el, binding) {
+        updateResizable(el, binding);
       },
       update(el, binding){
-        resizable(el, binding);
+        updateResizable(el, binding);
       },
       unbind(el, binding, vnode, oldVnode) {
         unsetResizable(el);
@@ -19,12 +20,12 @@ const Plugin = {
     })
 
     Vue.directive('draggable', {
-      bind (el, binding) {
+      inserted (el, binding) {
         // false
-        draggable(el, binding);
+        updateDraggable(el, binding);
       },
       update(el, binding){
-        draggable(el, binding);
+        updateDraggable(el, binding);
       },
 
       unbind(el, binding, vnode, oldVnode) {
@@ -41,59 +42,25 @@ export default Plugin;
 
 
 function unsetDraggable(el) {
-  interact(el)
-    .draggable(false)
-    .off('dragstart', fromPosition)
-    .off('dragmove', dragMoveListener);
+  draggable(el).unset();
 }
 
-function draggable(el, binding) {
-  if(typeof binding.value !== "undefined" && !binding.value) {
-    return unsetDraggable(el);
-  }
-
-  // const draggableOptions = binding.value || {
-  const draggableOptions = {
-    restrict: {
-      restriction: 'parent',
-      elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-    },
-  };
-  
-  interact(el)
-    .draggable(draggableOptions)
+function updateDraggable(el, binding) {
+  draggable(el)
     .on('dragstart', fromPosition)
-    .on('dragmove', dragMoveListener)
+    .on('dragmove', dragMoveListener);
 }
 
 function unsetResizable(el) {
-  interact(el)
-      .resizable(false)
-      .off('resizestart', fromPosition)
-      .off('resizemove', resizeMoveListener);
+  resizable(el).unset();
 }
 
-function resizable(el, binding) {
+function updateResizable(el, binding) {
   if(typeof binding.value !== "undefined" && !binding.value) {
     return unsetResizable(el);
   }
 
-  // const restrictOptions = binding.value || {
-  const restrictOptions = {
-    restrictEdges: {
-      outer: 'parent',
-      endOnly: true,
-    },
-    restrictSize: {
-      min: { width: 100, height: 50 },
-    },
-  };
-
-  interact(el)
-    .resizable({
-      edges: { left: true, right: true, bottom: true, top: true },
-      ...restrictOptions
-    })
+  resizable(el)
     .on('resizestart', fromPosition)
     .on('resizemove', resizeMoveListener);
 }
@@ -130,6 +97,5 @@ function resizeMoveListener(event) {
 
   target.style.width  = event.rect.width + 'px';
   target.style.height = event.rect.height + 'px';
-
   moveTarget(target, event.deltaRect.left, event.deltaRect.top);
 }

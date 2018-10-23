@@ -8,7 +8,7 @@ const homeTree = [
     name: 'Root',
     component: 'Layer',
     options: {
-      style: { height: '1000px', width: '500px' }
+      style: { height: '400px', width: '500px' }
     },
   //   children: [
   //     'Child text',
