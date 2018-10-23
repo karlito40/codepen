@@ -1,12 +1,8 @@
 import Interactable from './Interactable';
 
-export default function resizable(target, options = {}) {
-  return new Resizable(target, options);
-}
-
 const MARGE_TOLERATE = 7;
 
-class Resizable extends Interactable {
+export default class Resizable extends Interactable { 
   onMouseUp(e) {
     this.target.style.pointerEvents = 'auto';
     this.isResizing = false;

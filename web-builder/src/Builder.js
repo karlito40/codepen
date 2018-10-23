@@ -1,5 +1,4 @@
-import resizable from './utils/interact/Resizable';
-import draggable from './utils/interact/Draggable';
+import {resizable, draggable} from './utils/interact';
 import Library from './libraries';
 
 const Plugin = {

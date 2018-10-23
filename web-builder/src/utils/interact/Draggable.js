@@ -1,10 +1,6 @@
 import Interactable from './Interactable';
 
-export default function draggable(target, options = {}) {
-  return new Draggable(target, options);
-}
-
-class Draggable extends Interactable {
+export default class Draggable extends Interactable {
   constructor(target, options = {}) {
     super(target, options);
 
