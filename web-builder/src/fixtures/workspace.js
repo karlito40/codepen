@@ -6,7 +6,7 @@ const testTree = [
   {
     id: uniqid(),
     name: 'Root',
-    component: 'LayerMain',
+    component: 'Layer',
     options: {
       style: { height: '1000px', width: '500px' }
     },
@@ -15,7 +15,7 @@ const testTree = [
     //   {
     //     id: headerId,
     //     name: 'Header',
-    //     component: 'LayerMain',
+    //     component: 'Layer',
     //     notify: [
           
     //     ]
@@ -23,7 +23,7 @@ const testTree = [
     //   {
     //     id: uniqid(),
     //     name: 'Content',
-    //     component: 'LayerMain',
+    //     component: 'Layer',
     //     options: {
     //       props: { 
     //         follow: headerId
@@ -33,7 +33,7 @@ const testTree = [
     //   {
     //     id: uniqid(),
     //     name: 'Footer',
-    //     component: 'LayerMain',
+    //     component: 'Layer',
     //     follow: headerId
     //   }
     // ]
@@ -44,14 +44,14 @@ const homeTree = [
   {
     id: uniqid(),
     name: 'Root',
-    component: 'LayerMain',
+    component: 'Layer',
     options: {
       style: { height: '1000px' }
     },
     children: [
       {
         name: 'header',
-        component: 'LayerMain',
+        component: 'Layer',
         // children: [{
         //   name: 'nav',
         //   component: '@current/CustomNav',
@@ -62,11 +62,11 @@ const homeTree = [
       },
       {
         name: 'main',
-        component: 'LayerMain',
+        component: 'Layer',
       },
       {
         name: 'footer',
-        component: 'LayerMain',
+        component: 'Layer',
       }
     ]
   },
@@ -76,7 +76,7 @@ const basicTree = [
   {
     id: uniqid(),
     name: 'Root',
-    component: 'LayerMain',
+    component: 'Layer',
     options: {
       style: { height: '1000px' }
     },
@@ -97,7 +97,7 @@ const workspace = {
     tree: [
       {
         name: '_Root',
-        component: 'LayerMain'
+        component: 'Layer'
       },
     ]
   }]

@@ -6,7 +6,7 @@ const homeTree = [
   {
     id: uniqid(),
     name: 'Root',
-    component: 'LayerMain',
+    component: 'Layer',
     options: {
       style: { height: '1000px', width: '500px' }
     },
@@ -15,7 +15,7 @@ const homeTree = [
   //     {
   //       id: headerId,
   //       name: 'Header',
-  //       component: 'LayerMain',
+  //       component: 'Layer',
   //       notify: [
           
   //       ]
@@ -23,7 +23,7 @@ const homeTree = [
   //     {
   //       id: uniqid(),
   //       name: 'Content',
-  //       component: 'LayerMain',
+  //       component: 'Layer',
   //       options: {
   //         props: { 
   //           follow: headerId
@@ -33,7 +33,7 @@ const homeTree = [
   //     {
   //       id: uniqid(),
   //       name: 'Footer',
-  //       component: 'LayerMain',
+  //       component: 'Layer',
   //       follow: headerId
   //     }
   //   ]
@@ -53,7 +53,7 @@ const state = {
     tree: [
       {
         name: '_Root',
-        component: 'LayerMain'
+        component: 'Layer'
       },
     ]
   }]
@@ -76,7 +76,7 @@ const mutations = {
       tree: [
         {
           name: '_Root',
-          component: 'LayerMain'
+          component: 'Layer'
         },
       ] 
     })

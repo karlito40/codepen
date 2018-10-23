@@ -1,7 +1,8 @@
 <template>
   <div class="layer" ref="container">
     Layer
-    <slot name="builder-tools"/>
+    <!-- <slot name="builder-tools"/> -->
+    <ToolVisualizer/>
     <slot/>
   </div>
 </template>

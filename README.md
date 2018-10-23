@@ -5,3 +5,6 @@
   - [DEMO](https://vue-portal-class.now.sh/)
   - [Example](vue-portal-class/)
   - [Source](https://github.com/karlito40/vue-portal-class)
+- web-builder
+  - [DEMO](https://vue-web-builder.now.sh/)
+  - [Example](web-builder/)

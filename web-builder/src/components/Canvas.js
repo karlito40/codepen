@@ -45,11 +45,6 @@ export default {
       if(typeof node !== 'object') {
         return node; // Simple Text
       }
-      
-      const tooltip = h('div', { 
-        class: 'builder-tools', 
-        props: { slot: 'builder-tools'}
-      }, 'lalala');
 
       const options = node.options || {};
       const directives = [
@@ -70,19 +65,20 @@ export default {
           ...(options.directives || []), 
           ...directives
         ], 
-      }, [
-        tooltip,
-        this.renderTree(h, node.children)
-      ]);
+      }, this.renderTree(h, node.children));
     },
   },
   render(h) {
-    return h('v-app', { props: { id: 'builder', light: true }, style: styles.app }, [
-      h('div', { 
-        class: 'canvas', 
-        style: styles.canvas, 
-      }, this.renderTree(h, tree))
-    ])
+    // return h('v-app', { props: { id: 'builder', light: true }, style: styles.app }, [
+    //   h('div', { 
+    //     class: 'canvas', 
+    //     style: styles.canvas, 
+    //   }, this.renderTree(h, tree))
+    // ])
+    return h('div', { 
+      class: 'canvas', 
+      style: styles.canvas, 
+    }, this.renderTree(h, tree));
   }
 }
 
@@ -92,7 +88,6 @@ const styles = {
   },
   canvas: {
     backgroundColor: 'white',
-    // width: '800px',
     height: '1000px',
   }
 }

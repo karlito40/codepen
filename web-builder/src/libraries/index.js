@@ -4,9 +4,9 @@ const LibraryPlugin = {
   install(Vue) {
     for(let library of libraries) {
       for(let [name, component] of Object.entries(library.store)) {
-        let uniqName = name + library.namespace; 
-        console.log('load component', uniqName)
-        Vue.component(uniqName, {...component, name: uniqName});
+        let tag = name + (library.namespace || ''); 
+        console.log('load component', tag)
+        Vue.component(tag, {...component, name: tag});
       }
     }
   }
@@ -25,7 +25,8 @@ function importAll (r) {
     }
 
     const library = r(fileName).default;
-    if(library && library.namespace) {
+    // if(library && library.namespace) {
+    if(library) {
       res.push(library);
     }
   });

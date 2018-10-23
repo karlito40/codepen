@@ -48,11 +48,11 @@ export default {
 function createItems() {
   const items = [];
   for(let library of libraries) {
-    if(library.namespace === 'Reserved') {
-      continue;
-    }
+    // if(library.namespace === 'Reserved') {
+    //   continue;
+    // }
 
-    items.push({ header: library.namespace })  
+    items.push({ header: library.name || library.namespace })  
     items.push({ divider: true });
 
     Object.values(library.store).forEach(c => {

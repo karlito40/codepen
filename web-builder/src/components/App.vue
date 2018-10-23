@@ -30,7 +30,7 @@
       class="toolbar-options"
     ></v-toolbar>
     <v-content>
-      <Main/>
+      <MainView/>
     </v-content>
   </v-app>
 </template>
@@ -38,23 +38,32 @@
 <script>
 import SidebarTool from './SidebarTool';
 import SidebarScheme from './SidebarScheme';
-import Main from './Main';
+import MainView from './MainView';
 
 export default {
   name: 'app',
   components: { 
     SidebarTool, 
     SidebarScheme, 
-    Main 
+    MainView 
   },
 }
 </script>
 
 <style>
-.builder-tools {
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.tool-visualizer {
   display: none;
 }
-.node-component:hover > .builder-tools {
+.node-component:hover > .tool-visualizer {
   display: block;
 }
 </style>
