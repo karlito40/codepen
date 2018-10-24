@@ -1,7 +1,9 @@
 import { EventEmitter } from 'events';
+
 let nbInstance = 0;
 
 const signal = new EventEmitter();
+const interactables = new Map();
 
 export default class Interactable {
   constructor(target, options = {}) {
@@ -10,21 +12,24 @@ export default class Interactable {
     this.listeners = [];
     this.shareSignal = signal;
 
-    if(!this.target.interactable) {
-      this.target.interactable = {};
+    if(!interactables.has(this.target)) {
+      interactables.set(this.target, {});
+    }
+    
+    if(interactables.get(this.target)[this.constructor.name]) {
+      interactables.get(this.target)[this.constructor.name].unset();
     }
 
-    if(this.target.interactable[this.constructor.name]) {
-      this.target.interactable[this.constructor.name].unset();
-    }
-
-    this.target.interactable[this.constructor.name] = this;
+    interactables.get(this.target)[this.constructor.name] = this;
 
     this.$body = this.target.closest('body');
 
-    this.$body.addEventListener('mousemove', this.mousemove);
-    this.$body.addEventListener('mousedown', this.mousedown);
-    this.$body.addEventListener('mouseup', this.mouseup);
+    if(typeof options.globalGesture === 'undefined' || options.globalGesture) {
+      this.$body.addEventListener('mousemove', this.mousemove);
+      this.$body.addEventListener('mousedown', this.mousedown);
+      this.$body.addEventListener('mouseup', this.mouseup);
+    }
+    
   }
 
   mousemove = (e) => {

@@ -64,7 +64,7 @@ body {
   display: none;
 }
 
-.node-component.in:hover > .tool-visualizer {
+.pnode.in:hover > .tool-visualizer {
   display: block;
 }
 </style>

@@ -47,7 +47,7 @@ export default class Draggable extends Interactable {
   }
 
   onMouseDown(e) {
-    if(!this.isActivable || (this.target !== e.target && e.target.closest('[data-draggable]') !== this.target)) {
+    if(!this.isActivable) {
       return;
     }
 
@@ -73,15 +73,21 @@ export default class Draggable extends Interactable {
 
   leave() {
     if(!this.isResizeActive) {
-      this.isActivable = false;
-      this.target.style.cursor = '';
+      this.reset();
     }
   }
 
-  onResizeEnter = () => {
-    this.isResizeActive = true;
+  reset() {
+    this.isDragging = false;
     this.isActivable = false;
     this.target.style.cursor = '';
+  }
+ 
+  onResizeEnter = () => {
+    if(!this.isDragging) {
+      this.isResizeActive = true;
+      this.reset();
+    }
   }
 
   onResizeLeave = () => {
@@ -94,12 +100,17 @@ export default class Draggable extends Interactable {
   }
 
   mouseover = (e) => {
+    e.stopPropagation();
     this.isIn = true;
     this.enter();
   }
 
   mouseout = (e) => {
-    this.isIn = false;
-    this.leave();
+    e.stopPropagation();
+    if(!this.isDragging) {
+      this.isIn = false;
+      this.leave();
+    }
+    
   }
 }

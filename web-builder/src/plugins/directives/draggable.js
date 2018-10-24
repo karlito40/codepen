@@ -24,6 +24,10 @@ function unset(el) {
 }
 
 function update(el, binding) {
+  if(typeof binding.value !== "undefined" && !binding.value) {
+    unset(el);
+  }
+
   draggable(el)
     .on('dragstart', fromPosition)
     .on('dragmove', dragMoveListener);

@@ -33,40 +33,40 @@ export default {
        * tree[0].options.style.height = newHeight + 'px'
        */
     },
-    renderTree(h, node) {
-      if(!node) {
-        return node;
+    renderTree(h, pnode) {
+      if(!pnode) {
+        return pnode;
       }
       
-      if(Array.isArray(node)) {
-        return node.map(n => this.renderTree(h, n));
+      if(Array.isArray(pnode)) {
+        return pnode.map(n => this.renderTree(h, n));
       }
       
-      if(typeof node !== 'object') {
-        return node; // Simple Text
+      if(typeof pnode !== 'object') {
+        return pnode; // Simple Text
       }
 
-      const options = node.options || {};
+      const options = pnode.options || {};
       const directives = [
         { name: 'resizable', value: true, },
         { name: 'draggable', value: true, },
-        { name: 'drawable', value: node.id, },
-        { name: 'over-out', value: { class: 'in'}, },
+        { name: 'drawable', value: pnode.id, },
+        // { name: 'over-out', value: { class: 'in'}, },
       ];
       
-      return h(node.component, {
+      return h(pnode.component, {
         ...options,
-        class: 'node-component ' + (options.class || ''),
+        class: ['pnode', options.class],
         attrs: { 
           ...options.attrs,
-          'data-bid': node.id
+          'data-bid': pnode.id
         },
         on: this.$listeners,
         directives: [
           ...(options.directives || []), 
           ...directives
         ], 
-      }, this.renderTree(h, node.children));
+      }, this.renderTree(h, pnode.children));
     },
   },
   render(h) {

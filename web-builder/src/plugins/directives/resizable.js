@@ -25,7 +25,7 @@ function unset(el) {
 
 function update(el, binding) {
   if(typeof binding.value !== "undefined" && !binding.value) {
-    return unset(el);
+    unset(el);
   }
 
   resizable(el)
