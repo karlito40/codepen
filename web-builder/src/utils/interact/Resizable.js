@@ -4,8 +4,7 @@ const MARGE_TOLERATE = 7;
 
 export default class Resizable extends Interactable { 
   onMouseUp(e) {
-    this.target.style.pointerEvents = 'auto';
-    this.isResizing = false;
+    this.resizeLeave();
   }
 
   onMouseMove(e) {
@@ -46,22 +45,40 @@ export default class Resizable extends Interactable {
     };
 
     this.target.style.pointerEvents = 'none';
-
     this.target.dispatchEvent(new CustomEvent('resizestart', {
-      bubbles: true, 
+      bubbles: false, 
       cancelable: true,
     }));
   }
 
-  handleEdges = (e) => {
+  resizeLeave() {
+    this.isResizing = false;
+
+    removeResizer(this.id);
+    
+    if(hasResizer() || !this.isIn) {
+      return;
+    }
+      
+    this.isIn = false;
+    this.target.style.pointerEvents = 'auto';
     this.$body.style.cursor = '';
+    this.shareSignal.emit('resizeleave');
+  }
+
+  handleEdges = (e) => {
     const rect = this.target.getBoundingClientRect();
 
+    const axisBound = {
+      x: (e.clientY > rect.top - MARGE_TOLERATE && e.clientY < rect.bottom + MARGE_TOLERATE),
+      y: (e.clientX > rect.left - MARGE_TOLERATE && e.clientX < rect.right + MARGE_TOLERATE)
+    }
+
     const edges = {
-      top: Math.abs(e.clientY - rect.top),
-      right: Math.abs(e.clientX - rect.right),
-      bottom: Math.abs(e.clientY - rect.bottom),
-      left: Math.abs(e.clientX - rect.left),
+      ...(axisBound.y && {top: Math.abs(e.clientY - rect.top)}),
+      ...(axisBound.y && {bottom: Math.abs(e.clientY - rect.bottom)}),
+      ...(axisBound.x && {right: Math.abs(e.clientX - rect.right)}),
+      ...(axisBound.x && {left: Math.abs(e.clientX - rect.left)}),
     };
 
     const axisTargets = Object.entries(edges)
@@ -75,9 +92,20 @@ export default class Resizable extends Interactable {
     this.setAxis(axisTargets);
     
     if(!this.isResizeAllowed()) {
-      return;
+      this.resizeLeave();
+    } else {
+      this.resizeEnter();
+    }
+  }
+
+  resizeEnter() {
+    if(!this.isIn) {
+      this.isIn = true;
+      this.shareSignal.emit('resizeenter');
     }
 
+    addResizer(this.id);
+    
     if(this.getTotalAxis() == 1) {
       this.$body.style.cursor = this.axis.x ? 'col-resize' : 'row-resize';
     } else if(
@@ -85,11 +113,11 @@ export default class Resizable extends Interactable {
       || this.axis.x.from === 'right' && this.axis.y.from === 'bottom'
     ) {
       this.$body.style.cursor = 'nwse-resize';
+      this.target.style.cursor = 'nwse-resize';
     } else {
       this.$body.style.cursor = 'nesw-resize';
     }
   }
-
 
   resize(e) {
     this.resizeRects.previous = {...this.resizeRects.rect};
@@ -109,7 +137,7 @@ export default class Resizable extends Interactable {
     })
 
     const customEvent = new CustomEvent('resizemove', {
-      bubbles: true, 
+      bubbles: false, 
       cancelable: true,
     });
     
@@ -131,4 +159,18 @@ export default class Resizable extends Interactable {
     return this.getTotalAxis();
   }
 
+}
+
+const store = {};
+
+function hasResizer() {
+  return Object.values(store).some(v => v.cursor);
+}
+
+function removeResizer(id) {
+  store[id] = {cursor: false};
+}
+
+function addResizer(id) {
+  store[id] = {cursor: true};
 }

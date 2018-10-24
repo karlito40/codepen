@@ -1,7 +1,14 @@
+import { EventEmitter } from 'events';
+let nbInstance = 0;
+
+const signal = new EventEmitter();
+
 export default class Interactable {
   constructor(target, options = {}) {
+    this.id = ++nbInstance;
     this.target = target;
     this.listeners = [];
+    this.shareSignal = signal;
 
     if(!this.target.interactable) {
       this.target.interactable = {};

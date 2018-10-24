@@ -8,35 +8,46 @@ const testTree = [
     name: 'Root',
     component: 'Layer',
     options: {
-      style: { height: '70px', width: '500px', top: '40px' }
+      class: 'root',
+      style: { height: '370px', width: '500px', top: '40px' }
     },
-    // children: [
-    //   'Child text',
-    //   {
-    //     id: headerId,
-    //     name: 'Header',
-    //     component: 'Layer',
-    //     notify: [
-          
-    //     ]
-    //   },
-    //   {
-    //     id: uniqid(),
-    //     name: 'Content',
-    //     component: 'Layer',
-    //     options: {
-    //       props: { 
-    //         follow: headerId
-    //       }
-    //     }
-    //   },
-    //   {
-    //     id: uniqid(),
-    //     name: 'Footer',
-    //     component: 'Layer',
-    //     follow: headerId
-    //   }
-    // ]
+    children: [
+      // 'Child text',
+      {
+        id: headerId,
+        name: 'Header',
+        component: 'Layer',
+        options: {
+          class: 'header',
+          style: { height: '170px', width: '200px', top: '40px' },
+        },
+        children: [
+          {id: uniqid(),
+          name: 'SA',
+          component: 'Layer',
+          options: {
+            class: 'sa',
+            style: { height: '60px', width: '60px', top: '40px' },
+          },}
+        ]
+      },
+      // {
+      //   id: uniqid(),
+      //   name: 'Content',
+      //   component: 'Layer',
+      //   options: {
+      //     props: { 
+      //       follow: headerId
+      //     }
+      //   }
+      // },
+      // {
+      //   id: uniqid(),
+      //   name: 'Footer',
+      //   component: 'Layer',
+      //   follow: headerId
+      // }
+    ]
   },
 ];
 

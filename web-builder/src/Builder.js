@@ -20,7 +20,6 @@ const Plugin = {
 
     Vue.directive('draggable', {
       inserted (el, binding) {
-        // false
         updateDraggable(el, binding);
       },
       update(el, binding){
@@ -96,5 +95,6 @@ function resizeMoveListener(event) {
 
   target.style.width  = event.rect.width + 'px';
   target.style.height = event.rect.height + 'px';
+
   moveTarget(target, event.deltaRect.left, event.deltaRect.top);
 }

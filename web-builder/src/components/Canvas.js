@@ -55,7 +55,7 @@ export default {
       
       return h(node.component, {
         ...options,
-        class: 'node-component',
+        class: 'node-component ' + (options.class || ''),
         attrs: { 
           ...options.attrs,
           'data-bid': node.id

@@ -4,8 +4,20 @@ export default class Draggable extends Interactable {
   constructor(target, options = {}) {
     super(target, options);
 
+    this.target.dataset.draggable = true;
+
     this.on('mouseover', this.mouseover);
     this.on('mouseout', this.mouseout);
+
+    this.shareSignal.addListener('resizeenter', this.onResizeEnter);
+    this.shareSignal.addListener('resizeleave', this.onResizeLeave);
+  }
+
+  unset() {
+    this.shareSignal.removeListener('resizeenter', this.onResizeEnter);
+    this.shareSignal.removeListener('resizeleave', this.onResizeLeave);
+
+    return super.unset();
   }
 
   onMouseUp(e) {
@@ -22,9 +34,9 @@ export default class Draggable extends Interactable {
     
     this.dragRects.deltaPointer.y = e.clientY - this.dragRects.pointer.y;
     this.dragRects.pointer.y = e.clientY;
-
+    
     const customEvent = new CustomEvent('dragmove', {
-      bubbles: true, 
+      bubbles: false, 
       cancelable: true,
     });
     
@@ -35,12 +47,11 @@ export default class Draggable extends Interactable {
   }
 
   onMouseDown(e) {
-    if(!this.isActivable) {
+    if(!this.isActivable || (this.target !== e.target && e.target.closest('[data-draggable]') !== this.target)) {
       return;
     }
 
     this.isDragging = true;
-
 
     this.dragRects = {
       pointer: {x: e.clientX, y: e.clientY},
@@ -48,18 +59,47 @@ export default class Draggable extends Interactable {
     };
 
     this.target.dispatchEvent(new CustomEvent('dragstart', {
-      bubbles: true, 
+      bubbles: false, 
       cancelable: true,
     }));
   }
 
+  enter() {
+    if(!this.isResizeActive) {
+      this.isActivable = true;
+      this.target.style.cursor = 'move';
+    }
+  }
+
+  leave() {
+    if(!this.isResizeActive) {
+      this.isActivable = false;
+      this.target.style.cursor = '';
+    }
+  }
+
+  onResizeEnter = (e) => {
+    this.isResizeActive = true;
+    this.isActivable = false;
+    this.target.style.cursor = '';
+  }
+
+  onResizeLeave = (e) => {
+    this.isResizeActive = false;
+    if(this.isIn) {
+      this.enter();
+    } else {
+      this.leave();
+    }
+  }
+
   mouseover = (e) => {
-    this.isActivable = true;
-    this.target.style.cursor = 'move';
+    this.isIn = true;
+    this.enter();
   }
 
   mouseout = (e) => {
-    this.isActivable = false;
-    this.target.style.cursor = 'auto';
+    this.isIn = false;
+    this.leave();
   }
 }
