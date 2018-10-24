@@ -63,7 +63,8 @@ body {
 .tool-visualizer {
   display: none;
 }
-.node-component:hover > .tool-visualizer {
+
+.node-component.in:hover > .tool-visualizer {
   display: block;
 }
 </style>

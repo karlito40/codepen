@@ -78,13 +78,13 @@ export default class Draggable extends Interactable {
     }
   }
 
-  onResizeEnter = (e) => {
+  onResizeEnter = () => {
     this.isResizeActive = true;
     this.isActivable = false;
     this.target.style.cursor = '';
   }
 
-  onResizeLeave = (e) => {
+  onResizeLeave = () => {
     this.isResizeActive = false;
     if(this.isIn) {
       this.enter();

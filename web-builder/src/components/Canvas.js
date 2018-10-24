@@ -51,6 +51,7 @@ export default {
         { name: 'resizable', value: true, },
         { name: 'draggable', value: true, },
         { name: 'drawable', value: node.id, },
+        { name: 'over-out', value: { class: 'in'}, },
       ];
       
       return h(node.component, {
