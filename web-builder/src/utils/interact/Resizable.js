@@ -3,6 +3,11 @@ import Interactable from './Interactable';
 const MARGE_TOLERATE = 7;
 
 export default class Resizable extends Interactable { 
+  unset() {
+    this.resizeLeave();
+    super.unset();
+  }
+
   onMouseUp(e) {
     this.resizeLeave();
   }
@@ -63,7 +68,7 @@ export default class Resizable extends Interactable {
     this.isIn = false;
     this.target.style.pointerEvents = 'auto';
     this.$body.style.cursor = '';
-    this.shareSignal.emit('resizeleave');
+    this.shareSignal.emit('resizeleave', this.target);
   }
 
   handleEdges = (e) => {
@@ -101,7 +106,7 @@ export default class Resizable extends Interactable {
   resizeEnter() {
     if(!this.isIn) {
       this.isIn = true;
-      this.shareSignal.emit('resizeenter');
+      this.shareSignal.emit('resizeenter', this.target);
     }
 
     addResizer(this.id);

@@ -14,6 +14,8 @@ export default class Draggable extends Interactable {
   }
 
   unset() {
+    this.leave();
+
     this.shareSignal.removeListener('resizeenter', this.onResizeEnter);
     this.shareSignal.removeListener('resizeleave', this.onResizeLeave);
 
@@ -83,14 +85,14 @@ export default class Draggable extends Interactable {
     this.target.style.cursor = '';
   }
  
-  onResizeEnter = () => {
+  onResizeEnter = (resizeTarget) => {
     if(!this.isDragging) {
       this.isResizeActive = true;
       this.reset();
     }
   }
 
-  onResizeLeave = () => {
+  onResizeLeave = (resizeTarget) => {
     this.isResizeActive = false;
     if(this.isIn) {
       this.enter();

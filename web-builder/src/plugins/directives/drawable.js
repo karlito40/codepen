@@ -7,12 +7,20 @@ export default {
         console.log('binding', binding);
         // drawable(el)
 
-        // store.addNode({
-        //   width,
-        //   height,
-        //   left,
-        //   top,
-        // }, binding.value)
+        /**
+         *  drawable(el)
+         *    .on('drawend', binding.value)
+         **/ 
+        /**
+        binding.value ->
+          store.addNode({
+              width,
+              height,
+              left,
+              top,
+          }, pnode)
+         **/ 
+          
       }
     })
   }
