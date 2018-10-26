@@ -22,15 +22,18 @@ export default {
     onLoad() {
       const children = this.$slots.default;
       const body = this.$el.contentDocument.body;
+      const head = this.$el.contentDocument.head;
       const el = document.createElement('div');
 
       body.appendChild(el);
 
       // [...document.querySelectorAll('style:not(#vuetify-theme-stylesheet)')].forEach(styleNode => {
       // We keep vuetify style to be able to use it as a library
-      [...document.querySelectorAll('style')].forEach(styleNode => {
-        const copy = this.$refs.iframe.contentWindow.document.importNode(styleNode, true);
-        body.appendChild(copy);
+      [...document.querySelectorAll('style, link')].forEach(styleNode => {
+        if(styleNode.id !== 'vuetify-theme-stylesheet') {
+          const copy = this.$refs.iframe.contentWindow.document.importNode(styleNode, true);
+          head.appendChild(copy);
+        }
       })
 
       this.app = new Vue({

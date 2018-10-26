@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import { EventEmitter } from 'events';
+// import { EventEmitter } from 'events';
 
-const LayerEvent = new EventEmitter();
+// const LayerEvent = new EventEmitter();
 
 export default {
   name: 'Layer',
@@ -59,6 +59,7 @@ export default {
   width: 50px;
   height: 50px;
 }
+
 .layer {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.5);
