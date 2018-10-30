@@ -19,3 +19,11 @@ export function moveTarget(target, dx, dy) {
   target.setAttribute('data-left', left);
   target.setAttribute('data-top', top);
 }
+
+export function toPercent(event) {
+  const { target, parentRect } = event;
+  const left = (parseFloat(target.getAttribute('data-left')) || 0);
+  
+  const leftPercent = (left/parentRect.width) * 100;
+  target.style.left = leftPercent + '%';
+}

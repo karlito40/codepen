@@ -1,5 +1,5 @@
 import { draggable } from '../../utils/interact';
-import { fromPosition, moveTarget } from './_gestureUtil';
+import { fromPosition, moveTarget, toPercent } from './_gestureUtil';
 
 export default {
   install(Vue) {
@@ -30,7 +30,8 @@ function update(el, binding) {
 
   draggable(el)
     .on('dragstart', fromPosition)
-    .on('dragmove', dragMoveListener);
+    .on('dragmove', dragMoveListener)
+    .on('dragend', toPercent);
 }
 
 

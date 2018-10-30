@@ -28,19 +28,16 @@ export default class Resizable extends Interactable {
     this.isResizing = true;
     
     const boundingRect = this.target.getBoundingClientRect();
-    const rect = {
-      top: boundingRect.top,
-      right: boundingRect.right,
-      bottom: boundingRect.bottom,
-      left: boundingRect.left,
-      width: boundingRect.width,
-      height: boundingRect.height,
-    };
+    const parentBoundingRect = this.target.parentElement.getBoundingClientRect();
+
+    const rect = createRect(boundingRect);
+    const parentRect = createRect(parentBoundingRect);
 
     this.resizeRects = {
       pointer: {x: e.clientX, y: e.clientY},
       deltaPointer: {x: 0, y: 0},
       start: {...rect},
+      parentRect: {...parentRect},
       rect: {...rect},
       previous: {...rect},
       deltaRect: {
@@ -50,13 +47,28 @@ export default class Resizable extends Interactable {
     };
 
     this.target.style.pointerEvents = 'none';
-    this.target.dispatchEvent(new CustomEvent('resizestart', {
+    
+    const customEvent = new CustomEvent('resizestart', {
       bubbles: false, 
       cancelable: true,
-    }));
+    });
+
+    customEvent.rect = this.resizeRects.rect;
+    this.target.dispatchEvent(customEvent);
   }
 
   resizeLeave() {
+    if(this.isResizing) {
+      const customEvent = new CustomEvent('resizeend', {
+        bubbles: false, 
+        cancelable: true,
+      });
+  
+      customEvent.rect = this.resizeRects.rect;
+      customEvent.parentRect = this.resizeRects.parentRect;
+      this.target.dispatchEvent(customEvent);
+    }
+    
     this.isResizing = false;
 
     removeResizer(this.id);
@@ -69,38 +81,6 @@ export default class Resizable extends Interactable {
     this.target.style.pointerEvents = 'auto';
     this.$body.style.cursor = '';
     this.shareSignal.emit('resizeleave', this.target);
-  }
-
-  handleEdges = (e) => {
-    const rect = this.target.getBoundingClientRect();
-
-    const axisBound = {
-      x: (e.clientY > rect.top - MARGE_TOLERATE && e.clientY < rect.bottom + MARGE_TOLERATE),
-      y: (e.clientX > rect.left - MARGE_TOLERATE && e.clientX < rect.right + MARGE_TOLERATE)
-    }
-
-    const edges = {
-      ...(axisBound.y && {top: Math.abs(e.clientY - rect.top)}),
-      ...(axisBound.y && {bottom: Math.abs(e.clientY - rect.bottom)}),
-      ...(axisBound.x && {right: Math.abs(e.clientX - rect.right)}),
-      ...(axisBound.x && {left: Math.abs(e.clientX - rect.left)}),
-    };
-
-    const axisTargets = Object.entries(edges)
-      .filter(([edge, marge]) => marge < MARGE_TOLERATE)
-      .reduce((acc, [edge, marge]) => {
-        const axis = (['top', 'bottom'].indexOf(edge) !== -1) ? 'y' : 'x';
-        acc[axis] = {from: edge};
-        return acc;
-      }, {});
-    
-    this.setAxis(axisTargets);
-    
-    if(!this.isResizeAllowed()) {
-      this.resizeLeave();
-    } else {
-      this.resizeEnter();
-    }
   }
 
   resizeEnter() {
@@ -137,9 +117,9 @@ export default class Resizable extends Interactable {
 
       const delta = this.resizeRects.deltaPointer[axe];
       this.resizeRects.deltaRect[from] = delta;
-      this.resizeRects.rect[from] = e[client];
+      this.resizeRects.rect[from] += delta;
       this.resizeRects.rect[dimTarget] = this.resizeRects.rect[dimTarget] + (delta * dir);
-    })
+    });
 
     const customEvent = new CustomEvent('resizemove', {
       bubbles: false, 
@@ -148,9 +128,42 @@ export default class Resizable extends Interactable {
     
     customEvent.rect = this.resizeRects.rect;
     customEvent.deltaRect = this.resizeRects.deltaRect;
-
     this.target.dispatchEvent(customEvent);
   }
+
+
+  handleEdges = (e) => {
+    const rect = this.target.getBoundingClientRect();
+
+    const axisBound = {
+      x: (e.clientY > rect.top - MARGE_TOLERATE && e.clientY < rect.bottom + MARGE_TOLERATE),
+      y: (e.clientX > rect.left - MARGE_TOLERATE && e.clientX < rect.right + MARGE_TOLERATE)
+    }
+
+    const edges = {
+      ...(axisBound.y && {top: Math.abs(e.clientY - rect.top)}),
+      ...(axisBound.y && {bottom: Math.abs(e.clientY - rect.bottom)}),
+      ...(axisBound.x && {right: Math.abs(e.clientX - rect.right)}),
+      ...(axisBound.x && {left: Math.abs(e.clientX - rect.left)}),
+    };
+
+    const axisTargets = Object.entries(edges)
+      .filter(([edge, marge]) => marge < MARGE_TOLERATE)
+      .reduce((acc, [edge, marge]) => {
+        const axis = (['top', 'bottom'].indexOf(edge) !== -1) ? 'y' : 'x';
+        acc[axis] = {from: edge};
+        return acc;
+      }, {});
+    
+    this.setAxis(axisTargets);
+    
+    if(!this.isResizeAllowed()) {
+      this.resizeLeave();
+    } else {
+      this.resizeEnter();
+    }
+  }
+
 
   setAxis(target) {
     this.axis = target;
@@ -178,4 +191,15 @@ function removeResizer(id) {
 
 function addResizer(id) {
   store[id] = {cursor: true};
+}
+
+function createRect(bounding) {
+  return {
+    top: bounding.top,
+    right: bounding.right,
+    bottom: bounding.bottom,
+    left: bounding.left,
+    width: bounding.width,
+    height: bounding.height,
+  }
 }

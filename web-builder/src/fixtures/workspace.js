@@ -9,7 +9,7 @@ const testTree = [
     component: 'Layer',
     options: {
       class: 'root',
-      style: { height: '370px', width: '500px', top: '40px' }
+      style: { height: '370px', width: '50%', top: '40px', left: '10%' }
     },
     children: [
       // 'Child text',
@@ -19,7 +19,7 @@ const testTree = [
         component: 'Layer',
         options: {
           class: 'header',
-          style: { height: '170px', width: '200px', top: '40px' },
+          style: { height: '170px', width: '70%', top: '40px', left: '10%' },
         },
         children: [
           {id: uniqid(),
@@ -27,7 +27,7 @@ const testTree = [
           component: 'Layer',
           options: {
             class: 'sa',
-            style: { height: '60px', width: '60px', top: '40px' },
+            style: { height: '60px', width: '50%', top: '40px', left: '40%' },
           },}
         ]
       },

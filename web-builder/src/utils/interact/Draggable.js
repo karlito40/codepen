@@ -23,6 +23,17 @@ export default class Draggable extends Interactable {
   }
 
   onMouseUp(e) {
+    if(this.isDragging) {
+      const customEvent = new CustomEvent('dragend', {
+        bubbles: false, 
+        cancelable: true,
+      });
+  
+      customEvent.rect = this.dragRects.rect;
+      customEvent.parentRect = this.dragRects.parentRect;
+      this.target.dispatchEvent(customEvent);
+    }
+    
     this.isDragging = false;
   }
 
@@ -33,9 +44,11 @@ export default class Draggable extends Interactable {
 
     this.dragRects.deltaPointer.x = e.clientX - this.dragRects.pointer.x;
     this.dragRects.pointer.x = e.clientX;
+    this.dragRects.rect.left += this.dragRects.deltaPointer.x;
     
     this.dragRects.deltaPointer.y = e.clientY - this.dragRects.pointer.y;
     this.dragRects.pointer.y = e.clientY;
+    this.dragRects.rect.top += this.dragRects.deltaPointer.top;
     
     const customEvent = new CustomEvent('dragmove', {
       bubbles: false, 
@@ -54,16 +67,27 @@ export default class Draggable extends Interactable {
     }
 
     this.isDragging = true;
+    
+    const boundingRect = this.target.getBoundingClientRect();
+    const parentBoundingRect = this.target.parentElement.getBoundingClientRect();
+
+    const rect = createRect(boundingRect);
+    const parentRect = createRect(parentBoundingRect);
 
     this.dragRects = {
       pointer: {x: e.clientX, y: e.clientY},
       deltaPointer: {x: 0, y: 0},
+      rect: {...rect},
+      parentRect: {...parentRect}
     };
 
-    this.target.dispatchEvent(new CustomEvent('dragstart', {
+    const customEvent = new CustomEvent('dragstart', {
       bubbles: false, 
       cancelable: true,
-    }));
+    });
+    customEvent.rect = rect;
+
+    this.target.dispatchEvent(customEvent);
   }
 
   enter() {
@@ -114,5 +138,16 @@ export default class Draggable extends Interactable {
       this.leave();
     }
     
+  }
+}
+
+function createRect(bounding) {
+  return {
+    top: bounding.top,
+    right: bounding.right,
+    bottom: bounding.bottom,
+    left: bounding.left,
+    width: bounding.width,
+    height: bounding.height,
   }
 }

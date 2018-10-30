@@ -64,7 +64,7 @@ export default {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.5);
   border: 1px solid black;
-  left: 120px;
+  /* left: 120px; */
 }
 </style>
 

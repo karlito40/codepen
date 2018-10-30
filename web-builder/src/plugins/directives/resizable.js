@@ -1,5 +1,5 @@
 import { resizable } from '../../utils/interact';
-import { fromPosition, moveTarget } from './_gestureUtil';
+import { fromPosition, moveTarget, toPercent } from './_gestureUtil';
 
 export default {
   install(Vue) {
@@ -30,7 +30,8 @@ function update(el, binding) {
 
   resizable(el)
     .on('resizestart', fromPosition)
-    .on('resizemove', resizeMoveListener);
+    .on('resizemove', resizeMoveListener)
+    .on('resizeend', toPercent);
 }
 
 
@@ -38,7 +39,7 @@ function resizeMoveListener(event) {
   const { target } = event;
 
   target.style.width  = event.rect.width + 'px';
-  target.style.height = event.rect.height + 'px';
+  target.style.minHeight = event.rect.height + 'px';
 
   moveTarget(target, event.deltaRect.left, event.deltaRect.top);
 }
