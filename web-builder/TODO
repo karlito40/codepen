@@ -1,2 +1,5 @@
-☐ include postcss-selector-parser for style encapsulation
+☐ include postcss-selector-parser for style encapsulation (plugins system)
 ☐ test remove listener on drag/resize unset
+☐ change drawable rect to percent
+☐ replace interactable width by right and left position
+☐ active interactable with button

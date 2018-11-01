@@ -4,12 +4,13 @@
 
 <script>
 import Vue from 'vue';
+import store from '../store';
 
 export default {
   name: 'frame',
   render(h) {
-    return h('iframe', {
-    	on: { load: this.onLoad }
+    return h('iframe',{
+      on: { load: this.onLoad }
     })
   },
   beforeUpdate() {
@@ -38,6 +39,7 @@ export default {
 
       this.app = new Vue({
         name: 'frameApp',
+        store,
         data: { children: Object.freeze(children) }, 
         render(h) {
           return h('div', this.children);
@@ -55,4 +57,5 @@ export default {
 iframe {
   border: 0;
 }
+
 </style>

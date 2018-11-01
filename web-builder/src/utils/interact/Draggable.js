@@ -22,8 +22,9 @@ export default class Draggable extends Interactable {
     return super.unset();
   }
 
-  onMouseUp(e) {
+  onMouseUp(e) { // eslint-disable-line
     if(this.isDragging) {
+      this.userSelect(true);
       const customEvent = new CustomEvent('dragend', {
         bubbles: false, 
         cancelable: true,
@@ -35,9 +36,10 @@ export default class Draggable extends Interactable {
     }
     
     this.isDragging = false;
+    this.target.style.cursor = 'grab';
   }
 
-  onMouseMove(e) {
+  onMouseMove(e) { // eslint-disable-line
     if(!this.isDragging) {
       return;
     }
@@ -61,12 +63,16 @@ export default class Draggable extends Interactable {
     this.target.dispatchEvent(customEvent);
   }
 
-  onMouseDown(e) {
+  onMouseDown(e) { // eslint-disable-line
     if(!this.isActivable) {
       return;
     }
-
+    
     this.isDragging = true;
+
+    this.userSelect(false);
+
+    this.target.style.cursor = 'grabbing';
     
     const boundingRect = this.target.getBoundingClientRect();
     const parentBoundingRect = this.target.parentElement.getBoundingClientRect();
@@ -76,7 +82,7 @@ export default class Draggable extends Interactable {
 
     this.dragRects = {
       pointer: {x: e.clientX, y: e.clientY},
-      deltaPointer: {x: 0, y: 0},
+      deltaPointer: {x: 0, y: 0},
       rect: {...rect},
       parentRect: {...parentRect}
     };
@@ -93,7 +99,8 @@ export default class Draggable extends Interactable {
   enter() {
     if(!this.isResizeActive) {
       this.isActivable = true;
-      this.target.style.cursor = 'move';
+      // this.target.style.cursor = 'move';
+      this.target.style.cursor = 'grab';
     }
   }
 
@@ -109,14 +116,14 @@ export default class Draggable extends Interactable {
     this.target.style.cursor = '';
   }
  
-  onResizeEnter = (resizeTarget) => {
+  onResizeEnter = (resizeTarget) => { // eslint-disable-line
     if(!this.isDragging) {
       this.isResizeActive = true;
       this.reset();
     }
   }
 
-  onResizeLeave = (resizeTarget) => {
+  onResizeLeave = (resizeTarget) => { // eslint-disable-line
     this.isResizeActive = false;
     if(this.isIn) {
       this.enter();

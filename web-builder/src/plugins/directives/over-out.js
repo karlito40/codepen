@@ -36,7 +36,7 @@ function update(el, binding) {
 
 function removeListeners(el) {
   const funcs = listeners.get(el) || [];
-  funcs.forEach(listener => el.removeEventLister('mouseover', listener));
+  funcs.forEach(listener => el.removeEventListener('mouseover', listener));
   listeners.delete(el);
 }
 

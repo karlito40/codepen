@@ -3,25 +3,19 @@ import { drawable } from '../../utils/interact';
 export default {
   install(Vue) {
     Vue.directive('drawable', {
-      bind(el, binding) {
-        console.log('binding', binding);
-        // drawable(el)
+      inserted(el, binding) {
+        drawable(el)
+          .on('drawend', (e) => drawEndListener(e, binding));
 
-        /**
-         *  drawable(el)
-         *    .on('drawend', binding.value)
-         **/ 
-        /**
-        binding.value ->
-          store.addNode({
-              width,
-              height,
-              left,
-              top,
-          }, pnode)
-         **/ 
-          
       }
     })
+  }
+}
+
+function drawEndListener(event, binding) {
+  if(binding.value && binding.value.onDrawEnd) {
+    binding.value.onDrawEnd(event, () => {
+      event.freshEl.remove();    
+    });
   }
 }

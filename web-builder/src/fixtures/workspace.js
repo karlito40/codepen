@@ -22,13 +22,15 @@ const testTree = [
           style: { height: '170px', width: '70%', top: '40px', left: '10%' },
         },
         children: [
-          {id: uniqid(),
-          name: 'SA',
-          component: 'Layer',
-          options: {
-            class: 'sa',
-            style: { height: '60px', width: '50%', top: '40px', left: '40%' },
-          },}
+          {
+            id: uniqid(),
+            name: 'SA',
+            component: 'Layer',
+            options: {
+              class: 'sa',
+              style: { height: '60px', width: '50%', top: '40px', left: '40%' },
+            },
+          }
         ]
       },
       // {

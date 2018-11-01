@@ -57,6 +57,10 @@ export default class Interactable {
   }
 
   unset() {
+    this.userSelect(true);
+
+    delete interactables.get(this.target)[this.constructor.name];
+
     this.listeners.forEach(listener => {
       this.off(listener.channel, listener.callback);
     });
@@ -64,5 +68,24 @@ export default class Interactable {
     this.$body.removeEventListener('mousemove', this.mousemove);
     this.$body.removeEventListener('mousedown', this.mousedown);
     this.$body.removeEventListener('mouseup', this.mouseup);
+  }
+
+  userSelect(bool) {
+    this.userSelectStatus = bool;
+    if(!bool) {
+      return void this.$body.classList.add('user-select-off');
+    }
+    
+    // On permet la selection des éléments si seulement
+    // un autre interactable n'a pas supprimé ce choix
+    for(let [target, interactablesInUse] of interactables) { // eslint-disable-line
+      for(let interactable of Object.values(interactablesInUse)) {
+        if(typeof interactable.userSelectStatus !== "undefined" && !interactable.userSelectStatus) {
+          return;
+        }
+      }
+    }
+
+    this.$body.classList.remove('user-select-off');
   }
 }

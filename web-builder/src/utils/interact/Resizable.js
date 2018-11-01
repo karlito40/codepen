@@ -8,11 +8,11 @@ export default class Resizable extends Interactable {
     super.unset();
   }
 
-  onMouseUp(e) {
+  onMouseUp(e) { // eslint-disable-line
     this.resizeLeave();
   }
 
-  onMouseMove(e) {
+  onMouseMove(e) { // eslint-disable-line
     if(this.isResizing) {
       return this.resize(e);
     } 
@@ -20,12 +20,14 @@ export default class Resizable extends Interactable {
     return this.handleEdges(e);
   }
 
-  onMouseDown(e) {
+  onMouseDown(e) { // eslint-disable-line
     if(!this.isResizeAllowed()) {
       return;
     }
     
     this.isResizing = true;
+
+    this.userSelect(false);
     
     const boundingRect = this.target.getBoundingClientRect();
     const parentBoundingRect = this.target.parentElement.getBoundingClientRect();
@@ -35,7 +37,7 @@ export default class Resizable extends Interactable {
 
     this.resizeRects = {
       pointer: {x: e.clientX, y: e.clientY},
-      deltaPointer: {x: 0, y: 0},
+      deltaPointer: {x: 0, y: 0},
       start: {...rect},
       parentRect: {...parentRect},
       rect: {...rect},
@@ -59,6 +61,7 @@ export default class Resizable extends Interactable {
 
   resizeLeave() {
     if(this.isResizing) {
+      this.userSelect(true);
       const customEvent = new CustomEvent('resizeend', {
         bubbles: false, 
         cancelable: true,
@@ -148,8 +151,8 @@ export default class Resizable extends Interactable {
     };
 
     const axisTargets = Object.entries(edges)
-      .filter(([edge, marge]) => marge < MARGE_TOLERATE)
-      .reduce((acc, [edge, marge]) => {
+      .filter(([edge, marge]) => marge < MARGE_TOLERATE) // eslint-disable-line
+      .reduce((acc, [edge, marge]) => { // eslint-disable-line
         const axis = (['top', 'bottom'].indexOf(edge) !== -1) ? 'y' : 'x';
         acc[axis] = {from: edge};
         return acc;

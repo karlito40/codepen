@@ -4,7 +4,7 @@
     :open="open"
     :items="items"
     activatable
-    item-key="name"
+    item-key="id"
     class="body-1 page-tree"
     open-on-click
   >
@@ -15,18 +15,24 @@
 </template>
 
 <script>
-import { getCurrentPage } from '../fixtures/workspace';
-import clone from 'clone';
+import { mapGetters } from 'vuex';
 
 export default {
-  name: 'ProjectTree',
-  data: () => ({
-    // open: ['public'],
-    open: [],
-    tree: [],
-    // items: getCurrentPage().tree[0].children
-    items: clone(getCurrentPage().tree)
-  })
+  name: 'PageTree',
+  data() {
+    const rootNode = this.$store.getters.currentTree[0];
+    const rootId = (rootNode) ? rootNode.id : null;
+
+    return {
+      open: [rootId],
+      tree: [],
+    }
+  },
+  computed: {
+    ...mapGetters({
+      items: 'currentTree'
+    })
+  }
 }
 
 </script>

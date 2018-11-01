@@ -1,11 +1,12 @@
-import { getCurrentPage } from '../fixtures/workspace';
-import clone from 'clone';
-
-const tree = clone(getCurrentPage().tree);
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Canvas',
+  computed: {
+    ...mapGetters(['currentTree'])
+  },
   methods: {
+    ...mapActions(['addNode']),
     onMovingContent() {
       /**
        * 
@@ -33,6 +34,22 @@ export default {
        * tree[0].options.style.height = newHeight + 'px'
        */
     },
+    onDrawEnd(event, removePlaceholder) {
+      const { target, rect } = event;
+      const parentNodeId = target.dataset.pid;
+
+      this.addNode({
+        parentId: parentNodeId,
+        build:{
+          component: 'Layer',
+          options: {
+            style: { ...rect },
+          }
+        },
+      });
+      
+      removePlaceholder();
+    },
     renderTree(h, pnode) {
       if(!pnode) {
         return pnode;
@@ -50,16 +67,16 @@ export default {
       const directives = [
         { name: 'resizable', value: true, },
         { name: 'draggable', value: true, },
-        { name: 'drawable', value: pnode.id, },
-        // { name: 'over-out', value: { class: 'in'}, },
+        // { name: 'drawable', value: { onDrawEnd: this.onDrawEnd.bind(this) }, },
+        { name: 'over-out', value: { class: 'in'}, },
       ];
-      
+
       return h(pnode.component, {
         ...options,
         class: ['pnode', options.class],
         attrs: { 
           ...options.attrs,
-          'data-bid': pnode.id
+          'data-pid': pnode.id
         },
         on: this.$listeners,
         directives: [
@@ -73,7 +90,7 @@ export default {
     return h('div', { 
       class: 'canvas', 
       style: styles.canvas, 
-    }, this.renderTree(h, tree));
+    }, this.renderTree(h, this.currentTree));
   }
 }
 

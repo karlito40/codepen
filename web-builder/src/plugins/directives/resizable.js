@@ -10,7 +10,7 @@ export default {
       update(el, binding){
         update(el, binding);
       },
-      unbind(el, binding, vnode, oldVnode) {
+      unbind(el, binding, vnode, oldVnode) { // eslint-disable-line
         unset(el);
         // vnode.data.on.resizeComplete();
       }

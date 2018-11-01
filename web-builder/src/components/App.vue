@@ -55,6 +55,10 @@ export default {
   box-sizing: border-box;
 }
 
+.user-select-off {
+  user-select: none;
+}
+
 body {
   margin: 0;
   padding: 0;

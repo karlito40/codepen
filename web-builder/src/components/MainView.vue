@@ -12,7 +12,6 @@
 import Canvas from './Canvas';
 import Rule from './Rule';
 import WindowView from './WindowView';
-import workspace from '../fixtures/workspace';
 
 export default {
   name: 'MainView',
@@ -20,11 +19,14 @@ export default {
   data() {
     return {
       isWorkspaceLoad: false,
-      currentPage: workspace.currentPage
     };
   },
+  computed: {
+    currentPage() {
+      return this.$store.getters.currentPage.name
+    }
+  },
   methods: {
-    log: console.log,
     onWorkspaceReady() {
       this.isWorkspaceLoad = true;
     },
