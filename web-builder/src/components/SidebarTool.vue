@@ -12,7 +12,11 @@
 </template>
 
 <script>
-import tools from '../fixtures/tools';
+import clone from 'clone';
+import withTools from '../fixtures/tools';
+
+const tools = clone(withTools);
+
 export default {
   name: 'SidebarTool',
   data() {

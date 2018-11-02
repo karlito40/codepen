@@ -1,9 +1,6 @@
 <template>
-  <div class="layer" ref="container">
-    Layer
-    <div class="toto"> </div>
-    <!-- <slot name="builder-tools"/> -->
-    <ToolVisualizer/>
+  <div class="layer">
+    
     <slot/>
   </div>
 </template>
@@ -62,9 +59,7 @@ export default {
 
 .layer {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.5);
-  border: 1px solid black;
-  /* left: 120px; */
+  border: 1px dashed rgb(44, 168, 240)
 }
 </style>
 

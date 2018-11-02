@@ -65,8 +65,8 @@ export default {
 
       const options = pnode.options || {};
       const directives = [
-        { name: 'resizable', value: true, },
-        { name: 'draggable', value: true, },
+        // { name: 'resizable', value: true, },
+        // { name: 'draggable', value: true, },
         // { name: 'drawable', value: { onDrawEnd: this.onDrawEnd.bind(this) }, },
         { name: 'over-out', value: { class: 'in'}, },
       ];
@@ -83,7 +83,11 @@ export default {
           ...(options.directives || []), 
           ...directives
         ], 
-      }, this.renderTree(h, pnode.children));
+      }, [
+        // pnode.name === 'Root' && h('ToolVisualizer', { props: { pnodeName: pnode.name }}),
+        h('ToolVisualizer', { props: { pnodeName: pnode.name }}),
+        this.renderTree(h, pnode.children)
+      ]);
     },
   },
   render(h) {
