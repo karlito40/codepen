@@ -43,7 +43,7 @@ export default {
       'gotoPage'
     ]),
     handleNewPage() {
-      this.addPage('New page ' + Date.now());
+      this.addPage('New page ' + this.pages.length);
     }
   }
   

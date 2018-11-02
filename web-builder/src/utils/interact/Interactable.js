@@ -16,11 +16,11 @@ export default class Interactable {
       interactables.set(this.target, {});
     }
     
-    if(interactables.get(this.target)[this.constructor.name]) {
-      interactables.get(this.target)[this.constructor.name].unset();
+    if(interactables.get(this.target)[this.getNameRef()]) {
+      interactables.get(this.target)[this.getNameRef()].unset();
     }
 
-    interactables.get(this.target)[this.constructor.name] = this;
+    interactables.get(this.target)[this.getNameRef()] = this;
 
     this.$body = this.target.closest('body');
 
@@ -59,7 +59,7 @@ export default class Interactable {
   unset() {
     this.userSelect(true);
 
-    delete interactables.get(this.target)[this.constructor.name];
+    delete interactables.get(this.target)[this.getNameRef()];
 
     this.listeners.forEach(listener => {
       this.off(listener.channel, listener.callback);

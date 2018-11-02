@@ -79,7 +79,7 @@ export default class Resizable extends Interactable {
     if(hasResizer() || !this.isIn) {
       return;
     }
-      
+    
     this.isIn = false;
     this.target.style.pointerEvents = 'auto';
     this.$body.style.cursor = '';
@@ -178,6 +178,10 @@ export default class Resizable extends Interactable {
 
   isResizeAllowed() {
     return this.getTotalAxis();
+  }
+
+  getNameRef() {
+    return 'resizable';
   }
 
 }

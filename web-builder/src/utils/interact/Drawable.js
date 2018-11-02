@@ -74,6 +74,10 @@ export default class Drawable extends Interactable {
     };
   }
 
+  getNameRef() {
+    return 'drawable';
+  }
+
 }
 
 function createRect(bounding) {

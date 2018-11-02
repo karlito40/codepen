@@ -146,6 +146,10 @@ export default class Draggable extends Interactable {
     }
     
   }
+
+  getNameRef() {
+    return 'draggable';
+  }
 }
 
 function createRect(bounding) {
