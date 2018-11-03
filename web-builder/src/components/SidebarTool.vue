@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import clone from 'clone';
 import withTools from '../fixtures/tools';
 
@@ -22,8 +24,17 @@ export default {
   data() {
     return { tools };
   },
+  computed: {
+    ...mapGetters(['rootNode'])
+  },
   methods: {
-    pick() {}
+    pick(tool) {
+      if(tool.action) {
+        tool.action(this.rootNode);
+      } else {
+        this.$store.dispatch('addFlash', 'This tool is not available yet');
+      }
+    }
   }
 }
 </script>

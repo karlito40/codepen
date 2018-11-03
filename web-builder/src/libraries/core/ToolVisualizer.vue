@@ -1,6 +1,6 @@
 <template>
   <div class="tool-visualizer">
-    <div class="pnode-name">{{pnodeName}}</div>
+    <div class="pnode-name">{{pnode.name}}</div>
     <v-speed-dial
       v-model="fab"
       bottom
@@ -35,6 +35,7 @@
         dark
         small
         :color="(tool.category === 'component') ? 'blue' : 'orange'"
+        @click="pick(tool)"
       >
         <v-icon>{{tool.icon}}</v-icon>
       </v-btn>
@@ -52,8 +53,8 @@ const tools = clone(withTools).reverse();
 export default {
   name: 'ToolVisualizer',
   props: {
-    pnodeName: {
-      type: String,
+    pnode: {
+      type: Object,
       required: true
     }
   },
@@ -70,7 +71,11 @@ export default {
   },
   methods: {
     pick(tool) {
-
+      if(tool.action) {
+        tool.action(this.pnode);
+      } else {
+        this.$store.dispatch('addFlash', 'This tool is not available yet');
+      }
     }
   }
 }

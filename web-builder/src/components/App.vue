@@ -29,6 +29,16 @@
       flat
       class="toolbar-options"
     ></v-toolbar>
+
+    <v-snackbar :key="message.id" v-for="message in messages"
+      right
+      top
+      :value="true"
+    >
+      {{ message.text }}
+      <v-btn flat @click="removeFlash(message)">Close</v-btn>
+    </v-snackbar>
+
     <v-content>
       <MainView/>
     </v-content>
@@ -36,6 +46,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 import SidebarTool from './SidebarTool';
 import SidebarScheme from './SidebarScheme';
 import MainView from './MainView';
@@ -47,6 +58,14 @@ export default {
     SidebarScheme, 
     MainView 
   },
+  computed: {
+    ...mapState({
+      messages: state => state.flash.messages
+    })
+  },
+  methods: {
+    ...mapActions(['removeFlash'])
+  }
 }
 </script>
 

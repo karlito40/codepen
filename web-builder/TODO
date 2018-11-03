@@ -2,4 +2,5 @@
 ☐ test remove listener on drag/resize unset
 ☐ change drawable rect to percent
 ☐ replace interactable width by right and left position
-☐ active interactable with button
+✔ active interactable with button @done(18-11-03 18:07)
+☐ add resizable, draggable indicator 

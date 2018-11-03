@@ -24,7 +24,9 @@ function unset(el) {
 }
 
 function update(el, binding) {
-  if(typeof binding.value !== "undefined" && !binding.value) {
+  if(typeof binding.value !== 'undefined' && !binding.value
+    || typeof binding.value === 'object' && typeof binding.value.active !== 'undefined' && !binding.value.active
+  ) {
     return unset(el);
   }
 

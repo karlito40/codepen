@@ -1,5 +1,5 @@
 <template>
-  <iframe class="window-view" @load="onLoad" ref="iframe"></iframe>
+  <iframe class="window-view" scrolling="no" @load="onLoad" ref="iframe"></iframe>
 </template>
 
 <script>

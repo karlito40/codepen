@@ -110,18 +110,36 @@ const getters = {
   currentPage: getCurrentPage,
   currentTree(state, getters) {
     return getters.currentPage.tree;
+  },
+  rootNode(state, getters) {
+    return getters.currentTree[0];
   }
 }
 
 const actions = {
-  gotoPage({commit}, pageId) {
+  gotoPage({ commit }, pageId) {
     commit('gotoPage', pageId);
+  },
+  addPage({ commit }, name) {
+    commit('addPage', name);
   },
   addNode({ commit }, params) {
     commit('addNode', params);
   },
-  addPage({ commit }, name) {
-    commit('addPage', name);
+  updateNode({ commit }, params) {
+    if(!params.id) {
+      throw new Error('An ID must be provide to updateNode');
+    }
+    commit('updateNode', params);
+  },
+  toggleDrawable(store, { nodeId, onDrawEnd }) {
+    toggleDirectiveAction(store, { nodeId, name: 'drawable' }, { onDrawEnd });
+  },
+  toggleResizable(store, nodeId) {
+    toggleDirectiveAction(store, { nodeId, name: 'resizable' });
+  },
+  toggleDraggable(store, nodeId) {
+    toggleDirectiveAction(store, { nodeId, name: 'draggable' });
   },
 }
 
@@ -151,7 +169,11 @@ const mutations = {
     node.name += ' ' + parentNode.children.length;
     parentNode.children.push(node);
   },
-
+  updateNode(state, { id, set }) {
+    const currentTree = getCurrentPage(state).tree;
+    const node = findNode(currentTree, id);
+    mutate(node, set);
+  },
   addPage(state, name) {
     const pageId = uniqid();
     state.pages.push({
@@ -207,4 +229,55 @@ function createRootNode() {
       style: { height: '100%', width: '100%', top: '0', left: '0' }
     },
   }
+}
+
+
+function mutate(source, change) {
+  for(let [key, value] of Object.entries(change)) {
+    // L'objet à modifier n'existe pas dans la source
+    if(typeof source[key] === 'undefined') {
+      Vue.set(source, key, value);
+    } else if(typeof value === 'object') {
+      mutate(source[key], value);
+    } else {
+      source[key] = value;
+    }
+  }
+}
+
+function toggleDirectiveAction({dispatch, getters}, {nodeId, name}, extrasChange = {}) {
+  const tree = getters.currentTree;
+  const node = findNode(tree, nodeId);
+  if(!node) {
+    throw new Error('Cannot find node ' + nodeId);
+  }
+
+  const active = (
+    node.options 
+    && node.options.directives 
+    && node.options.directives[name] 
+    && node.options.directives[name].active
+  );
+  
+  const change = {
+    active: !active,
+    ...extrasChange
+  };
+
+  if(change.active) {
+    dispatch('addFlash', name + ' active !');
+  } else {
+    dispatch('addFlash', name + ' disactive !');
+  }
+
+  dispatch('updateNode', {
+    id: nodeId,
+    set: {
+      options: {
+        directives: { 
+          [name]: change
+        }
+      }
+    }
+  });
 }

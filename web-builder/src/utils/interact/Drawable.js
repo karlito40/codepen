@@ -6,6 +6,11 @@ export default class Drawable extends Interactable {
     this.$body.style.cursor = 'crosshair';
   }
 
+  unset() {
+    this.$body.style.cursor = '';
+    super.unset();
+  }
+
   onMouseUp(e) { // eslint-disable-line
     if(this.isDrawing) {
       const customEvent = new CustomEvent('drawend', {

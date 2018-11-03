@@ -34,22 +34,6 @@ export default {
        * tree[0].options.style.height = newHeight + 'px'
        */
     },
-    onDrawEnd(event, removePlaceholder) {
-      const { target, rect } = event;
-      const parentNodeId = target.dataset.pid;
-
-      this.addNode({
-        parentId: parentNodeId,
-        build:{
-          component: 'Layer',
-          options: {
-            style: { ...rect },
-          }
-        },
-      });
-      
-      removePlaceholder();
-    },
     renderTree(h, pnode) {
       if(!pnode) {
         return pnode;
@@ -64,12 +48,14 @@ export default {
       }
 
       const options = pnode.options || {};
-      const directives = [
+      const baseDirectives = [
         // { name: 'resizable', value: true, },
         // { name: 'draggable', value: true, },
         // { name: 'drawable', value: { onDrawEnd: this.onDrawEnd.bind(this) }, },
         { name: 'over-out', value: { class: 'in'}, },
       ];
+
+      const directives = [...formatDirectives(options.directives), ...baseDirectives];
 
       return h(pnode.component, {
         ...options,
@@ -79,13 +65,9 @@ export default {
           'data-pid': pnode.id
         },
         on: this.$listeners,
-        directives: [
-          ...(options.directives || []), 
-          ...directives
-        ], 
+        directives, 
       }, [
-        // pnode.name === 'Root' && h('ToolVisualizer', { props: { pnodeName: pnode.name }}),
-        h('ToolVisualizer', { props: { pnodeName: pnode.name }}),
+        h('ToolVisualizer', { props: { pnode }}),
         this.renderTree(h, pnode.children)
       ]);
     },
@@ -108,4 +90,14 @@ const styles = {
   }
 }
 
+function formatDirectives(directivesOptions) {
+  const res = [];
+  
+  if(directivesOptions) {
+    for(let [name, value] of Object.entries(directivesOptions)) {
+      res.push({name, value});
+    }
+  }
 
+  return res;
+}

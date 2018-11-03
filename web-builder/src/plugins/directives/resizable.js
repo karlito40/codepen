@@ -18,13 +18,14 @@ export default {
   }
 }
 
-
 function unset(el) {
   resizable(el).unset();
 }
 
 function update(el, binding) {
-  if(typeof binding.value !== "undefined" && !binding.value) {
+  if(typeof binding.value !== 'undefined' && !binding.value
+    || typeof binding.value === 'object' && typeof binding.value.active !== 'undefined' && !binding.value.active
+  ) {
     return unset(el);
   }
 
@@ -40,6 +41,7 @@ function resizeMoveListener(event) {
 
   target.style.width  = event.rect.width + 'px';
   target.style.minHeight = event.rect.height + 'px';
+  target.style.height = event.rect.height + 'px';
 
   moveTarget(target, event.deltaRect.left, event.deltaRect.top);
 }
