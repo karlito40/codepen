@@ -54,21 +54,13 @@ const tools = [
     }
   },
   {
-    name: 'drag_and_drop',
-    description: 'Drag & drop',
-    icon: 'open_with',
-    category: ACTION_CAT,
-    action(pnode) {
-      store.dispatch('toggleDraggable', pnode.id);
-    }
-  },
-  {
-    name: 'resize',
-    description: 'Resize',
+    name: 'resize_and_dnd',
+    description: 'Move/Resize',
     icon: 'zoom_out_map',
     category: ACTION_CAT,
     action(pnode) {
       store.dispatch('toggleResizable', pnode.id);
+      store.dispatch('toggleDraggable', pnode.id);
     }
   },
   {

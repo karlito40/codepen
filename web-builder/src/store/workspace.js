@@ -133,13 +133,13 @@ const actions = {
     commit('updateNode', params);
   },
   toggleDrawable(store, { nodeId, onDrawEnd }) {
-    toggleDirectiveAction(store, { nodeId, name: 'drawable' }, { onDrawEnd });
+    toggleToolAction(store, { nodeId, name: 'drawable' }, { onDrawEnd });
   },
   toggleResizable(store, nodeId) {
-    toggleDirectiveAction(store, { nodeId, name: 'resizable' });
+    toggleToolAction(store, { nodeId, name: 'resizable' });
   },
   toggleDraggable(store, nodeId) {
-    toggleDirectiveAction(store, { nodeId, name: 'draggable' });
+    toggleToolAction(store, { nodeId, name: 'draggable' });
   },
 }
 
@@ -215,6 +215,16 @@ function findNode(tree, withId) {
   return null;
 }
 
+function eachNode(tree = [], callback) {
+  for(let node of tree) {
+    callback(node);
+
+    if(node.children) {
+      eachNode(node.children, callback);
+    }
+  }
+}
+
 function getCurrentPage(state) {
   return state.pages.find(page => page.id === state.currentPageId);
 }
@@ -245,9 +255,45 @@ function mutate(source, change) {
   }
 }
 
-function toggleDirectiveAction({dispatch, getters}, {nodeId, name}, extrasChange = {}) {
+const toolableActions = ['drawable', 'resizable', 'draggable'];
+function hasToolActive(node) {
+  if(node.options && node.options.directives) {
+    return Object.entries(node.options.directives).some(([name, binding]) => {
+      return (toolableActions.indexOf(name) !== -1 && binding.active);
+    });
+  }
+
+  return false;
+}
+
+function resetTools(dispatch, tree, ignoreNode) {
+  eachNode(tree, node => {
+    if(node === ignoreNode) {
+      return;
+    }
+
+    if(hasToolActive(node)) {
+      const directives = toolableActions.reduce((acc, label) => {
+        acc[label] = {active: false};
+        return acc;
+      }, {});
+
+      dispatch('updateNode', {
+        id: node.id,
+        set: {
+          options: { directives }
+        }
+      });
+    }
+  })
+}
+
+function toggleToolAction({dispatch, getters}, {nodeId, name}, extrasChange = {}) {
   const tree = getters.currentTree;
   const node = findNode(tree, nodeId);
+
+  resetTools(dispatch, tree, node);
+
   if(!node) {
     throw new Error('Cannot find node ' + nodeId);
   }
