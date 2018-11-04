@@ -132,15 +132,69 @@ const actions = {
     }
     commit('updateNode', params);
   },
-  toggleDrawable(store, { nodeId, onDrawEnd }) {
-    toggleToolAction(store, { nodeId, name: 'drawable' }, { onDrawEnd });
+  toggleDirectives({ dispatch, getters }, { nodeId, directives, reset }) {
+    const tree = getters.currentTree;
+    const node = findNode(tree, nodeId);
+
+    dispatch('resetDirectives', {
+      directives: reset, 
+      ignoreNode: node
+    });
+
+    if(!node) {
+      throw new Error('Cannot find node ' + nodeId);
+    }
+
+    const resetDirectives = getResetDirectives(reset);
+    
+    const changeDirectives = directives.reduce((acc, toolable) => {
+      const toolableFormat = (typeof toolable === 'string')
+        ? { name: toolable, binding: null }
+        : toolable;
+        
+      const currentStatus = (
+        node.options 
+        && node.options.directives 
+        && node.options.directives[toolableFormat.name] 
+        && node.options.directives[toolableFormat.name].active
+      );
+
+      acc[toolableFormat.name] = {active: !currentStatus, ...toolable.binding};
+      return acc;
+    }, {});
+
+    dispatch('updateNode', {
+      id: nodeId,
+      set: {
+        options: {
+          directives: {
+            ...resetDirectives,
+            ...changeDirectives
+          }
+        }
+      }
+    });
   },
-  toggleResizable(store, nodeId) {
-    toggleToolAction(store, { nodeId, name: 'resizable' });
-  },
-  toggleDraggable(store, nodeId) {
-    toggleToolAction(store, { nodeId, name: 'draggable' });
-  },
+  resetDirectives({ dispatch, getters }, { directives, ignoreNode }) {
+    const tree = getters.currentTree;
+
+    eachNode(tree, node => {
+      if(node === ignoreNode) {
+        return;
+      }
+  
+      if(hasToolActive(node)) {
+        const resetDirectives = getResetDirectives(directives);
+  
+        dispatch('updateNode', {
+          id: node.id,
+          set: {
+            options: { directives: resetDirectives }
+          }
+        });
+      }
+    })
+  }
 }
 
 const mutations = {
@@ -255,7 +309,6 @@ function mutate(source, change) {
   }
 }
 
-const toolableActions = ['drawable', 'resizable', 'draggable'];
 function hasToolActive(node) {
   if(node.options && node.options.directives) {
     return Object.entries(node.options.directives).some(([name, binding]) => {
@@ -266,64 +319,10 @@ function hasToolActive(node) {
   return false;
 }
 
-function resetTools(dispatch, tree, ignoreNode) {
-  eachNode(tree, node => {
-    if(node === ignoreNode) {
-      return;
-    }
 
-    if(hasToolActive(node)) {
-      const directives = toolableActions.reduce((acc, label) => {
-        acc[label] = {active: false};
-        return acc;
-      }, {});
-
-      dispatch('updateNode', {
-        id: node.id,
-        set: {
-          options: { directives }
-        }
-      });
-    }
-  })
-}
-
-function toggleToolAction({dispatch, getters}, {nodeId, name}, extrasChange = {}) {
-  const tree = getters.currentTree;
-  const node = findNode(tree, nodeId);
-
-  resetTools(dispatch, tree, node);
-
-  if(!node) {
-    throw new Error('Cannot find node ' + nodeId);
-  }
-
-  const active = (
-    node.options 
-    && node.options.directives 
-    && node.options.directives[name] 
-    && node.options.directives[name].active
-  );
-  
-  const change = {
-    active: !active,
-    ...extrasChange
-  };
-
-  if(change.active) {
-    dispatch('addFlash', name + ' active !');
-  } else {
-    dispatch('addFlash', name + ' disactive !');
-  }
-
-  dispatch('updateNode', {
-    id: nodeId,
-    set: {
-      options: {
-        directives: { 
-          [name]: change
-        }
-      }
-    }
-  });
+function getResetDirectives(directives) {
+  return directives.reduce((acc, label) => {
+    acc[label] = { active: false };
+    return acc;
+  }, {});
 }

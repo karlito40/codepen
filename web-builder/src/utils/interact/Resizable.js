@@ -49,7 +49,6 @@ export default class Resizable extends Interactable {
     };
 
     this.target.style.pointerEvents = 'none';
-    
     const customEvent = new CustomEvent('resizestart', {
       bubbles: false, 
       cancelable: true,

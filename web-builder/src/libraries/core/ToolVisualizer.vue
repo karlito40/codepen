@@ -85,6 +85,7 @@ export default {
 .tool-visualizer {
   /* display: block !important; */
   font-family: Roboto, sans-serif;
+  pointer-events: auto;
 }
 
 .pnode-name {
@@ -98,6 +99,7 @@ export default {
 }
 >>> .v-speed-dial {
   position: absolute;
+  z-index: 9999;
   bottom: 0;
   right: 0;
   transform: translate(50%, 50%);

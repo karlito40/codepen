@@ -1,6 +1,5 @@
 import store from '../store';
 
-// future icons : layers, crop_landscape, code, title
 const ACTION_CAT = 'action';
 const COMPONENT_CAT = 'component';
 
@@ -32,24 +31,30 @@ const tools = [
     icon: 'create',
     category: ACTION_CAT,
     action(pnode) {
-      store.dispatch('toggleDrawable', {
+      store.dispatch('toggleDirectives', {
         nodeId: pnode.id,
-        onDrawEnd(event, removePlaceholder) {
-          const { target, rect } = event;
-          const parentNodeId = target.dataset.pid;
-    
-          store.dispatch('addNode', {
-            parentId: parentNodeId,
-            build:{
-              component: 'Layer',
-              options: {
-                style: { ...rect },
-              }
+        reset: ['drawable', 'resizable', 'draggable'],
+        directives: [{
+          name: 'drawable', 
+          binding: {
+            onDrawEnd(event, removePlaceholder) {
+              const { target, rect } = event;
+              const parentNodeId = target.dataset.pid;
+        
+              store.dispatch('addNode', {
+                parentId: parentNodeId,
+                build:{
+                  component: 'Layer',
+                  options: {
+                    style: { ...rect },
+                  }
+                },
+                
+              });
+              removePlaceholder();
             },
-          });
-          
-          removePlaceholder();
-        },
+          }
+        }],
       });
     }
   },
@@ -59,8 +64,11 @@ const tools = [
     icon: 'zoom_out_map',
     category: ACTION_CAT,
     action(pnode) {
-      store.dispatch('toggleResizable', pnode.id);
-      store.dispatch('toggleDraggable', pnode.id);
+      store.dispatch('toggleDirectives', {
+        nodeId: pnode.id,
+        reset: ['drawable', 'resizable', 'draggable'],
+        directives: ['resizable', 'draggable'],
+      });
     }
   },
   {
@@ -73,3 +81,7 @@ const tools = [
 ];
 
 export default tools;
+
+export function getCategory(cat) {
+  return tools.filter(tool => tool.category === cat);
+}
