@@ -30,7 +30,7 @@ function update(el, binding) {
     return unset(el);
   }
 
-  draggable(el)
+  draggable(el, { children: true })
     .on('dragstart', fromPosition)
     .on('dragmove', dragMoveListener)
     .on('dragend', toPercent);

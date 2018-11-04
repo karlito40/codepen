@@ -6,8 +6,11 @@ export default class Draggable extends Interactable {
 
     this.target.dataset.draggable = true;
 
-    this.on('mouseover', this.mouseover);
-    this.on('mouseout', this.mouseout);
+    const mouseInEvt = 'mouseover';
+    const mouseOutEvt = (!options.children) ? 'mouseout' : 'mouseleave';
+
+    this.on(mouseInEvt, this.mouseIn);
+    this.on(mouseOutEvt, this.mouseOut);
 
     this.shareSignal.addListener('resizeenter', this.onResizeEnter);
     this.shareSignal.addListener('resizeleave', this.onResizeLeave);
@@ -132,13 +135,13 @@ export default class Draggable extends Interactable {
     }
   }
 
-  mouseover = (e) => {
+  mouseIn = (e) => {
     e.stopPropagation();
     this.isIn = true;
     this.enter();
   }
 
-  mouseout = (e) => {
+  mouseOut = (e) => {
     e.stopPropagation();
     if(!this.isDragging) {
       this.isIn = false;
