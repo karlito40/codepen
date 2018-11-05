@@ -42,6 +42,8 @@
     <v-content>
       <MainView/>
     </v-content>
+
+    <SearchForComponent v-if="searchForComponent.active" :pnode="searchForComponent.nodeTarget"/>
   </v-app>
 </template>
 
@@ -49,6 +51,7 @@
 import { mapState, mapActions } from 'vuex';
 import SidebarTool from './SidebarTool';
 import SidebarScheme from './SidebarScheme';
+import SearchForComponent from './SearchForComponent';
 import MainView from './MainView';
 
 export default {
@@ -56,11 +59,15 @@ export default {
   components: { 
     SidebarTool, 
     SidebarScheme, 
-    MainView 
+    MainView,
+    SearchForComponent
   },
   computed: {
     ...mapState({
       messages: state => state.flash.messages
+    }),
+    ...mapState({
+      searchForComponent: state => state.builder.searchForComponent
     })
   },
   methods: {

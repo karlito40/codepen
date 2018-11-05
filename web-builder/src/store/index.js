@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import workspace from './workspace'
 import flash from './flash'
+import builder from './builder'
 
 Vue.use(Vuex)
 
@@ -11,6 +12,7 @@ export default new Vuex.Store({
   modules: {
     workspace,
     flash,
+    builder
   },
   strict: debug,
 })

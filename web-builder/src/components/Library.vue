@@ -35,7 +35,6 @@
 </template>
 
 <script>
-// import library from '../fixtures/library';
 import { libraries } from '@/libraries';
 
 export default {
@@ -48,10 +47,6 @@ export default {
 function createItems() {
   const items = [];
   for(let library of libraries) {
-    // if(library.namespace === 'Reserved') {
-    //   continue;
-    // }
-
     items.push({ header: library.name || library.namespace })  
     items.push({ divider: true });
 
@@ -84,16 +79,20 @@ function createItems() {
 
 .search {
   position: absolute;
-  bottom: -2px;
+  bottom: 0px;
   width: 100%;
 }
 
 .content {
-  overflow: scroll;
+  overflow: auto;
   top: 0;
   bottom: 55px;
   position: absolute;
   width: 100%;
+}
+
+>>> .v-input__slot:before {
+  border: 0 !important;
 }
 
 </style>

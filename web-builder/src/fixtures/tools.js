@@ -4,26 +4,35 @@ const ACTION_CAT = 'action';
 const COMPONENT_CAT = 'component';
 
 const tools = [
+  // {
+  //   name: 'text',
+  //   description: 'Add text',
+  //   icon: 'title',
+  //   component: 'Text',
+  //   category: COMPONENT_CAT
+  // },
+  // {
+  //   name: 'link',
+  //   description: 'Add link',
+  //   icon: 'link',
+  //   component: 'Link',
+  //   category: COMPONENT_CAT
+  // },
+  // {
+  //   name: 'image',
+  //   description: 'Add image',
+  //   icon: 'image',
+  //   component: 'Image',
+  //   category: COMPONENT_CAT
+  // },
   {
-    name: 'text',
-    description: 'Add text',
-    icon: 'title',
-    component: 'Text',
-    category: COMPONENT_CAT
-  },
-  {
-    name: 'link',
-    description: 'Add link',
-    icon: 'link',
-    component: 'Link',
-    category: COMPONENT_CAT
-  },
-  {
-    name: 'image',
-    description: 'Add image',
-    icon: 'image',
-    component: 'Image',
-    category: COMPONENT_CAT
+    name: 'component',
+    description: 'Add component',
+    icon: 'apps',
+    category: COMPONENT_CAT,
+    action(pnode) {
+      store.dispatch('toggleSearchForComponent', pnode);
+    }
   },
   {
     name: 'draw',
@@ -49,7 +58,6 @@ const tools = [
                     style: { ...rect },
                   }
                 },
-                
               });
               removePlaceholder();
             },
