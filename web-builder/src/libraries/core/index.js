@@ -3,7 +3,7 @@ import ToolVisualizer from './ToolVisualizer';
 
 export default {
   // namespace: 'Core',
-  name: 'Core',
+  namespace: '',
   reserved: true,
   store: {
     [Layer.name]: Layer,

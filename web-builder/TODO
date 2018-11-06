@@ -6,3 +6,4 @@
 ✔ add resizable, draggable indicator @done(18-11-04 19:24)
 ☐ add copy/paste functionalities
 ☐ change layer/project tree (drag option, copy/paste)
+☐ change toolvisualizer positioning (calculate -> remove need of relative parent)
