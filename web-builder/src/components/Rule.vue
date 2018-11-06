@@ -1,6 +1,5 @@
 <template>
-  <div class="rules" ref="container">
-
+  <div class="rules">
     <div v-for="dir in ['horizontal', 'vertical']" 
       class="rule" 
       :class="dir" 
@@ -75,16 +74,40 @@ export default {
         }
       });
 
+      
+
       return {
         indicators, 
         style: {
-          [sizeTarget]: size + 'px'
+          ...this.getBaseStyle(dir),
+          [sizeTarget]: size + 'px',
         }
+      };
+    },
+    getBaseStyle(dir) {
+      let style = {};
+      if(dir === 'horizontal') {
+        const origin = this.getParentOrigin();
+        style = {
+          left: origin.left + 'px', 
+          top: origin.top + 'px', 
+          position: 'fixed'
+        };
+      }
+
+      return style;
+    },
+    getParentOrigin() {
+      const parentRect = this.$el.parentElement.getBoundingClientRect();
+      
+      return {
+        left: parentRect.left,
+        top: parentRect.top,
       };
     }
   },
   mounted() {
-    const parent = this.$refs.container.parentElement;
+    const parent = this.$el.parentElement;
     const style = window.getComputedStyle(parent);
     const paddingLeft = parseInt(style.paddingLeft, 10);
     const paddingTop = parseInt(style.paddingTop, 10);
@@ -93,6 +116,7 @@ export default {
 
     this.horizontal = this.createInterval('horizontal', [-paddingLeft, width - paddingLeft], width);
     this.vertical = this.createInterval('vertical', [-paddingTop, height - paddingTop], height);
+
   }
 }
 </script>

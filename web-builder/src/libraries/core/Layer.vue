@@ -1,6 +1,5 @@
 <template>
   <div class="layer">
-    
     <slot/>
   </div>
 </template>
@@ -51,11 +50,6 @@ export default {
 </script>
 
 <style scoped>
-.toto {
-  background-color: red;
-  width: 50px;
-  height: 50px;
-}
 
 .layer {
   position: absolute;

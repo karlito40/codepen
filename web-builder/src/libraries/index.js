@@ -4,7 +4,7 @@ const LibraryPlugin = {
   install(Vue) {
     for(let library of libraries) {
       for(let [name, component] of Object.entries(library.store)) {
-        let tag = name + (library.namespace || ''); 
+        let tag = getTag(library.namespace, name);
         console.log('load component', tag)
         Vue.component(tag, {...component, name: tag});
       }
@@ -32,4 +32,8 @@ function importAll (r) {
   });
 
   return res;
+}
+
+export function getTag(namespace = '', componentName) {
+  return componentName + namespace; 
 }
