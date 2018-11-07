@@ -82,12 +82,14 @@ export default {
       this.$store.dispatch('addNode', {
         parentId: this.pnode.id,
         build:{
-          component: getTag(cat.namespace, component.name),
-          options: {
-            style: { 
-              background: 'rgba(0, 0, 0, 0.3)',
-              border: '1px solid black'
-            },
+          component: {
+            name: getTag(cat.namespace, component.name),
+            options: {
+              style: { 
+                background: 'rgba(0, 0, 0, 0.3)',
+                border: '1px solid black'
+              },
+            }
           }
         },
       });

@@ -47,7 +47,7 @@ export default {
         return pnode; // Simple Text
       }
 
-      const options = pnode.options || {};
+      const options = pnode.component.options || {};
       const baseDirectives = [
         // { name: 'resizable', value: true, },
         // { name: 'draggable', value: true, },
@@ -55,10 +55,16 @@ export default {
         { name: 'over-out', value: { class: 'in'}, },
       ];
 
+      const style = {
+        ...options.style,
+        ...((pnode.data && pnode.data.visible === false) && { display: 'none' })
+      };
+
       const directives = [...formatDirectives(options.directives), ...baseDirectives];
 
-      return h(pnode.component, {
+      return h(pnode.component.name, {
         ...options,
+        style,
         class: ['pnode', options.class],
         attrs: { 
           ...options.attrs,

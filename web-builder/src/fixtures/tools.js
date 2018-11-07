@@ -53,10 +53,12 @@ const tools = [
               store.dispatch('addNode', {
                 parentId: parentNodeId,
                 build:{
-                  component: 'Layer',
-                  options: {
-                    style: { ...rect },
-                  }
+                  component: {
+                    name: 'Layer',
+                    options: {
+                      style: { ...rect },
+                    }
+                  },
                 },
               });
               removePlaceholder();

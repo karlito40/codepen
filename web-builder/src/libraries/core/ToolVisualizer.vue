@@ -1,6 +1,6 @@
 <template>
   <div class="tool-visualizer">
-    <div class="pnode-name">{{pnode.name}}</div>
+    <div class="pnode-name">{{pnode.title}}</div>
     <v-speed-dial
       v-model="fab"
       bottom

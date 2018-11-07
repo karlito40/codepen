@@ -2,53 +2,75 @@ import Vue from 'vue';
 import uniqid from 'uniqid';
 
 const headerId = uniqid();
+// const testTree = [
+//   {
+//     id: uniqid(),
+//     name: 'Root',
+//     component: 'Layer',
+//     options: {
+//       class: 'root',
+//       style: { height: '370px', width: '50%', top: '40px', left: '10%' }
+//     },
+//     children: [
+//       {
+//         id: headerId,
+//         name: 'Header',
+//         component: 'Layer',
+//         options: {
+//           class: 'header',
+//           style: { height: '170px', width: '70%', top: '40px', left: '10%' },
+//         },
+//         children: [
+//           {
+//             id: uniqid(),
+//             name: 'SA',
+//             component: 'Layer',
+//             options: {
+//               class: 'sa',
+//               style: { height: '60px', width: '50%', top: '40px', left: '40%' },
+//             },
+//           }
+//         ]
+//       },
+//     ]
+//   },
+// ];
 const testTree = [
   {
     id: uniqid(),
-    name: 'Root',
-    component: 'Layer',
-    options: {
-      class: 'root',
-      style: { height: '370px', width: '50%', top: '40px', left: '10%' }
+    title: 'Root',
+    component: {
+      name: 'Layer',
+      options: {
+        class: 'root',
+        style: { height: '370px', width: '50%', top: '40px', left: '10%' }
+      },
     },
     children: [
-      // 'Child text',
       {
         id: headerId,
-        name: 'Header',
-        component: 'Layer',
-        options: {
-          class: 'header',
-          style: { height: '170px', width: '70%', top: '40px', left: '10%' },
+        title: 'Header',
+        component: {
+          name: 'Layer',
+          options: {
+            class: 'header',
+            style: { height: '170px', width: '70%', top: '40px', left: '10%' },
+          },
         },
         children: [
           {
             id: uniqid(),
-            name: 'SA',
-            component: 'Layer',
-            options: {
-              class: 'sa',
-              style: { height: '60px', width: '50%', top: '40px', left: '40%' },
-            },
+            title: 'SA',
+            component: {
+              name: 'Layer',
+              options: {
+                class: 'sa',
+                style: { height: '60px', width: '50%', top: '40px', left: '40%' },
+              },
+            }
           }
         ]
       },
-      // {
-      //   id: uniqid(),
-      //   name: 'Content',
-      //   component: 'Layer',
-      //   options: {
-      //     props: { 
-      //       follow: headerId
-      //     }
-      //   }
-      // },
-      // {
-      //   id: uniqid(),
-      //   name: 'Footer',
-      //   component: 'Layer',
-      //   follow: headerId
-      // }
     ]
   },
 ];
@@ -106,6 +128,20 @@ const state = {
   }]
 };
 
+state.pages.forEach(p => {
+  if(p.tree.length) {
+    p.tree[0].isExpanded = true;
+  }
+
+  eachNode(p.tree, node => {
+    // node.isLeaf = !node.children || !node.children.length;
+    node.isLeaf = false;
+    node.isSelected = false;
+    node.isExpanded = typeof node.isExpanded !== 'undefined' ? node.isExpanded : false;
+    node.data = node.data || {};
+  })
+})
+
 const getters = {
   currentPage: getCurrentPage,
   currentTree(state, getters) {
@@ -122,6 +158,9 @@ const actions = {
   },
   addPage({ commit }, name) {
     commit('addPage', name);
+  },
+  setTree({ commit }, tree) {
+    commit('setTree', tree);
   },
   addNode({ commit }, params) {
     commit('addNode', params);
@@ -166,10 +205,12 @@ const actions = {
     dispatch('updateNode', {
       id: nodeId,
       set: {
-        options: {
-          directives: {
-            ...resetDirectives,
-            ...changeDirectives
+        component: {
+          options: {
+            directives: {
+              ...resetDirectives,
+              ...changeDirectives
+            }
           }
         }
       }
@@ -183,13 +224,15 @@ const actions = {
         return;
       }
   
-      if(hasToolActive(node)) {
+      if(hasDirectiveActive(node, directives)) {
         const resetDirectives = getResetDirectives(directives);
   
         dispatch('updateNode', {
           id: node.id,
           set: {
-            options: { directives: resetDirectives }
+            component: {
+              options: { directives: resetDirectives }
+            }
           }
         });
       }
@@ -201,10 +244,16 @@ const mutations = {
   gotoPage(state, pageId) {
     state.currentPageId = pageId;
   },
+  setTree(state, tree) {
+    const page = getCurrentPage(state);
+    page.tree = tree;
+  },
   addNode(state, params) {
     const node = {
       id: uniqid(),
-      name: 'New ' + params.build.component,
+      title: 'New ' + params.build.component.name,
+      isLeaf: false,
+      data: {},
       ...params.build
     };
 
@@ -212,7 +261,7 @@ const mutations = {
     const parentNode = findNode(currentTree, params.parentId);
 
     if(!parentNode) {
-      node.name += ' ' + currentTree.length;
+      node.title += ' ' + currentTree.length;
       return currentTree.push(node);
     }
 
@@ -220,7 +269,11 @@ const mutations = {
       Vue.set(parentNode, 'children', []);
     }
 
-    node.name += ' ' + parentNode.children.length;
+    // parentNode.isLeaf = false;
+    // TODO: recursive parent expansion
+    parentNode.isExpanded = true; 
+
+    node.title += ' ' + parentNode.children.length;
     parentNode.children.push(node);
   },
   updateNode(state, { id, set }) {
@@ -286,12 +339,14 @@ function getCurrentPage(state) {
 function createRootNode() {
   return {
     id: uniqid(),
-    name: 'Root',
-    component: 'Layer',
-    options: {
-      class: 'root',
-      style: { height: '100%', width: '100%', top: '0', left: '0' }
-    },
+    title: 'Root',
+    component: {
+      name: 'Layer',
+      options: {
+        class: 'root',
+        style: { height: '100%', width: '100%', top: '0', left: '0' }
+      },
+    }
   }
 }
 
@@ -309,10 +364,11 @@ function mutate(source, change) {
   }
 }
 
-function hasToolActive(node) {
-  if(node.options && node.options.directives) {
-    return Object.entries(node.options.directives).some(([name, binding]) => {
-      return (toolableActions.indexOf(name) !== -1 && binding.active);
+function hasDirectiveActive(node, targetDirectives = []) {
+  const { options } = node.component;
+  if(options && options.directives) {
+    return targetDirectives.some((name) => {
+      return (options.directives[name] && options.directives[name].active);
     });
   }
 

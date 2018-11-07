@@ -7,3 +7,8 @@
 ☐ add copy/paste functionalities
 ☐ change layer/project tree (drag option, copy/paste)
 ☐ change toolvisualizer positioning (calculate -> remove need of relative parent)
+☐ app tool => open preview panel with draggable content
+☐ add configuration panel on component action tree
+☐ recursive parent expansion
+✔ fix drag folder outside root -> update root leaf @done(18-11-07 22:58)
+☐ hover tree nav => highlight scene component 
