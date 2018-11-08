@@ -171,9 +171,23 @@ const actions = {
     }
     commit('updateNode', params);
   },
+  toggleHighlightNode({ commit, getters }, nodeId) {
+    const tree = getters.currentTree;
+    const [node] = findNode(tree, nodeId);
+    const newHighlight = !(node.component.data && node.component.data.highlight);
+
+    commit('updateNode', {
+      id: nodeId,
+      set: {
+        component: {
+          data: { highlight: newHighlight }
+        }
+      }
+    });
+  },
   toggleDirectives({ dispatch, getters }, { nodeId, directives, reset }) {
     const tree = getters.currentTree;
-    const node = findNode(tree, nodeId);
+    const [node] = findNode(tree, nodeId);
 
     dispatch('resetDirectives', {
       directives: reset, 
@@ -190,12 +204,12 @@ const actions = {
       const toolableFormat = (typeof toolable === 'string')
         ? { name: toolable, binding: null }
         : toolable;
-        
+      const { options } = node.component;
       const currentStatus = (
-        node.options 
-        && node.options.directives 
-        && node.options.directives[toolableFormat.name] 
-        && node.options.directives[toolableFormat.name].active
+        options 
+        && options.directives 
+        && options.directives[toolableFormat.name] 
+        && options.directives[toolableFormat.name].active
       );
 
       acc[toolableFormat.name] = {active: !currentStatus, ...toolable.binding};
@@ -258,7 +272,7 @@ const mutations = {
     };
 
     const currentTree = getCurrentPage(state).tree;
-    const parentNode = findNode(currentTree, params.parentId);
+    const [parentNode] = findNode(currentTree, params.parentId);
 
     if(!parentNode) {
       node.title += ' ' + currentTree.length;
@@ -278,8 +292,9 @@ const mutations = {
   },
   updateNode(state, { id, set }) {
     const currentTree = getCurrentPage(state).tree;
-    const node = findNode(currentTree, id);
-    mutate(node, set);
+    const [node, path] = findNode(currentTree, id);
+    
+    mutateNode(currentTree, path, node, set);
   },
   addPage(state, name) {
     const pageId = uniqid();
@@ -301,25 +316,29 @@ export default {
   mutations
 }
 
-function findNode(tree, withId) {
+function findNode(tree, withId, path = []) {
   if(!tree || !withId) {
-    return null;
+    return [];
   }
 
-  for(let node of tree) {
+  // for(let node of tree) {
+  for(let index in tree) {
+    const node = tree[index];
+    path = [...path, index];
+
     if(node.id === withId) {
-      return node;
+      return [node, path];
     }
 
     if(node.children) {
-      node = findNode(node.children, withId);
-      if(node) {
-        return node;
+      const child = findNode(node.children, withId, path);
+      if(child.length) {
+        return child;
       }
     }
   }
 
-  return null;
+  return [];
 }
 
 function eachNode(tree = [], callback) {
@@ -350,13 +369,28 @@ function createRootNode() {
   }
 }
 
+function mutateNode(tree, path, node, set) {
+  mutate(node, set);
+
+  const sourcePath = [...path];
+  const nodePosition = sourcePath.pop();
+  
+  let source = tree;
+
+  for(let nodeIndex of sourcePath) {
+    source = source[nodeIndex].children || [];
+  }
+
+  Vue.set(source, path[nodePosition], node)
+}
 
 function mutate(source, change) {
   for(let [key, value] of Object.entries(change)) {
     // L'objet à modifier n'existe pas dans la source
     if(typeof source[key] === 'undefined') {
       Vue.set(source, key, value);
-    } else if(typeof value === 'object') {
+    } else 
+    if(typeof value === 'object') {
       mutate(source[key], value);
     } else {
       source[key] = value;

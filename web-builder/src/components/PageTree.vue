@@ -4,7 +4,8 @@
     <SLVueTree 
       ref="slVueTree"
       :value="nodes"
-      @nodeContextmenu="showContextMenu"
+      @nodeenter="toggleHighlightNode"
+      @nodeleave="toggleHighlightNode"
       @input="onTreeChange"
       autoLeaf
     >
@@ -33,9 +34,6 @@
       </template>
     </SLVueTree>
 
-    <div class="contextmenu" ref="contextmenu" v-show="contextMenuIsVisible">
-      <div @click="removeNode">Remove</div>
-    </div>
   </div>
   
 </template>
@@ -58,11 +56,10 @@ export default {
       nodes: 'currentTree'
     }),
   },
-  methods: {
+  methods: {
     hasChildren(node) {
       return node.children && node.children.length;
     },
-
     toggleVisibility: function (event, node) {
       event.stopPropagation();
       const slVueTree = this.$refs.slVueTree;
@@ -84,8 +81,14 @@ export default {
     },
     onTreeChange(newTree) {
       this.$store.dispatch('setTree', newTree);
-    }
-  }
+    },
+    toggleHighlightNode(node) {
+      const $slVueTree = this.$refs.slVueTree;
+      const nodeModel = $slVueTree.getNodeModel(node.path);
+      this.$store.dispatch('toggleHighlightNode', nodeModel.id);
+    },
+    
+  },
 }
 
 </script>

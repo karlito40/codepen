@@ -11,4 +11,4 @@
 ☐ add configuration panel on component action tree
 ☐ recursive parent expansion
 ✔ fix drag folder outside root -> update root leaf @done(18-11-07 22:58)
-☐ hover tree nav => highlight scene component 
+✔ hover tree nav => highlight scene component @done(18-11-08 17:11)

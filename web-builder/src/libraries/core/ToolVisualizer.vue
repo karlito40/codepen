@@ -1,6 +1,8 @@
 <template>
-  <div class="tool-visualizer">
-    <div class="pnode-name">{{pnode.title}}</div>
+  <div :class="['tool-visualizer', {
+    'force-display': isHighlighting
+  }]">
+    <div class="pnode-title">{{pnode.title}}</div>
     <v-speed-dial
       v-model="fab"
       bottom
@@ -69,6 +71,12 @@ export default {
       tools
     };
   },
+  computed: {
+    isHighlighting() {
+      const { component } = this.pnode;
+      return component.data && component.data.highlight;
+    }
+  },
   methods: {
     pick(tool) {
       if(tool.action) {
@@ -83,12 +91,15 @@ export default {
 
 <style scoped>
 .tool-visualizer {
-  /* display: block !important; */
   font-family: Roboto, sans-serif;
   pointer-events: auto;
 }
 
-.pnode-name {
+.tool-visualizer.force-display {
+  display: block !important;
+}
+
+.pnode-title {
   position: absolute;
   top: -1px;
   left: -1px;

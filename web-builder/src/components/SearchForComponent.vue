@@ -53,7 +53,7 @@ const baseItems = createItems();
 
 export default {
   props: {
-    pnode: {
+    pnode: {
       type: Object,
       required: true,
     },

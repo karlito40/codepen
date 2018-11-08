@@ -61,7 +61,9 @@ export default {
       };
 
       const directives = [...formatDirectives(options.directives), ...baseDirectives];
-
+      if(pnode.title == 'Header') {
+        console.log('directives', directives);
+      }
       return h(pnode.component.name, {
         ...options,
         style,
@@ -78,6 +80,11 @@ export default {
       ]);
     },
   },
+  // mounted() {
+    // this.$store.subscribe((mutation, state) => {    
+    //   this.$forceUpdate();
+    // })
+  // },
   render(h) {
     return h('div', { 
       class: 'canvas', 
