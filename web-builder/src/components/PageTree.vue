@@ -7,12 +7,13 @@
       @nodeenter="toggleHighlightNode"
       @nodeleave="toggleHighlightNode"
       @input="onTreeChange"
-      autoLeaf
     >
       <template slot="title" slot-scope="{ node }">
         <div :class="[{'remove-gap': !hasChildren(node)}, 'title-item-content']">
           <span class="item-icon">
-            <v-icon small>layers</v-icon>
+            <v-icon small v-if="!hasChildren(node)">layers</v-icon>
+            <v-icon small v-else-if="node.isExpanded">folder_open</v-icon>
+            <v-icon small v-else>folder</v-icon>
           </span>
           {{ node.title }}
         </div>
@@ -132,8 +133,12 @@ export default {
   display: flex;
 }
 
+>>> .sl-vue-tree-gap {
+  width: 15px;
+}
+
 .remove-gap {
-  margin-left: -25px;
+  /* margin-left: -25px; */
 }
 
 </style>

@@ -71,6 +71,28 @@ const testTree = [
           }
         ]
       },
+      {
+        id: uniqid(),
+        title: 'Test 2',
+        component: {
+          name: 'Layer',
+          options: {
+            class: 'header',
+            style: { height: '30px', width: '70%', top: '340px', left: '10%' },
+          },
+        },
+      },
+      {
+        id: uniqid(),
+        title: 'Test 3',
+        component: {
+          name: 'Layer',
+          options: {
+            class: 'header',
+            style: { height: '200px', width: '50%', top: '040px', left: '50%' },
+          },
+        },
+      },
     ]
   },
 ];
@@ -171,12 +193,12 @@ const actions = {
     }
     commit('updateNode', params);
   },
-  toggleHighlightNode({ commit, getters }, nodeId) {
+  toggleHighlightNode({ dispatch, commit, getters }, nodeId) {
     const tree = getters.currentTree;
     const [node] = findNode(tree, nodeId);
     const newHighlight = !(node.component.data && node.component.data.highlight);
 
-    commit('updateNode', {
+    dispatch('updateNode', {
       id: nodeId,
       set: {
         component: {
@@ -293,7 +315,7 @@ const mutations = {
   updateNode(state, { id, set }) {
     const currentTree = getCurrentPage(state).tree;
     const [node, path] = findNode(currentTree, id);
-    
+
     mutateNode(currentTree, path, node, set);
   },
   addPage(state, name) {
@@ -316,7 +338,7 @@ export default {
   mutations
 }
 
-function findNode(tree, withId, path = []) {
+function findNode(tree, withId, basePath = []) {
   if(!tree || !withId) {
     return [];
   }
@@ -324,7 +346,7 @@ function findNode(tree, withId, path = []) {
   // for(let node of tree) {
   for(let index in tree) {
     const node = tree[index];
-    path = [...path, index];
+    const path = [...basePath, index];
 
     if(node.id === withId) {
       return [node, path];
@@ -376,12 +398,11 @@ function mutateNode(tree, path, node, set) {
   const nodePosition = sourcePath.pop();
   
   let source = tree;
-
   for(let nodeIndex of sourcePath) {
     source = source[nodeIndex].children || [];
   }
 
-  Vue.set(source, path[nodePosition], node)
+  Vue.set(source, nodePosition, node)
 }
 
 function mutate(source, change) {
