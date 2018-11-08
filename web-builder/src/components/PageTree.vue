@@ -4,8 +4,9 @@
     <SLVueTree 
       ref="slVueTree"
       :value="nodes"
-      @nodeenter="toggleHighlightNode"
-      @nodeleave="toggleHighlightNode"
+      @nodeenter="onNodeEnter"
+      @nodeleave="onNodeLeave"
+      @drop="onNodeDrop"
       @input="onTreeChange"
     >
       <template slot="title" slot-scope="{ node }">
@@ -80,13 +81,47 @@ export default {
       const paths = $slVueTree.getSelected().map(node => node.path);
       $slVueTree.remove(paths);
     },
+    highlightNode(node, active) {
+      const $slVueTree = this.$refs.slVueTree;
+      const nodeModel = $slVueTree.getNodeModel(node.path);
+
+      this.$store.dispatch('highlightNode', {
+        nodeId: nodeModel.id,
+        highlight: active,
+      });
+    },
     onTreeChange(newTree) {
       this.$store.dispatch('setTree', newTree);
     },
-    toggleHighlightNode(node) {
+    onNodeDrop(draggingNodes, cursorPosition) { // eslint-disable-line
       const $slVueTree = this.$refs.slVueTree;
-      const nodeModel = $slVueTree.getNodeModel(node.path);
-      this.$store.dispatch('toggleHighlightNode', nodeModel.id);
+      
+      $slVueTree.traverseModels(nodeModel => {
+        if(nodeModel.data && nodeModel.data.highlight) {
+          this.$store.dispatch('highlightNode', {
+            nodeId: nodeModel.id,
+            highlight: false,
+          });
+        }
+      }, this.nodes);
+
+      this.highlightNode(cursorPosition.node, true);
+
+      // const paths = $slVueTree.getSelected().map(node => node.path);
+      // paths.forEach(path => {
+      //   const nodeModel = $slVueTree.getNodeModel(path);
+
+      //   this.$store.dispatch('highlightNode', {
+      //     nodeId: nodeModel.id,
+      //     highlight: true,
+      //   });
+      // });
+    },
+    onNodeEnter(node) {
+      this.highlightNode(node, true);
+    },
+    onNodeLeave(node) {
+      this.highlightNode(node, false);
     },
     
   },

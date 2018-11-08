@@ -73,8 +73,8 @@ export default {
   },
   computed: {
     isHighlighting() {
-      const { component } = this.pnode;
-      return component.data && component.data.highlight;
+      const { data } = this.pnode;
+      return data && data.highlight;
     }
   },
   methods: {

@@ -193,6 +193,14 @@ const actions = {
     }
     commit('updateNode', params);
   },
+  highlightNode({ dispatch, commit, getters }, { nodeId, highlight }) {
+    dispatch('updateNode', {
+      id: nodeId,
+      set: {
+        data: { highlight }
+      }
+    });
+  },
   toggleHighlightNode({ dispatch, commit, getters }, nodeId) {
     const tree = getters.currentTree;
     const [node] = findNode(tree, nodeId);
@@ -201,9 +209,7 @@ const actions = {
     dispatch('updateNode', {
       id: nodeId,
       set: {
-        component: {
-          data: { highlight: newHighlight }
-        }
+        data: { highlight: newHighlight }
       }
     });
   },
