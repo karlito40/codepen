@@ -8,6 +8,7 @@
       @nodeleave="onNodeLeave"
       @drop="onNodeDrop"
       @input="onTreeChange"
+      @select="onNodeSelect"
     >
       <template slot="title" slot-scope="{ node }">
         <div :class="[{'remove-gap': !hasChildren(node)}, 'title-item-content']">
@@ -94,18 +95,9 @@ export default {
       this.$store.dispatch('setTree', newTree);
     },
     onNodeDrop(draggingNodes, cursorPosition) { // eslint-disable-line
-      const $slVueTree = this.$refs.slVueTree;
-      
-      $slVueTree.traverseModels(nodeModel => {
-        if(nodeModel.data && nodeModel.data.highlight) {
-          this.$store.dispatch('highlightNode', {
-            nodeId: nodeModel.id,
-            highlight: false,
-          });
-        }
-      }, this.nodes);
+      this.resetHighlightNodes();
 
-      this.highlightNode(cursorPosition.node, true);
+      // this.highlightNode(cursorPosition.node, true);
 
       // const paths = $slVueTree.getSelected().map(node => node.path);
       // paths.forEach(path => {
@@ -121,8 +113,26 @@ export default {
       this.highlightNode(node, true);
     },
     onNodeLeave(node) {
-      this.highlightNode(node, false);
+      if(!node.isSelected) {
+        this.highlightNode(node, false);
+      }
+      
     },
+    onNodeSelect(nodes) {
+      this.resetHighlightNodes();
+    },
+    resetHighlightNodes() {
+      const $slVueTree = this.$refs.slVueTree;
+      
+      $slVueTree.traverseModels(nodeModel => {
+        if(nodeModel.data && nodeModel.data.highlight && !nodeModel.isSelected) {
+          this.$store.dispatch('highlightNode', {
+            nodeId: nodeModel.id,
+            highlight: false,
+          });
+        }
+      }, this.nodes);
+    }
     
   },
 }
@@ -173,7 +183,7 @@ export default {
 }
 
 .remove-gap {
-  /* margin-left: -25px; */
+  margin-left: -25px;
 }
 
 </style>
