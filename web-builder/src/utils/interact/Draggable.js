@@ -4,20 +4,31 @@ export default class Draggable extends Interactable {
   constructor(target, options = {}) {
     super(target, options);
 
-    this.target.dataset.draggable = true;
+    this.dragBy = options.by ? target.querySelector(options.by) : this.target;
+    this.dragBy.dataset.draggable = true;
 
-    const mouseInEvt = 'mouseover';
-    const mouseOutEvt = (!options.children) ? 'mouseout' : 'mouseleave';
-
-    this.on(mouseInEvt, this.mouseIn);
-    this.on(mouseOutEvt, this.mouseOut);
+    this.customListeners();
+    
+    // this.on(mouseInEvt, this.mouseIn);
+    // this.on(mouseOutEvt, this.mouseOut);
 
     this.shareSignal.addListener('resizeenter', this.onResizeEnter);
     this.shareSignal.addListener('resizeleave', this.onResizeLeave);
   }
 
+  customListeners({kill} = {}) {
+    const callListenerEvent = (!kill) ? 'addEventListener' : 'removeEventListener';
+    const mouseInEvt = 'mouseover';
+    const mouseOutEvt = (!this.options.children) ? 'mouseout' : 'mouseleave';
+
+    this.dragBy[callListenerEvent](mouseInEvt, this.mouseIn);
+    this.dragBy[callListenerEvent](mouseOutEvt, this.mouseOut);
+  }
+
   unset() {
     this.leave();
+    
+    this.customListeners({kill: true});
 
     this.shareSignal.removeListener('resizeenter', this.onResizeEnter);
     this.shareSignal.removeListener('resizeleave', this.onResizeLeave);
@@ -72,7 +83,7 @@ export default class Draggable extends Interactable {
     }
     
     this.isDragging = true;
-
+    
     this.userSelect(false);
 
     this.target.style.cursor = 'grabbing';
@@ -102,7 +113,6 @@ export default class Draggable extends Interactable {
   enter() {
     if(!this.isResizeActive) {
       this.isActivable = true;
-      // this.target.style.cursor = 'move';
       this.target.style.cursor = 'grab';
     }
   }
@@ -146,8 +156,15 @@ export default class Draggable extends Interactable {
     if(!this.isDragging) {
       this.isIn = false;
       this.leave();
-    }
-    
+    } 
+  }
+
+  userSelect(bool) {
+    super.userSelect(bool);
+    const addOrRemove = (!bool) ? 'add' : 'remove';
+    [...document.body.querySelectorAll('iframe')].forEach(iframe => {
+      iframe.classList[addOrRemove]('pointer-events-off')
+    })
   }
 
   getNameRef() {

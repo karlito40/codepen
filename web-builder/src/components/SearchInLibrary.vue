@@ -1,5 +1,5 @@
 <template>
-  <div class="search-for-component">
+  <div class="search-in-library-component">
     <v-btn light fab class="close" @click="close">
       <v-icon>close</v-icon>
     </v-btn>
@@ -52,6 +52,7 @@ import { libraries, getTag } from '@/libraries';
 const baseItems = createItems();
 
 export default {
+  name: 'SearchInLibrary',
   props: {
     pnode: {
       type: Object,
@@ -76,7 +77,7 @@ export default {
   },
   methods: {
     close() {
-      this.$store.dispatch('disableSearchForComponent');
+      this.$store.dispatch('hideSearchInLibrary');
     },
     pick(cat, component) {
       this.$store.dispatch('addNode', {
@@ -133,7 +134,7 @@ function createItems() {
 </script>
 
 <style scoped>
-.search-for-component {
+.search-in-library-component {
   z-index: 10000;
   position: fixed;
   top: 0;

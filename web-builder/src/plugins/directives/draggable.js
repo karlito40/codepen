@@ -29,8 +29,10 @@ function update(el, binding) {
   ) {
     return unset(el);
   }
-
-  draggable(el, { children: true })
+  
+  const options = (typeof binding.value === 'object') ? binding.value : {};
+  
+  draggable(el, { children: true, ...options })
     .on('dragstart', fromPosition)
     .on('dragmove', dragMoveListener)
     .on('dragend', toPercent);

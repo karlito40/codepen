@@ -43,15 +43,17 @@
       <MainView/>
     </v-content>
 
-    <SearchForComponent v-if="searchForComponent.active" :pnode="searchForComponent.nodeTarget"/>
+    <SearchInLibrary v-if="searchInLibrary.active" :pnode="searchInLibrary.nodeTarget"/>
+    <NodeSettings v-if="nodeSettings.active" :pnode="nodeSettings.nodeTarget"/>
   </v-app>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import NodeSettings from './NodeSettings';
 import SidebarTool from './SidebarTool';
 import SidebarScheme from './SidebarScheme';
-import SearchForComponent from './SearchForComponent';
+import SearchInLibrary from './SearchInLibrary';
 import MainView from './MainView';
 
 export default {
@@ -60,15 +62,15 @@ export default {
     SidebarTool, 
     SidebarScheme, 
     MainView,
-    SearchForComponent
+    SearchInLibrary,
+    NodeSettings
   },
   computed: {
     ...mapState({
-      messages: state => state.flash.messages
+      messages: state => state.flash.messages,
+      searchInLibrary: state => state.builder.searchInLibrary,
+      nodeSettings: state => state.builder.nodeSettings,
     }),
-    ...mapState({
-      searchForComponent: state => state.builder.searchForComponent
-    })
   },
   methods: {
     ...mapActions(['removeFlash'])
@@ -83,6 +85,10 @@ export default {
 
 .user-select-off {
   user-select: none;
+}
+
+.pointer-events-off {
+  pointer-events: none;
 }
 
 body {

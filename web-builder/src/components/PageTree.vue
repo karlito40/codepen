@@ -1,5 +1,4 @@
 <template>
-
   <div class="tree-container">
     <SLVueTree 
       ref="slVueTree"
@@ -30,15 +29,16 @@
 
 
       <template slot="sidebar" slot-scope="{ node }">
-        <span @click="event => toggleVisibility(event, node)">
+        <span @click="event => toggleVisibility(node)">
           <v-icon small v-if="!node.data || node.data.visible !== false">visibility</v-icon>
           <v-icon small v-else>visibility_off</v-icon>
         </span>
+        <span @click="event => displaySettings(node)">
+          <v-icon small>settings</v-icon>
+        </span>
       </template>
     </SLVueTree>
-
   </div>
-  
 </template>
 
 <script>
@@ -63,7 +63,13 @@ export default {
     hasChildren(node) {
       return node.children && node.children.length;
     },
-    toggleVisibility: function (event, node) {
+    displaySettings(node) {
+      const $slVueTree = this.$refs.slVueTree;
+      const nodeModel = $slVueTree.getNodeModel(node.path);
+
+      this.$store.dispatch('showNodeSettings', nodeModel);
+    },
+    toggleVisibility(node) {
       event.stopPropagation();
       const slVueTree = this.$refs.slVueTree;
       const visible = !node.data || node.data.visible !== false;
@@ -116,7 +122,6 @@ export default {
       if(!node.isSelected) {
         this.highlightNode(node, false);
       }
-      
     },
     onNodeSelect(nodes) {
       this.resetHighlightNodes();
@@ -180,6 +185,10 @@ export default {
 
 >>> .sl-vue-tree-gap {
   width: 15px;
+}
+
+>>> .sl-vue-tree-sidebar span {
+  margin-left: 10px;
 }
 
 .remove-gap {

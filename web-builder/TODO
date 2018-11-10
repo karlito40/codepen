@@ -12,3 +12,4 @@
 ☐ recursive parent expansion
 ✔ fix drag folder outside root -> update root leaf @done(18-11-07 22:58)
 ✔ hover tree nav => highlight scene component @done(18-11-08 17:11)
+☐ Node Settings popup ( raw & UI styling, props, listeners }, 

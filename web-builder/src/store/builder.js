@@ -1,29 +1,41 @@
 const state = {
-  searchForComponent: { active: false, nodeTarget: null }
+  searchInLibrary: { active: false, nodeTarget: null },
+  nodeSettings: { active: false, nodeTarget: null }
 };
 
 const getters = {}
 
 const actions = {
-  disableSearchForComponent({ commit }) {
-    commit('disableSearchForComponent');
+  showNodeSettings({ commit }, node) {
+    commit('setNodeSettings', { nodeTarget: node, active: true });
   },
-  toggleSearchForComponent({ commit }, node) {
-    commit('toggleSearchForComponent', node);
+  hideNodeSettings({ commit }) {
+    commit('setNodeSettings', { nodeTarget: null, active: false });
+  },
+  hideSearchInLibrary({ commit }) {
+    commit('hideSearchInLibrary');
+  },
+  toggleSearchInLibrary({ commit }, node) {
+    commit('toggleSearchInLibrary', node);
   },
 }
 
 const mutations = {
-  disableSearchForComponent(state) {
-    state.searchForComponent.active = false;
-    state.searchForComponent.nodeTarget = null;
+  setNodeSettings(state, set = {}) {
+    for(let [key, value] of Object.entries(set)) {
+      state.nodeSettings[key] = value;
+    }
   },
-  toggleSearchForComponent(state, nodeTarget) {
-    state.searchForComponent.active = (state.searchForComponent.nodeTarget === nodeTarget)
-      ? !state.searchForComponent.active
+  hideSearchInLibrary(state) {
+    state.searchInLibrary.active = false;
+    state.searchInLibrary.nodeTarget = null;
+  },
+  toggleSearchInLibrary(state, nodeTarget) {
+    state.searchInLibrary.active = (state.searchInLibrary.nodeTarget === nodeTarget)
+      ? !state.searchInLibrary.active
       : true;
     
-    state.searchForComponent.nodeTarget = nodeTarget;
+    state.searchInLibrary.nodeTarget = nodeTarget;
   },
 }
 

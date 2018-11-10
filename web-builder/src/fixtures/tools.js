@@ -31,7 +31,7 @@ const tools = [
     icon: 'apps',
     category: COMPONENT_CAT,
     action(pnode) {
-      store.dispatch('toggleSearchForComponent', pnode);
+      store.dispatch('toggleSearchInLibrary', pnode);
     }
   },
   {
@@ -86,6 +86,13 @@ const tools = [
     description: 'Zoom IN, Zoom OUT',
     icon: 'loupe',
     category: ACTION_CAT
+  },
+  {
+    name: 'extension',
+    description: 'Create plugins',
+    icon: 'extension',
+    category: ACTION_CAT,
+    visualizer: false,
   },
   
 ];

@@ -33,6 +33,7 @@
       
       <v-btn
         v-for="(tool, index) in tools" :key="index"
+        v-if="typeof tool.visualizer === 'undefined' || tool.visualizer"
         fab
         dark
         small
