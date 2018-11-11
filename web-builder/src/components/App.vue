@@ -16,7 +16,7 @@
       clipped
       right
       permanent
-      width="270"
+      width="300"
       class="scheme-sidebar"
     >
       <SidebarScheme/>
@@ -44,13 +44,16 @@
     </v-content>
 
     <SearchInLibrary v-if="searchInLibrary.active" :pnode="searchInLibrary.nodeTarget"/>
-    <NodeSettings v-if="nodeSettings.active" :pnode="nodeSettings.nodeTarget"/>
+    <transition name="slide-node-settings">
+      <NodeSettings v-if="nodeSettings.active" :pnode="nodeSettings.nodeTarget" @close="hideNodeSettings"/>
+    </transition>
+    
   </v-app>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import NodeSettings from './NodeSettings';
+import NodeSettings from './NodeSettings/NodeSettings';
 import SidebarTool from './SidebarTool';
 import SidebarScheme from './SidebarScheme';
 import SearchInLibrary from './SearchInLibrary';
@@ -73,7 +76,10 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['removeFlash'])
+    ...mapActions([
+      'removeFlash', 
+      'hideNodeSettings'
+    ])
   }
 }
 </script>
@@ -81,6 +87,7 @@ export default {
 <style>
 *, *:after, *:before {
   box-sizing: border-box;
+  user-select: none;
 }
 
 .user-select-off {
@@ -103,10 +110,17 @@ body {
 .pnode.in:hover > .tool-visualizer {
   display: block;
 }
+
+.slide-node-settings-enter-active, .slide-node-settings-leave-active {
+  transition: transform .27s;
+}
+.slide-node-settings-enter, .slide-node-settings-leave-to {
+  transform: translateX(300px);
+}
+
 </style>
 
 <style scoped>
-
 .toolbar-options {
   background-color: #424242 !important;
   border-bottom: 1px solid hsla(0,0%,100%,.12);

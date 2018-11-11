@@ -21,14 +21,26 @@
 <script>
 export default {
   name: 'Popup',
-  data() {
-    return { show: true }
-  },
-  methods: {
-    close() {
-      this.$emit('close');
+  props: {
+    value: {
+      type: Boolean,
+      required: true
     }
-  }
+  },
+  data() {
+    return { show: this.value }
+  },
+  watch: {
+    value() {
+      this.show = this.value;
+    }
+  },
+  methods: {
+    close() {
+      this.show = false;
+      this.$emit('input', this.show);
+    }
+  },
 }
 </script>
 
