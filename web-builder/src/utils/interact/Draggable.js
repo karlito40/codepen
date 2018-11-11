@@ -5,6 +5,10 @@ export default class Draggable extends Interactable {
     super(target, options);
 
     this.dragBy = options.by ? target.querySelector(options.by) : this.target;
+    if(!this.dragBy) {
+      throw new Error(`Cannot drag by ${options.by || target} : element not found`);
+    }
+    
     this.dragBy.dataset.draggable = true;
 
     this.customListeners();
