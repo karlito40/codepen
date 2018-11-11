@@ -32,10 +32,13 @@ function update(el, binding) {
   
   const options = (typeof binding.value === 'object') ? binding.value : {};
   
-  draggable(el, { children: true, ...options })
+  const interactable = draggable(el, { children: true, ...options })
     .on('dragstart', fromPosition)
-    .on('dragmove', dragMoveListener)
-    .on('dragend', toPercent);
+    .on('dragmove', dragMoveListener);
+
+  if(!options || !!options.toPercent) {
+    interactable.on('dragend', toPercent);
+  }
 }
 
 

@@ -1,7 +1,7 @@
 <template>
   <div class="popup-component" 
     v-if="show"
-    v-draggable="{by: '.popup-toolbar'}"
+    v-draggable="{by: '.popup-toolbar', toPercent: false}"
   >
     <div class="popup-toolbar">
       <slot name="toolbar"/>
