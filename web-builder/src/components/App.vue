@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer 
-      app 
+    <v-navigation-drawer
+      app
       mini-variant
       mini-variant-width="60"
       clipped
@@ -11,8 +11,8 @@
       <SidebarTool/>
     </v-navigation-drawer>
 
-    <v-navigation-drawer 
-      app 
+    <v-navigation-drawer
+      app
       clipped
       right
       permanent
@@ -22,8 +22,8 @@
       <SidebarScheme/>
     </v-navigation-drawer>
 
-    <v-toolbar 
-      app 
+    <v-toolbar
+      app
       height="40"
       clipped-left
       flat
@@ -47,7 +47,7 @@
     <transition name="slide-node-settings">
       <NodeSettings v-if="nodeSettings.active" :pnode="nodeSettings.nodeTarget" @close="hideNodeSettings"/>
     </transition>
-    
+
   </v-app>
 </template>
 
@@ -61,9 +61,9 @@ import MainView from './MainView';
 
 export default {
   name: 'app',
-  components: { 
+  components: {
     SidebarTool, 
-    SidebarScheme, 
+    SidebarScheme,
     MainView,
     SearchInLibrary,
     NodeSettings
@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'removeFlash', 
+      'removeFlash',
       'hideNodeSettings'
     ])
   }

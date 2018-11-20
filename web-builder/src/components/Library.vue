@@ -1,26 +1,26 @@
 <template>
   <div class="library">
     <v-list class="content">
-      <template v-for="(item, index) in items">
-        <v-subheader v-if="item.header" :key="item.header">
-          {{ item.header }}
-        </v-subheader>
-        <v-divider v-else-if="item.divider" :key="index"></v-divider>
-        <v-list-tile v-else 
-          :key="item.id" 
-          ripple 
-          @click="() => {}"
-        >
-          <v-list-tile-action>
-            <v-icon>layers</v-icon>
-          </v-list-tile-action>
-
-          <v-list-tile-content>
-            <v-list-tile-title>{{item.title}}</v-list-tile-title>
-            <v-list-tile-sub-title>{{item.subtitle}}</v-list-tile-sub-title>
-          </v-list-tile-content>
-        </v-list-tile>
+      <template v-for="cat in items" v-if="cat.components.length">
+        <v-subheader :key="cat.id">{{ cat.name }}</v-subheader>
+        <template v-for="component in cat.components">
+          <v-divider :key="component.id + '-divider'"/>
+          <v-list-tile :key="component.id + 'tile'" @click="() => {}" ripple>
+            <v-list-tile-action>
+              <v-icon>layers</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{component.title}}</v-list-tile-title>
+              <v-list-tile-sub-title>{{component.subtitle}}</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
       </template>
+      <v-list-tile v-else>
+        <v-list-tile-content>
+          <v-list-tile-title>No components found</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
     </v-list>
     <v-text-field
       class="search"
@@ -47,18 +47,26 @@ export default {
 function createItems() {
   const items = [];
   for(let library of libraries) {
-    items.push({ header: library.name || library.namespace })  
-    items.push({ divider: true });
+    if(library.reserved) {
+      continue;
+    }
+    
+    let cat = {
+      id: items.length,
+      name: library.name || library.namespace,
+      namespace: library.namespace,
+      components: []
+    };
 
-    Object.values(library.store).forEach(c => {
-      items.push({
-        id: items.length,
+    Object.values(library.store).forEach((c, index) => {
+      cat.components.push({
+        id: items.length + '-' + index,
+        name: c.name,
         title: `<${c.name}/>`,
         subtitle: `${c.name} component`
       });
-      
-      items.push({ divider: true });
     });
+    items.push(cat);
   }
 
   return items;

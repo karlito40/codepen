@@ -1,4 +1,4 @@
-☐ include postcss-selector-parser for style encapsulation (plugins system)
+☐ include postcss-selector-parser for style encapsulation (plugins system) (or use css module <style module>)
 ☐ test remove listener on drag/resize unset
 ☐ change drawable rect to percent
 ☐ replace interactable width by right and left position
@@ -16,3 +16,4 @@
 ☐ vuetify button groups fonts
 ☐ add popup animation
 ☐ drawable to percent
+☐ add assets library
