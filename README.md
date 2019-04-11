@@ -1,10 +1,6 @@
 - vue-timeline-component
-  - [Demo](https://vue-timeline-component.now.sh/)
-  - [Source](vue-timeline-component/)
+  - [https://vue-timeline-component.now.sh/](https://vue-timeline-component.now.sh/)
 - vue-portal-class
-  - [Demo](https://vue-portal-class.now.sh/)
-  - [Example](vue-portal-class/)
-  - [Source](https://github.com/karlito40/vue-portal-class)
+  - [https://vue-portal-class.now.sh/](https://vue-portal-class.now.sh/)
 - web-builder
-  - [Demo](https://vue-web-builder.now.sh/)
-  - [Example](web-builder/)
+  - [https://vue-web-builder.now.sh/](https://vue-web-builder.now.sh/)
