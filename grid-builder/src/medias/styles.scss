@@ -1,0 +1,41 @@
+@import './variables.scss';
+
+.font-color1 {
+	color: $grey;
+}
+
+.font-color2 {
+	color: darken($grey, 10%);
+}
+
+.bg-color1 {
+	background-color: $bg-color-1;
+}
+
+.bg-color2 {
+	background-color: $bg-color-2;
+}
+
+.border-color1 {
+	border-color: $border-color-1;
+}
+
+.border1 {
+	@extend .border-color1;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.box {
+	@extend .bg-color2, .border1;
+}
+
+body, html {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	min-height: 100%;
+	background: radial-gradient($bg-color-1, $bg-color-2) no-repeat;
+}
