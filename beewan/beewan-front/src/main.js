@@ -1,9 +1,9 @@
-import io from 'socket.io-client';
+import { init as initSocket } from './socket';
 import Vue from 'vue'
 import App from './components/App.vue'
 import store from './store'
 
-io('http://localhost:3006');
+initSocket();
 
 Vue.config.productionTip = false;
 
