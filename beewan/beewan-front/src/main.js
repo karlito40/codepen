@@ -1,12 +1,13 @@
+import io from 'socket.io-client';
 import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
+import App from './components/App.vue'
 import store from './store'
 
-Vue.config.productionTip = false
+io('http://localhost:3006');
+
+Vue.config.productionTip = false;
 
 new Vue({
-  router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');
