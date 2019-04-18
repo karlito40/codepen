@@ -1,6 +1,6 @@
 # TODO 
 
-- [ ] lag compensation
+- [ ] lag compensation
 - [ ] rounds
 - [x] leave & search
 - [ ] rematch
