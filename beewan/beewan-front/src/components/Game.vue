@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { getSocket } from '@/socket';
 
 export default {
@@ -25,16 +24,13 @@ export default {
     },
 
     isWin() {
-      return this.battleOver 
-        && this.battle.winner === getSocket().id;
+      return this.battleOver && this.battle.winner === getSocket().id;
     }
   },
 
   methods: {
     attack() {
-      getSocket().emit('battle.attack', {
-        battleId: this.battle.id
-      });
+      getSocket().emit('battle.attack');
     }
   },
 

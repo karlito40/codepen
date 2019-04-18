@@ -2,6 +2,7 @@ const SocketIO = require('socket.io');
 const io = SocketIO.listen(3006);
 
 io.on('connection', function(socket) {
+  socket._beewan = {};
   updatePresence(io, socket);
   socket.on('disconnect', () => {
     updatePresence(io, socket);
@@ -14,8 +15,10 @@ io.on('connection', function(socket) {
     if(!battle) {
       const battleId = 'battle.' + (battles.length + 1)
       socket.join(battleId);
+      socket._beewan.battleId = battleId;
     } else {
       socket.join(battle.id);
+      socket._beewan.battleId = battle.id;
 
       io.to(battle.id).emit('change', { 
         searching: false,
@@ -38,7 +41,8 @@ io.on('connection', function(socket) {
     socket.emit('change', { battles: getBattles(socket) });
   });
 
-  socket.on('battle.attack', ({ battleId }) => {
+  socket.on('battle.attack', () => {
+    const { battleId } = socket._beewan;
     const targetedRoom = socket.adapter.rooms[battleId];
     if(!targetedRoom) {
       return socket.emit('error', 'something weird happened');
@@ -53,7 +57,6 @@ io.on('connection', function(socket) {
         }
       });
     }
-
   });
 
   socket.on('battle.list', () => {
