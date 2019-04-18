@@ -3,9 +3,9 @@
     <img src="/monsters/monster-12-idle.png" class="monster monster--left">
     <img src="/monsters/flip/monster-19-idle.png" class="monster monster--right">
 
-    <div v-if="battle.go" class="go"></div>
+    <div v-if="battle.actived" class="battle-actived"></div>
     <div v-if="battleOver" class="battle-over">
-      <span v-if="isWin">WINNER</span>
+      <span v-if="isWinner">WINNER</span>
       <span v-else>LOSER</span>
     </div>
 
@@ -23,23 +23,41 @@ export default {
       return this.battle.winner !== undefined;
     },
 
-    isWin() {
+    isWinner() {
       return this.battleOver && this.battle.winner === getSocket().id;
+    }
+  },
+
+  watch: {
+    battleOver() {
+      if(this.battleOver) {
+        this.stop();
+      }
     }
   },
 
   methods: {
     attack() {
       getSocket().emit('battle.attack');
+    },
+
+    start () {
+      document.addEventListener('mousedown', this.attack);
+      document.addEventListener('keydown', this.attack);
+    },
+
+    stop() {
+      document.removeEventListener('mousedown', this.attack);
+      document.removeEventListener('keydown', this.attack);
     }
   },
 
   mounted () {
-    document.addEventListener('keydown', this.attack);
+    this.start();
   },
 
   beforeDestroy() {
-    document.removeEventListener('keydown', this.attack);
+    this.stop();
   }
 }
 </script>
@@ -67,7 +85,7 @@ export default {
     }
   }
 
-  .go {
+  .battle-actived {
     position: absolute;
     top: 50%;
     left: 50%;
