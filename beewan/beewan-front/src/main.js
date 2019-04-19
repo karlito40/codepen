@@ -4,11 +4,11 @@ import App from './app/App';
 import { importDefaults } from './utils/Context';
 import store from './store';
 
-const workers = importDefaults(require.context('./app/workers', false, /\.js$/));
+const scopes = importDefaults(require.context('./app/scopes', false, /\.js$/));
 const scenes = importDefaults(require.context('./app/scenes', false, /\.vue$/));
 const components = importDefaults(require.context('./app/components', false, /\.vue$/));
 
-Object.entries({ ...workers, ...components, ...scenes })
+Object.entries({ ...scopes, ...components, ...scenes })
   .forEach(([globalName, Component]) => {
     Vue.component(globalName, Component);
   });
