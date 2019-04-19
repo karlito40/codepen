@@ -1,9 +1,19 @@
-import { init as initSocket } from './socket';
-import Vue from 'vue'
-import App from './components/App.vue'
-import store from './store'
+import Vue from 'vue';
+import * as Socket from './socket';
+import App from './app/App';
+import { importDefaults } from './utils/Context';
+import store from './store';
 
-initSocket();
+const workers = importDefaults(require.context('./app/workers', false, /\.js$/));
+const scenes = importDefaults(require.context('./app/scenes', false, /\.vue$/));
+const components = importDefaults(require.context('./app/components', false, /\.vue$/));
+
+Object.entries({ ...workers, ...components, ...scenes })
+  .forEach(([globalName, Component]) => {
+    Vue.component(globalName, Component);
+  });
+
+Socket.init();
 
 Vue.config.productionTip = false;
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="Game" :style="{ 'background-image': 'url(/levels/region-1.jpg)' }">
+  <div class="GameScene" :style="{ 'background-image': 'url(/levels/region-1.jpg)' }">
     <img src="/monsters/monster-12-idle.png" class="monster monster--left">
     <img src="/monsters/flip/monster-19-idle.png" class="monster monster--right">
 
@@ -8,12 +8,11 @@
       <span v-if="isWinner">WINNER</span>
       <span v-else>LOSER</span>
     </div>
-
   </div>
 </template>
 
 <script>
-import { getSocket } from '@/socket';
+import { battle as socketBattle, socket } from '@/socket';
 
 export default {
   props: ['battle'],
@@ -24,7 +23,7 @@ export default {
     },
 
     isWinner() {
-      return this.battleOver && this.battle.winner === getSocket().id;
+      return this.battleOver && this.battle.winner === socket().id;
     }
   },
 
@@ -37,9 +36,7 @@ export default {
   },
 
   methods: {
-    attack() {
-      getSocket().emit('battle.attack');
-    },
+    attack: socketBattle.attack,
 
     start () {
       document.addEventListener('mousedown', this.attack);
@@ -63,7 +60,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.Game {
+.GameScene {
   position: relative;
   max-width: 700px;
   width: 100%;

@@ -2,12 +2,21 @@ const SocketIO = require('socket.io');
 const io = SocketIO.listen(3006);
 
 io.on('connection', function(socket) {
+  console.log('client connect - ', socket.id);
   updatePresence(io, socket);
+
+  socket.on('reconnect', (attemptNumber) => {
+    console.log('client reconnect - ', socket.id);
+  });
+
   socket.on('disconnect', () => {
+    console.log('client disconnect - ', socket.id);
     updatePresence(io, socket);
   });
 
-  socket.on('matchmaking.join', () => {
+  socket.on('battle.join', () => {
+    console.log('client join matchmaking - ', socket.id);
+    
     const rooms = getBattleRooms(socket);
     let room = rooms.find(room => room.length < 2 && !room.battle.startedAt);
     
@@ -44,6 +53,7 @@ io.on('connection', function(socket) {
   });
 
   socket.on('battle.attack', () => {
+    console.log('client attack - ', socket.id);
     const { battleId } = socket;
     const room = socket.adapter.rooms[battleId];
     
@@ -79,6 +89,7 @@ io.on('connection', function(socket) {
   });
 
   socket.on('battle.list', () => {
+    console.log('client battle listing - ', socket.id);
     socket.emit('change', { battles: getBattleList(socket) });
   });
 });
