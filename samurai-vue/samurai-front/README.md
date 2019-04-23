@@ -1,4 +1,4 @@
-# beewan
+# samurai-vue
 
 ## Project setup
 ```

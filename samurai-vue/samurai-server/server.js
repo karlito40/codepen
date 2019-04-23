@@ -27,6 +27,7 @@ io.on('connection', function(socket) {
       socket.battleId = battle.id;
       socket.adapter.rooms[battle.id].battle = battle;
     } else {
+      // START RUMBLE
       const { battle } = room;
       battle.startedAt = Date.now();
       battle.actived = false;
