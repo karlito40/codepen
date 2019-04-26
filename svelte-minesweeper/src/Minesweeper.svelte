@@ -1,39 +1,22 @@
 <script>
-import flatMap from 'lodash/flatMap';
-import chain from './utils/chain';
+import Minesweeper from './game/Minesweeper';
 
-const board = {
+const minesweeper = new Minesweeper({
   rows: 16,
-  cols: 30
-};
-
-const nbMine = 99;
-const nbCell = board.rows * board.cols;
-
-function createCells(label, quantity) {
-  return Array.from({ length:  quantity }, (_, index) => ({
-    label, //[BOMB, BOMB_DISTANCE (0: empty)] 
-    value: null // [REVEALED, FLAG, HIDDEN]
-  }));
-}
-
-const grid = chain(
-  [
-    ...createCells('BOMB', nbMine),
-    ...createCells(0, nbCell - nbMine),
-  ])
-  .shuffle()
-  .chunk(board.cols)
-  //.map(distance)
-  .value();
-
-// CALCULATE BOMB_DISTANCE
+  cols: 30,
+  mines: 99
+});
 </script>
 
-<div class="minesweeper" style="--rows: { board.rows }; --cols: { board.cols }">
-  {#each grid as row, x}
-    {#each row as col, y}
-      <div class="cell" data-index="{ x+y }">[{x}, {y}]</div>
+<div 
+  class="minesweeper" 
+  style="
+    --rows: { minesweeper.nbRow }; 
+    --cols: { minesweeper.nbCol }"
+>
+  {#each minesweeper.grid as row}
+    {#each row as cell}
+      <div class="cell">cell.label</div>
     {/each}
   {/each}
 </div>
