@@ -3,6 +3,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import replace from 'rollup-plugin-replace';
 import { terser } from 'rollup-plugin-terser';
+import { scss } from '@kazzkiq/svelte-preprocess-scss';
 import * as devEnv from './envs/development.env';
 import * as prodEnv from './envs/production.env';
 
@@ -26,6 +27,10 @@ export default {
 		svelte({
 			// enable run-time checks when not in production
 			dev: !production,
+			
+			preprocess: {
+        style: scss(),
+			},
 			
 			// we'll extract any component CSS out into
 			// a separate file — better for performance

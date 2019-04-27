@@ -1,11 +1,6 @@
 <script>
 import { DEV } from '../constants';
 import Minesweeper from './Minesweeper.svelte';
-
-if(DEV) {
-document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
-  ':35729/livereload.js?snipver=1"></' + 'script>')
-}
 </script>
 
 
@@ -14,10 +9,9 @@ document.write('<script src="http://' + (location.host || 'localhost').split(':'
 </div>
  
 <style>
-:global(:root) {
-  /*--c-bg-1: #ddeeee;*/
-  --c-bg-1: #e9f5f5;
-}
+/* :global(:root) {
+  --c-bg-1: #e9f5f5; 
+}*/
 
 :global(*, *:after, *:before) {
 	box-sizing: border-box;
@@ -32,7 +26,6 @@ document.write('<script src="http://' + (location.host || 'localhost').split(':'
 :global(body) {
 	margin: 0;
   padding: 0;
-  background: var(--c-bg-1);
 }
 
 .App {
