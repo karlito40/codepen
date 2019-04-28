@@ -26,31 +26,29 @@ function getBrighteness(cell) {
 }
 
 </script>
-  <div>nbGradientColor: {nbGradientColor}</div>
-  <div>nbColor: {test}</div>
+
+<div>nbGradientColor: {nbGradientColor}</div>
+<div>nbColor: {test}</div>
+
 <div 
   class="Minesweeper" 
   style="
     --rows: { minesweeper.nbRow }; 
     --cols: { minesweeper.nbCol }"
 >
-  <!-- <div class="cell" data-label="1">1</div>
-  <div class="cell" data-label="2">2</div>
-  <div class="cell" data-label="3">3</div>
-  <div class="cell" data-label="4">4</div>
-  <div class="cell" data-label="5">5</div>
-  <div class="cell" data-label="6">6</div>
-  <div class="cell" data-label="7">7</div>
-  <div class="cell" data-label="8">8</div> -->
   {#each minesweeper.grid as row}
     {#each row as cell}
       <div 
         class="cell" 
         data-label="{cell.label}"
         data-state="{cell.state}"
-        
       >
-        <div class="cell__body" style="--brightness: {getBrighteness(cell)}"></div>
+        <div
+          class="cell__body" 
+          style="--brightness: {getBrighteness(cell)}"
+        >
+          {cell.getStateDisplay()}
+        </div>
       </div>
     {/each}
   {/each}
@@ -61,18 +59,27 @@ function getBrighteness(cell) {
   display: inline-grid;
   grid-template: repeat(var(--rows), 30px) / repeat(var(--cols), 30px);
   font-family: 'Alfa Slab One';
-  border-top: 1px solid black;
-  border-left: 1px solid black;
+  border-top: 2px solid black;
+  border-left: 2px solid black;
+  font-size: 16px;
+  line-height: 30px;
 }
 
 .cell {
-  border-right: 1px solid black;
-  border-bottom: 1px solid black;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
   position: relative;
+
+  .cell__body { 
+    height: 100%; 
+    width: 100%; 
+  }
 
   &[data-state="HIDDEN"] {
     cursor: pointer;
     transition: 0.25s all;
+    box-shadow: 1px 1px 3px rgba(0,0,0, 0.3);
+
     &:before {
       content: '';
       display: block;
@@ -101,71 +108,46 @@ function getBrighteness(cell) {
       }
     }
   }
-  /*
-  &[data-label="BOMB"] {
-    border: 1px solid red;
-    background: white;
-  }
 
-  &[data-label="0"] {
-    background: #ccddee;
+  &[data-state="REVEALED"] {
+    position: static;
+
+    .cell__body {
+      background-color: #ccf7f7;
+    }
   }
 
   &[data-label="1"] {
-    $label-color: #d6f1fb;
-    background: $label-color;
-    box-shadow: 0 -4px 0px scale-color($label-color, $lightness: -20%) inset;
-    color: scale-color($label-color, $lightness: -50%);
+    color: #4056BC;
   }
-
+  
   &[data-label="2"] {
-    $label-color: #bff9c3;
-    background: $label-color;
-    box-shadow: 0 -4px 0px scale-color($label-color, $lightness: -25%) inset;
-    color: scale-color($label-color, $lightness: -50%);
+    color: #1E5009;
   }
 
   &[data-label="3"] {
-    $label-color: #ffcccc;
-    background: $label-color;
-    box-shadow: 0 -4px 0px scale-color($label-color, $lightness: -13%) inset;
-    color: scale-color($label-color, $lightness: -50%);
+    color: #A91C15;
   }
-
+  
   &[data-label="4"] {
-    $label-color: #f6d4f7;
-    background: $label-color;
-    box-shadow: 0 -4px 0px scale-color($label-color, $lightness: -13%) inset;
-    color: scale-color($label-color, $lightness: -50%);
+    color: #4a0cad;
   }
 
   &[data-label="5"] {
-    $label-color: #ffdcbd;
-    background: $label-color;
-    box-shadow: 0 -4px 0px scale-color($label-color, $lightness: -13%) inset;
-    color: scale-color($label-color, $lightness: -50%);
+    color: #af6219;
   }
-
+  
   &[data-label="6"] {
-    $label-color: #91f9f0;
-    background: $label-color;
-    box-shadow: 0 -4px 0px scale-color($label-color, $lightness: -38%) inset;
-    color: scale-color($label-color, $lightness: -50%);
+    color: #47c5c0;
   }
 
   &[data-label="7"] {
-    $label-color: #444343;
-    background: scale-color($label-color, $lightness: 25%);
-    box-shadow: 0 -4px 0px $label-color inset;
-    color: scale-color($label-color, $lightness: 95%);
+    color: black;
   }
-
+  
   &[data-label="8"] {
-    $label-color: #909090;
-    background: scale-color($label-color, $lightness: 30%);
-    box-shadow: 0 -4px 0px $label-color inset;
-    color: scale-color($label-color, $lightness: 95%);
-  }*/
+    color: #888C8C;
+  }
 }
 
 
