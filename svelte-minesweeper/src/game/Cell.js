@@ -11,7 +11,7 @@ export function createCell(options) {
 export default class Cell {
   constructor({ label } = {}) {
     this.label = label || 0; //[BOMB, NEAR_BOMB (0: empty)] 
-    this.value = null // [REVEALED, FLAG, HIDDEN]
+    this.state = 'HIDDEN' // [HIDDEN, REVEALED, FLAG, HIDDEN]
     this.position = null;
   }
 
