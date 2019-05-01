@@ -2,10 +2,12 @@ import svelte from 'rollup-plugin-svelte';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import replace from 'rollup-plugin-replace';
+import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import { scss } from '@kazzkiq/svelte-preprocess-scss';
 import * as devEnv from './envs/development.env';
 import * as prodEnv from './envs/production.env';
+
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -23,7 +25,7 @@ export default {
 		name: 'app',
 		file: 'public/bundle.js'
 	},
-	plugins: [
+	plugins: [		
 		svelte({
 			// enable run-time checks when not in production
 			dev: !production,
@@ -48,6 +50,8 @@ export default {
 		commonjs(),
 
 		replace(injectVars),
+
+		livereload(),
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify

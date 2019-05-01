@@ -1,6 +1,6 @@
 <script>
 import Minesweeper from '../game/Minesweeper';
-import { Flag, Bomb } from './icons';
+import { FlagIcon, BombIcon } from './icons';
 
 const minesweeper = new Minesweeper({
   rows: 16,
@@ -40,14 +40,24 @@ function getBrighteness(cell) {
     {#each row as cell}
       <div 
         class="cell" 
-        data-label="{cell.label}"
+        data-label="{cell.isRevealed() ? cell.label : ''}"
         data-state="{cell.state}"
       >
         <div
-          class="cell__body" 
+          class="cell__background" 
           style="--brightness: {getBrighteness(cell)}"
-        >
-          {cell.getStateDisplay()}
+        ></div>
+
+        <div class="cell__body">
+          {#if cell.isRevealed()}
+            {#if cell.isBomb()}
+              <BombIcon/>  
+            {:else}
+              {cell.label}
+            {/if}
+          {:else if cell.isFlag()}
+            <FlagIcon class="flag"/>
+          {/if}
         </div>
       </div>
     {/each}
@@ -58,10 +68,11 @@ function getBrighteness(cell) {
 .Minesweeper {
   display: inline-grid;
   grid-template: repeat(var(--rows), 30px) / repeat(var(--cols), 30px);
-  font-family: 'Alfa Slab One';
   border-top: 2px solid black;
   border-left: 2px solid black;
-  font-size: 16px;
+  font-family: 'Asap';
+  font-size: 20px;
+  font-weight: bold;
   line-height: 30px;
 }
 
@@ -70,12 +81,29 @@ function getBrighteness(cell) {
   border-bottom: 2px solid black;
   position: relative;
 
-  .cell__body { 
-    height: 100%; 
-    width: 100%; 
+  .cell__background {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
   }
 
-  &[data-state="HIDDEN"] {
+  .cell__body {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &[data-state="HIDDEN"], &[data-state="BOMB"], &[data-state="FLAG"] {
+    z-index: 10; // put shadow over "revealed" block
     cursor: pointer;
     transition: 0.25s all;
     box-shadow: 1px 1px 3px rgba(0,0,0, 0.3);
@@ -85,17 +113,23 @@ function getBrighteness(cell) {
       display: block;
       position: absolute;
       z-index: 2;
-      width: 100%;
-      height: 100%;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
       border-left: 2px solid rgba(255, 255, 255, 0.5);
       border-top: 2px solid rgba(255, 255, 255, 0.5);
     }
 
-    .cell__body {
+    .cell__background {
       filter: brightness(var(--brightness));
       background-color: #43FFFF;
-      height: 100%;
-      width: 100%;
+    }
+
+    :global(.flag) {
+      position: relative;
+      top: 1px;
+      width: 20px !important;
     }
 
     &:hover {
@@ -103,18 +137,20 @@ function getBrighteness(cell) {
         box-shadow: 0 0 2px rgba(0, 0, 0, 0.3) inset
       }
 
-      .cell__body {
+      .cell__background {
         background: radial-gradient(farthest-corner, #4be0e0, #13768c 300%);
       }
     }
   }
 
   &[data-state="REVEALED"] {
-    position: static;
-
-    .cell__body {
+    .cell__background {
       background-color: #ccf7f7;
     }
+  }
+  
+  &[data-label="0"] {
+    color: rgba(255, 255, 255, 0);
   }
 
   &[data-label="1"] {
@@ -130,15 +166,15 @@ function getBrighteness(cell) {
   }
   
   &[data-label="4"] {
-    color: #4a0cad;
+    color: #030983;
   }
 
   &[data-label="5"] {
-    color: #af6219;
+    color: #9e5c18;
   }
   
   &[data-label="6"] {
-    color: #47c5c0;
+    color: #1aa09b;
   }
 
   &[data-label="7"] {
@@ -146,7 +182,7 @@ function getBrighteness(cell) {
   }
   
   &[data-label="8"] {
-    color: #888C8C;
+    color: #898c8c;
   }
 }
 
