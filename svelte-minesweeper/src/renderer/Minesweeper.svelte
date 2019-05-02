@@ -1,4 +1,5 @@
 <script>
+import { tick } from 'svelte';
 import Minesweeper from '../game/Minesweeper';
 import { FlagIcon, BombIcon } from './icons';
 
@@ -25,11 +26,15 @@ function getBrighteness(cell) {
   return color;
 }
 
+async function onCell(cell) {
+  cell.revealed();
+  minesweeper = minesweeper;
+  const m1 = Date.now();
+  await tick();
+  console.log(Date.now() - m1);
+}
+
 </script>
-
-<div>nbGradientColor: {nbGradientColor}</div>
-<div>nbColor: {test}</div>
-
 <div 
   class="Minesweeper" 
   style="
@@ -42,6 +47,7 @@ function getBrighteness(cell) {
         class="cell" 
         data-label="{cell.isRevealed() ? cell.label : ''}"
         data-state="{cell.state}"
+        on:click={onCell.bind(null, cell)}
       >
         <div
           class="cell__background" 
@@ -55,8 +61,6 @@ function getBrighteness(cell) {
             {:else}
               {cell.label}
             {/if}
-          {:else if cell.isFlag()}
-            <FlagIcon class="flag"/>
           {/if}
         </div>
       </div>
@@ -122,14 +126,9 @@ function getBrighteness(cell) {
     }
 
     .cell__background {
+      // It increase update time by 8ms !
       filter: brightness(var(--brightness));
       background-color: #43FFFF;
-    }
-
-    :global(.flag) {
-      position: relative;
-      top: 1px;
-      width: 20px !important;
     }
 
     &:hover {
@@ -140,6 +139,17 @@ function getBrighteness(cell) {
       .cell__background {
         background: radial-gradient(farthest-corner, #4be0e0, #13768c 300%);
       }
+    }
+  }
+
+  &[data-state="FLAG"] {
+    .cell__body {
+      top: calc(50% - 10px);
+      left: calc(50% - 10px);
+      width: 20px;
+      height: 20px;
+      background: url(./icons/flag.png);
+      background-size: contain;
     }
   }
 
@@ -174,7 +184,7 @@ function getBrighteness(cell) {
   }
   
   &[data-label="6"] {
-    color: #1aa09b;
+    color: #12bcce;
   }
 
   &[data-label="7"] {

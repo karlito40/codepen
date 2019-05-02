@@ -25,13 +25,13 @@ export default class Cell {
     this.position = null;
   }
 
-  setLabel(label) { this.label = label; }
-  setPosition(position) { 
-    this.position = position; 
-    // if(this.position.x > 3 && this.position.x < 6 && this.position.y > 2 && this.position.y < 5) {
-    //   this.state = 'REVEALED';
-    // }
+  revealed() {
+    this.state = 'REVEALED';
   }
+
+  setLabel(label) { this.label = label; }
+  setPosition(position) { this.position = position; }
+
   isFlag() { return this.state === 'FLAG'; }
   isRevealed() { return this.state === 'REVEALED'; }
   isBomb() { return this.label === BOMB; }
