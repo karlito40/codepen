@@ -1,5 +1,7 @@
 <template>
   <div class="GameScene" :style="{ 'background-image': 'url(/levels/region-1.jpg)' }">
+    <VersusBar :battle="battle"/>
+
     <img src="/monsters/monster-12-idle.png" class="monster monster--left">
     <img src="/monsters/flip/monster-19-idle.png" class="monster monster--right">
 
@@ -103,5 +105,13 @@ export default {
     color: white;
     text-shadow: 2px 2px black;
   }
+
+  .VersusBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
 }
+
 </style>

@@ -4,6 +4,16 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex)
 
+/*
+battle:{ 
+  "id": "battle.2", 
+  "startedAt": 1556882621529, 
+  "actived": false, 
+  "winner": "zakQc4_IIO20gK36AAAI", 
+  "completedAt": 1556882622202 
+} 
+*/
+
 export default new Vuex.Store({
   state: {
     connected: false,
