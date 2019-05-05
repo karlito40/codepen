@@ -22,6 +22,9 @@ const { store } = minesweeper;
       </div>
     {/if}
   </div>
+
+  <img class="preload-assets" src="icons/flag.png" alt="">
+  <img class="preload-assets" src="icons/bomb.png" alt="">
 </div>
  
 <style lang="scss">
@@ -66,5 +69,14 @@ const { store } = minesweeper;
     font-size: 73px;
     font-family: 'Asap', Arial, sans-serif;
   }
+}
+
+.preload-assets {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  height: 0;
+  width: 0;
 }
 </style>
