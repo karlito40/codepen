@@ -1,7 +1,13 @@
 <script>
 import { DEV } from '../constants';
-import minesweeper from '../game/store';
 import Board from './Board.svelte';
+import Minesweeper from '../game/Minesweeper';
+
+const { store: minesweeper } = new Minesweeper({
+  rows: 16,
+  cols: 30,
+  mines: 99
+});
 </script>
 
 <div class="App">
