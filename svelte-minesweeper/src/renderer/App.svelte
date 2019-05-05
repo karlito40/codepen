@@ -1,9 +1,9 @@
 <script>
 import { DEV } from '../constants';
 import Board from './Board.svelte';
-import Minesweeper from '../game/Minesweeper';
+import { createMinesweeper } from '../game/Minesweeper';
 
-const { store: minesweeper } = new Minesweeper({
+const minesweeper = createMinesweeper({
   rows: 16,
   cols: 30,
   mines: 99

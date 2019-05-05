@@ -2,6 +2,9 @@ import { writable } from 'svelte/store';
 import { createCells, BOMB } from './Cell';
 import chain from '../utils/chain';
 
+export function createMinesweeper(options) {
+  return (new Minesweeper(options)).store;
+}
 export default class Minesweeper {
   constructor({ rows, cols, mines }) {
     this.nbRow = rows;
