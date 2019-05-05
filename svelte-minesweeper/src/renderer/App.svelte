@@ -1,24 +1,16 @@
 <script>
 import { DEV } from '../constants';
-import Minesweeper from '../game/Minesweeper';
+import minesweeper from '../game/store';
 import Board from './Board.svelte';
-
-let minesweeper = new Minesweeper({
-  rows: 16,
-  cols: 30,
-  mines: 99
-});
-
-const { store } = minesweeper;
 </script>
 
 <div class="App">
   <div class="scene">
-    <Board minesweeper={minesweeper}/>
+    <Board minesweeper={$minesweeper}/>
     
-    {#if $store.completedAt}
+    {#if $minesweeper.completedAt}
       <div class="end-game">
-        {$store.hasWon() ? 'Winner' : 'Loser' }
+        {$minesweeper.hasWon() ? 'Winner' : 'Loser' }
       </div>
     {/if}
   </div>

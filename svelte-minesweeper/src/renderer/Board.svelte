@@ -1,6 +1,5 @@
 <script>
 export let minesweeper;
-const { store } = minesweeper;
 
 const nbGradientColor = 11;
 const gradientScaleBy = 0.455;
@@ -28,7 +27,7 @@ async function revealed(cell) {
     --rows: { minesweeper.nbRow }; 
     --cols: { minesweeper.nbCol }"
 >
-  {#each $store.grid as row}
+  {#each minesweeper.grid as row}
     {#each row as cell}
       <div 
         class="cell" 
