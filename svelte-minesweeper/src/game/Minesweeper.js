@@ -1,3 +1,4 @@
+import { writable } from 'svelte/store';
 import { createCells, BOMB } from './Cell';
 import chain from '../utils/chain';
 
@@ -7,6 +8,8 @@ export default class Minesweeper {
     this.nbCol = cols;
     this.nbMine = mines;
     this.nbCell = this.nbRow * this.nbCol;
+    this.completedAt = undefined;
+    this.state = 'IN_PROGRESS';
 
     this.cells = [
       ...createCells(this.nbMine, { label: BOMB }),
@@ -19,6 +22,8 @@ export default class Minesweeper {
       .value();
     
     this.initLabels();
+
+    this.store = writable(this);
   }
 
   initLabels() {
@@ -34,6 +39,31 @@ export default class Minesweeper {
       }
     });
   }
+  
+  revealed(cell) {
+    // TODO: Stop game / remove click
+    if(cell.isBomb()) {
+      this.state = 'LOST';
+      this.completedAt = Date.now();
+    }
+    // TODO: WIN
+
+    cell.revealed();
+    this._revealedSurrounding(cell);
+    this.store.set(this);
+  }
+
+  _revealedSurrounding(cell) {
+    if(cell.label) {
+      return;
+    }
+
+    this.getSurrounding(cell)
+      .filter(cell => !cell.isRevealed())
+      .forEach(surroudingCell => {
+        this.revealed(surroudingCell);
+      });
+  }
 
   getSurrounding(cell) {
     const { x, y } = cell.position;
@@ -47,7 +77,7 @@ export default class Minesweeper {
       this.getCell(x + 1, y + 1),  // se
       this.getCell(x, y + 1),      // s
       this.getCell(x - 1, y + 1)   // sw
-    ].filter((cell) => cell);
+    ].filter(cell => cell); // On supprime tout ce qui est en dehors de la grille
   }
 
   getCell(x , y) {
@@ -61,4 +91,6 @@ export default class Minesweeper {
       });
     });
   }
+
+  hasWon() { return this.state === 'WON' }
 }

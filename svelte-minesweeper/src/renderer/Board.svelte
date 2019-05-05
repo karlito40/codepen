@@ -1,17 +1,9 @@
 <script>
-import { tick } from 'svelte';
-import Minesweeper from '../game/Minesweeper';
-import { FlagIcon, BombIcon } from './icons';
-
-const minesweeper = new Minesweeper({
-  rows: 16,
-  cols: 30,
-  mines: 99
-});
+export let minesweeper;
+const { store } = minesweeper;
 
 const nbGradientColor = 11;
 const gradientScaleBy = 0.455;
-
 const distanceMax = Math.hypot(minesweeper.nbCol, minesweeper.nbRow);
 const needStep = Math.ceil(distanceMax / (nbGradientColor));
 
@@ -25,28 +17,24 @@ function getBrighteness(cell) {
   return 1 - (step / nbGradientColor) * gradientScaleBy;
 }
 
-async function onCell(cell) {
-  cell.revealed();
-  minesweeper = minesweeper;
-  const m1 = Date.now();
-  await tick();
-  console.log(Date.now() - m1);
+async function revealed(cell) {
+  minesweeper.revealed(cell);
 }
 </script>
 
 <div 
-  class="Minesweeper" 
+  class="Board" 
   style="
     --rows: { minesweeper.nbRow }; 
     --cols: { minesweeper.nbCol }"
 >
-  {#each minesweeper.grid as row}
+  {#each $store.grid as row}
     {#each row as cell}
       <div 
         class="cell" 
         data-label="{cell.isRevealed() ? cell.label : ''}"
         data-state="{cell.state}"
-        on:click={onCell.bind(null, cell)}
+        on:click={revealed.bind(null, cell)}
       >
         <div
           class="cell__background" 
@@ -55,11 +43,7 @@ async function onCell(cell) {
 
         <div class="cell__body">
           {#if cell.isRevealed()}
-            {#if cell.isBomb()}
-              <BombIcon/>  
-            {:else}
-              {cell.label}
-            {/if}
+            {cell.label}
           {/if}
         </div>
       </div>
@@ -68,12 +52,12 @@ async function onCell(cell) {
 </div>
 
 <style lang="scss">
-.Minesweeper {
-  display: inline-grid;
+.Board {
+  display: grid;
   grid-template: repeat(var(--rows), 30px) / repeat(var(--cols), 30px);
   border-top: 2px solid black;
   border-left: 2px solid black;
-  font-family: 'Asap';
+  font-family: 'Asap', Arial, sans-serif;
   font-size: 20px;
   font-weight: bold;
   line-height: 30px;
@@ -105,7 +89,7 @@ async function onCell(cell) {
     align-items: center;
   }
 
-  &[data-state="HIDDEN"], &[data-state="BOMB"], &[data-state="FLAG"] {
+  &[data-state="HIDDEN"], &[data-state="FLAG"] {
     z-index: 10; // put shadow over "revealed" block
     cursor: pointer;
     transition: 0.25s all;
@@ -147,7 +131,24 @@ async function onCell(cell) {
       left: calc(50% - 10px);
       width: 20px;
       height: 20px;
-      background: url(./icons/flag.png);
+      background: url(./icons/flag.png) no-repeat;
+      background-size: contain;
+    }
+  }
+  
+  &[data-label="BOMB"] {
+    color: rgba(0, 0, 0, 0);
+    
+    .cell__background {
+      background-color: #ccf7f7;
+    }
+
+    .cell__body {
+      top: calc(50% - 9px);
+      left: calc(50% - 9px);
+      width: 18px;
+      height: 18px;
+      background: url(./icons/bomb.png) no-repeat;
       background-size: contain;
     }
   }
@@ -159,7 +160,7 @@ async function onCell(cell) {
   }
   
   &[data-label="0"] {
-    color: rgba(255, 255, 255, 0);
+    color: rgba(0, 0, 0, 0);
   }
 
   &[data-label="1"] {
@@ -195,9 +196,8 @@ async function onCell(cell) {
   }
 }
 
-
 @media (max-width: 400px) {
-  .Minesweeper {
+  .Board {
     grid-template: repeat(var(--rows), 10px) / repeat(var(--cols), 10px);
   }
 }

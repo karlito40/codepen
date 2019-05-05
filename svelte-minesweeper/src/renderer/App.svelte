@@ -1,18 +1,30 @@
 <script>
 import { DEV } from '../constants';
-import Minesweeper from './Minesweeper.svelte';
+import Minesweeper from '../game/Minesweeper';
+import Board from './Board.svelte';
+
+let minesweeper = new Minesweeper({
+  rows: 16,
+  cols: 30,
+  mines: 99
+});
+
+const { store } = minesweeper;
 </script>
 
-
 <div class="App">
-  <Minesweeper/>
+  <div class="scene">
+    <Board minesweeper={minesweeper}/>
+    
+    {#if $store.completedAt}
+      <div class="end-game">
+        {$store.hasWon() ? 'Winner' : 'Loser' }
+      </div>
+    {/if}
+  </div>
 </div>
  
-<style>
-/* :global(:root) {
-  --c-bg-1: #e9f5f5; 
-}*/
-
+<style lang="scss">
 :global(*, *:after, *:before) {
 	box-sizing: border-box;
 }
@@ -29,7 +41,30 @@ import Minesweeper from './Minesweeper.svelte';
 }
 
 .App {
-  text-align: center; 
   padding: 50px 20px;
+  position: relative;
+  text-align: center; 
+
+  .scene {
+    position: relative;
+    display: inline-block;
+  }
+
+  .end-game {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    text-shadow: 0 0 10px rgba(0,0,0,0.6);
+    font-size: 73px;
+    font-family: 'Asap', Arial, sans-serif;
+  }
 }
 </style>
