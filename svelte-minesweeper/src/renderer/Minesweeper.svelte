@@ -9,21 +9,20 @@ const minesweeper = new Minesweeper({
   mines: 99
 });
 
-const nbGradientColor = 16;
+const nbGradientColor = 11;
+const gradientScaleBy = 0.455;
 
 const distanceMax = Math.hypot(minesweeper.nbCol, minesweeper.nbRow);
 const needStep = Math.ceil(distanceMax / (nbGradientColor));
 
-let colors = {};
-$: test = Object.keys(colors).length;
-
 function getBrighteness(cell) {
   const distance = Math.hypot(cell.position.x, cell.position.y);
-  const colorStep = ~~(distance / needStep);
-  
-  const color=  1 - (colorStep / 24);
-  colors[color] = color;
-  return color;
+
+  // On récupère la color step
+  const step = Math.floor((distance / distanceMax) * nbGradientColor);
+
+  // On calcule la luminosite a partir de 1
+  return 1 - (step / nbGradientColor) * gradientScaleBy;
 }
 
 async function onCell(cell) {
@@ -33,8 +32,8 @@ async function onCell(cell) {
   await tick();
   console.log(Date.now() - m1);
 }
-
 </script>
+
 <div 
   class="Minesweeper" 
   style="
@@ -144,7 +143,7 @@ async function onCell(cell) {
 
   &[data-state="FLAG"] {
     .cell__body {
-      top: calc(50% - 10px);
+      top: calc(50% - 8px);
       left: calc(50% - 10px);
       width: 20px;
       height: 20px;
