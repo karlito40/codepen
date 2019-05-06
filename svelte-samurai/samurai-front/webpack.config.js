@@ -1,4 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { less } = require('svelte-preprocess-less');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const mode = process.env.NODE_ENV || 'development';
 const prod = mode === 'production';
@@ -24,7 +26,10 @@ module.exports = {
 					loader: 'svelte-loader',
 					options: {
 						emitCss: true,
-						hotReload: true
+						hotReload: true,
+						preprocess: {
+							style: less(),
+						}
 					}
 				}
 			},
@@ -43,6 +48,7 @@ module.exports = {
 	},
 	mode,
 	plugins: [
+		// new BundleAnalyzerPlugin(),
 		new MiniCssExtractPlugin({
 			filename: '[name].css'
 		})

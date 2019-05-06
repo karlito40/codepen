@@ -1,12 +1,18 @@
+import { merge } from 'lodash-es';
 import { writable } from 'svelte/store';
 
-export default writable({
+const { subscribe, update } = writable({
   connected: false,
   searching: false,
   nbPlayers: 0,
   battles: [],
   selectedBattle: undefined
-})
+});
+
+export default {
+  subscribe,
+  merge: (data) => update(state => merge(state, data))
+};
 
 /*
 battle:{ 
