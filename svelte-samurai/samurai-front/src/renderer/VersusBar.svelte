@@ -47,8 +47,6 @@ function createRoundsByPlayer(playerId, rounds) {
   }  
 }
 
-
-
 .round {
   & {
     width: 20px;
@@ -57,7 +55,7 @@ function createRoundsByPlayer(playerId, rounds) {
     background: red;
     margin-right: 5px;
   }
-  
+
   &.has-won {
     background: green;
   }

@@ -26,7 +26,7 @@ function stop() {
 </script>
 
 <div class="GameScene">
-  <VersusBar :battle="battle"/>
+  <VersusBar battle={battle}/>
 
   <img src="/monsters/monster-12-idle.png" class="monster monster--left">
   <img src="/monsters/flip/monster-19-idle.png" class="monster monster--right">
