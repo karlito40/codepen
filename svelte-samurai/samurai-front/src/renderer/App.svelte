@@ -2,9 +2,12 @@
 import store from '../store';
 import { battle as socketBattle } from '../socket';
 import GameScene from './GameScene.svelte';
+import DebugBar from './DebugBar.svelte';
 </script>
   
 <div class="App">
+  <DebugBar/>
+
   {#if $store.searching}
     <div class="matchmaking">
       En attente d'un noob...

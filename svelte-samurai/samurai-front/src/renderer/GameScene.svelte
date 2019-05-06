@@ -1,6 +1,7 @@
 <script>
 import { onMount, onDestroy } from 'svelte';
 import { battle as socketBattle, socket } from '../socket';
+import VersusBar from './VersusBar.svelte';
 
 export let battle;
 
@@ -25,6 +26,8 @@ function stop() {
 </script>
 
 <div class="GameScene">
+  <VersusBar :battle="battle"/>
+
   <img src="/monsters/monster-12-idle.png" class="monster monster--left">
   <img src="/monsters/flip/monster-19-idle.png" class="monster monster--right">
 
