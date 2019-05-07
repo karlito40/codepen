@@ -1,6 +1,7 @@
 ## Disclaimer 
 
-Ces projets servent uniquement à tester la faisabilité de mes idées. Des bugs et des codes foireux peuvent apparaitre de temps à autre. 
+Ces projets servent uniquement à tester la faisabilité ou la maintenabilité de mes idées. Le code peut partir en couille à tout moment dès lors que je me trouve un nouveau défi à réaliser (exemple: ne jamais utiliser `<script>` dans un SFC Vue). Les bugs qui ne représentent aucun intérêt pour ma recherche sont volontairement laissés en suspens.
+
 
 | Experiment                                                       | Description                                                              | Tags                       |
 | ---------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------------------- |
