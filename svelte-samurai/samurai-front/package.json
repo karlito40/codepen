@@ -18,10 +18,11 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
-    "dev": "webpack-dev-server --content-base public"
+    "dev": "webpack-dev-server --content-base public --history-api-fallback"
   },
   "dependencies": {
     "lodash-es": "^4.17.11",
+    "navaid": "^1.0.3",
     "socket.io-client": "^2.2.0"
   }
 }

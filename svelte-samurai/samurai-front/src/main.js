@@ -1,5 +1,5 @@
 import * as Socket from './socket';
-import App from './renderer/App.svelte';
+import App from './App.svelte';
 
 Socket.init();
 
