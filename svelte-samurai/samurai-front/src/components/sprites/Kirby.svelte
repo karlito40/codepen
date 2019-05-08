@@ -1,0 +1,29 @@
+<script context="module">
+export const animations = {
+  attack: [
+    { width: 27, height: 25, x: 9, y: 161 },
+    { width: 53, height: 34, x: 45, y: 152 },
+    { width: 53, height: 24, x: 104, y: 161 },
+    { width: 53, height: 24, x: 225, y: 163 },
+  ],
+  death: [
+    { width: 46, height: 28, x: 8, y: 196 },
+  ]
+};
+</script>
+
+<script>
+import Sprite from './Sprite';
+
+export let mode;
+export let iFrame = 0;
+export let autoplay = true;
+
+$: frames = animations[mode];
+</script>
+
+<Sprite class="Kirby" 
+  frames={frames} 
+  autoplay={autoplay}
+  bind:iFrame={iFrame}
+/>
