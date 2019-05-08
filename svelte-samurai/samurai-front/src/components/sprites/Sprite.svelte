@@ -38,11 +38,9 @@ $: {
 
 onMount(() => {
   const interval = setInterval(() => {
-    if(!autoplay) {
-      return;
+    if(autoplay) {
+      iFrame = iFrame + 1;
     }
-
-    iFrame = iFrame + 1
   }, speed);
 
   return () => clearInterval(interval);
