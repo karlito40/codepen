@@ -1,13 +1,11 @@
-import { socket } from '@/socket';
-
 export default {
   methods: {
     disconnect() {
-      socket().disconnect();
+      this.$socket.disconnect();
     },
 
     connect() {
-      socket().connect();
+      this.$socket.connect();
     }
   },
 

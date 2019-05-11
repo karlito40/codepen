@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { battle as socketBattle, socket } from '@/socket';
+import socket, { battle as socketBattle } from '@/socket';
 
 export default {
   props: ['battle'],
@@ -25,7 +25,7 @@ export default {
     },
 
     isWinner() {
-      return this.battleOver && this.battle.winner === socket().id;
+      return this.battleOver && this.battle.winner === socket.id;
     }
   },
 

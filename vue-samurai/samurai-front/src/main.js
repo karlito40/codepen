@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import * as Socket from './socket';
+import socket from './socket';
 import App from './app/App';
 import { importDefaults } from './utils/Context';
 import store from './store';
@@ -13,8 +13,7 @@ Object.entries({ ...scopes, ...components, ...scenes })
     Vue.component(globalName, Component);
   });
 
-Socket.init();
-
+Vue.prototype.$socket = socket;
 Vue.config.productionTip = false;
 
 new Vue({
