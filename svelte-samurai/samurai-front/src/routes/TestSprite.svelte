@@ -1,14 +1,23 @@
 <script>
 import GameLayout from '../components/GameLayout';
 import Sprite from '../components/sprites/Sprite';
-import Kirby, { animations as kirbyAnimations } from '../components/sprites/Kirby';
+import Kirby, { animations as kirbyAnims } from '../components/sprites/Kirby';
+import Wadle, { animations as wadleAnims } from '../components/sprites/Wadle';
 
 const sprites = {
   kirby: {
+    component: Kirby,
     autoplay: true,
     iFrame: 0,
-    mode: Object.keys(kirbyAnimations)[0],
-    modes: Object.keys(kirbyAnimations)
+    mode: Object.keys(kirbyAnims)[0],
+    modes: Object.keys(kirbyAnims)
+  },
+  wadle: {
+    component: Wadle,
+    autoplay: true,
+    iFrame: 0,
+    mode: Object.keys(wadleAnims)[0],
+    modes: Object.keys(wadleAnims)
   }
 };
 </script>
@@ -22,7 +31,12 @@ const sprites = {
     <section class="animation">
       <div class="animation__body">
         {sprite.iFrame}
-        <Kirby 
+        <!-- <Kirby 
+          {...sprite}
+          bind:iFrame={sprite.iFrame}
+        /> -->
+        <svelte:component 
+          this={sprite.component}
           {...sprite}
           bind:iFrame={sprite.iFrame}
         />

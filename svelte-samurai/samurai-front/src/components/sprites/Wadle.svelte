@@ -1,15 +1,16 @@
 <script context="module">
 export const animations = {
   idle: [
-    { width: 27, height: 25, x: 9, y: 161 },
+    { width: 29, height: 22, x: 360, y: 142 },
   ],
   attack: [
-    { width: 53, height: 34, x: 45, y: 152 },
-    { width: 53, height: 24, x: 104, y: 161 },
-    { width: 53, height: 24, x: 225, y: 163 },
+    { width: 40, height: 31, x: 519, y: 131 },
+    { width: 53, height: 36, x: 399, y: 128 },
+    { width: 53, height: 22, x: 459, y: 140 },
   ],
   death: [
-    { width: 46, height: 28, x: 8, y: 196 },
+    { width: 40, height: 35, x: 571, y: 129 },
+    { width: 45, height: 24, x: 623, y: 134 },
   ]
 };
 </script>
@@ -24,7 +25,7 @@ export let autoplay = true;
 $: frames = animations[mode];
 </script>
 
-<Sprite class="Kirby" 
+<Sprite class="Wadle" 
   frames={frames} 
   autoplay={autoplay}
   bind:iFrame={iFrame}
