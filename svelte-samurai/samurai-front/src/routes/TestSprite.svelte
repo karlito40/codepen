@@ -3,6 +3,7 @@ import GameLayout from '../components/GameLayout';
 import Sprite from '../components/sprites/Sprite';
 import Kirby, { animations as kirbyAnims } from '../components/sprites/Kirby';
 import Wadle, { animations as wadleAnims } from '../components/sprites/Wadle';
+import MetaKnight, { animations as mkAnims } from '../components/sprites/MetaKnight';
 
 const sprites = {
   kirby: {
@@ -18,6 +19,13 @@ const sprites = {
     iFrame: 0,
     mode: Object.keys(wadleAnims)[0],
     modes: Object.keys(wadleAnims)
+  },
+  metaKnight: {
+    component: MetaKnight,
+    autoplay: true,
+    iFrame: 0,
+    mode: Object.keys(mkAnims)[0],
+    modes: Object.keys(mkAnims)
   }
 };
 </script>

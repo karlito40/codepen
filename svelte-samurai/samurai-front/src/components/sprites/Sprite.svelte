@@ -6,7 +6,7 @@ let _class;
 export { _class as class };
 export let frames;
 export let speed = 100;
-export let infinite = true;
+export let infinite = false;
 export let autoplay = true;
 export let iFrame = 0;
 
