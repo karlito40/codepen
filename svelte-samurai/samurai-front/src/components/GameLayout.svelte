@@ -53,5 +53,6 @@ function autoScale() {
   background-color: black;
   box-shadow: 0 0 9px rgba(0, 0, 0, 0.6), 0 0 0 9999px rgba(255, 255, 255, 0.4);
   border-radius: 5px;
+  overflow: hidden;
 }
 </style>

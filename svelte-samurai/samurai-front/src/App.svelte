@@ -8,7 +8,7 @@ let Route, params;
 const router = Navaid('/')
   .on('/', () => import('./routes/Game.svelte').then(renderRoute))
   .on('/sprites', () => import('./routes/TestSprite.svelte').then(renderRoute))
-  .on('/animations', () => import('./routes/TestAnimation.svelte').then(renderRoute))
+  .on('/scenarios', () => import('./routes/TestScenario.svelte').then(renderRoute))
   .listen();
 
 onDestroy(router.unlisten);

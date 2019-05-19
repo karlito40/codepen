@@ -2,8 +2,8 @@
 
 import { onMount, beforeUpdate, createEventDispatcher } from 'svelte';
 
-let _class;
-export { _class as class };
+let className;
+export { className as class };
 export let frames;
 export let speed = 100;
 export let infinite = false;
@@ -48,7 +48,7 @@ onMount(() => {
 </script>
 
 <div 
-  class="Sprite {_class}"
+  class="Sprite {className}"
   style="{`
     width: ${canvas.width}px;
     height: ${canvas.height}px;

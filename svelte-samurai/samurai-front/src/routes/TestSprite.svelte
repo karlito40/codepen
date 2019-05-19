@@ -10,29 +10,25 @@ const sprites = {
     component: Kirby,
     autoplay: true,
     iFrame: 0,
-    mode: Object.keys(kirbyAnims)[0],
-    modes: Object.keys(kirbyAnims)
+    animation: Object.keys(kirbyAnims)[0],
+    animations: Object.keys(kirbyAnims)
   },
   wadle: {
     component: Wadle,
     autoplay: true,
     iFrame: 0,
-    mode: Object.keys(wadleAnims)[0],
-    modes: Object.keys(wadleAnims)
+    animation: Object.keys(wadleAnims)[0],
+    animations: Object.keys(wadleAnims)
   },
   metaKnight: {
     component: MetaKnight,
     autoplay: true,
     iFrame: 0,
-    mode: Object.keys(mkAnims)[0],
-    modes: Object.keys(mkAnims)
+    animation: Object.keys(mkAnims)[0],
+    animations: Object.keys(mkAnims)
   }
 };
 </script>
-
-<svelte:head>
-	<title>Test sprites !</title>
-</svelte:head>
 
 <GameLayout>
   {#each Object.values(sprites) as sprite}
@@ -60,9 +56,9 @@ const sprites = {
           </button>
         </div>
 
-        <div class="modes">
-          {#each sprite.modes as mode}
-            <button on:click={() => sprite.mode = mode}> {mode}</button>
+        <div class="animations">
+          {#each sprite.animations as animation}
+            <button on:click={() => sprite.animation = animation}> {animation}</button>
           {/each}
         </div>
       </div>
@@ -80,7 +76,7 @@ button {
   font-size: 7px;
   padding: 0px 3px;
 }
-.modes button {
+.animations button {
   color: orange;
 }
 </style>

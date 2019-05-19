@@ -18,14 +18,17 @@ export const animations = {
 <script>
 import Sprite from './Sprite';
 
-export let mode;
+let className;
+export { className as class };
+export let animation;
 export let iFrame = 0;
 export let autoplay = true;
 
-$: frames = animations[mode];
+$: frames = animations[animation];
 </script>
 
-<Sprite class="Wadle" 
+<Sprite 
+  class="Wadle {className}"
   frames={frames} 
   autoplay={autoplay}
   bind:iFrame={iFrame}
