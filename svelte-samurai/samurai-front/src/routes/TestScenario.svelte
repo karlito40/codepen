@@ -10,18 +10,26 @@ onMount(() => {
   console.log('backLayer$', backLayer$)
 });
 
+let score = 0;
+
 let tl;
 function initScenario() {
+  const reactTime = 0.8; 
   tl = new TimelineMax();
   tl.to(backLayer$.querySelector('.mask'), 1, { opacity: 0.8 });
   tl.to(backLayer$.querySelectorAll('.eye-wrapper'), 0.01, { opacity: 1}); 
   tl.to(backLayer$.querySelectorAll('.eye'), 1, { x: 0 });
+  tl.to(backLayer$.querySelectorAll('.eye'), 1, { x: 0 });
+  tl.to(backLayer$.querySelectorAll('.eye-wrapper'), 0.01, { opacity: 0 }, '+=0.5');
+  tl.to(backLayer$.querySelectorAll('.mask'), 0.5, { opacity: 0 });
+  tl.call(() => score = 8, null, this, `+=${reactTime}`);
 }
 
 function toggleScenario() {
   if(!tl) {
     initScenario()
   } else if(!tl.reversed()){
+    score = 0;
     tl.reverse();       
   } else {
     tl.play()
@@ -32,9 +40,8 @@ function toggleScenario() {
 <div class="debug-bar">
   <button on:click={toggleScenario}>Toggle</button>
 </div>
-<GameLayout>
-  
-  
+
+<GameLayout toScore={score}>
   <div class="back-layer layer" bind:this={backLayer$}>
     <div class="mask"></div>
     <div class="eye-wrapper is-top">
