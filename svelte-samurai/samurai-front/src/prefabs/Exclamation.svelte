@@ -1,5 +1,5 @@
 <script>
-let className;
+let className = '';
 export { className as class };
 export let qty = 1;
 </script>

@@ -1,7 +1,7 @@
 <script>
 import Stare from '../Stare';
 
-let className;
+let className = '';
 export { className as class };
 export let from;
 </script>

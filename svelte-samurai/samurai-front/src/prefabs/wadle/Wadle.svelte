@@ -18,7 +18,7 @@ export const animations = {
 <script>
 import Sprite from '../../core/Sprite';
 
-let className;
+let className = '';
 export { className as class };
 export let animation;
 export let iFrame = 0;

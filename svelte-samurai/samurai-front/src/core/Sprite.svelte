@@ -1,7 +1,7 @@
 <script>
 import { onMount, beforeUpdate, createEventDispatcher } from 'svelte';
 
-let className;
+let className = '';
 export { className as class };
 export let frames;
 export let speed = 100;
@@ -18,10 +18,7 @@ const cloneFrames = [...frames];
 const maxWidth = cloneFrames.sort((a, b) => b.width - a.width)[0].width;
 const maxHeight = cloneFrames.sort((a, b) => b.height - a.height)[0].height;
 
-const canvas = {
-  width: maxWidth,
-  height: maxHeight
-};
+const canvas = { width: maxWidth, height: maxHeight };
 
 // Prevent iFrame overflow
 $: {
