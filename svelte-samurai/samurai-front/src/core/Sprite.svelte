@@ -1,5 +1,4 @@
 <script>
-
 import { onMount, beforeUpdate, createEventDispatcher } from 'svelte';
 
 let className;

@@ -1,21 +1,21 @@
 <script context="module">
 export const animations = {
   idle: [
-    { width: 27, height: 25, x: 9, y: 161 },
+    { width: 32, height: 31, x: 480, y: 217 },
   ],
   attack: [
-    { width: 53, height: 34, x: 45, y: 152 },
-    { width: 53, height: 24, x: 104, y: 161 },
-    { width: 53, height: 24, x: 225, y: 163 },
+    { width: 40, height: 37, x: 522, y: 211 },
   ],
   death: [
-    { width: 46, height: 28, x: 8, y: 196 },
+    { width: 25, height: 24, x: 575, y: 225 },
+    { width: 24, height: 24, x: 608, y: 225 },
+    { width: 23, height: 24, x: 639, y: 225 },
   ]
 };
 </script>
 
 <script>
-import Sprite from './Sprite';
+import Sprite from '../../core/Sprite';
 
 let className;
 export { className as class };
@@ -27,7 +27,7 @@ $: frames = animations[animation];
 </script>
 
 <Sprite 
-  class="Kirby {className}"
+  class="MetaKnight {className}"
   frames={frames} 
   autoplay={autoplay}
   bind:iFrame={iFrame}

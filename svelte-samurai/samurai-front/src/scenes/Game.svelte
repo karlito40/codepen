@@ -1,6 +1,6 @@
 <script>
 import { onMount } from 'svelte';
-import GameLayout from '../components/GameLayout';
+import GameLayout from '../ui/GameLayout';
 </script>
 
 <svelte:head>

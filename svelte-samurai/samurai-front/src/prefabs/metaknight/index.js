@@ -1,0 +1,1 @@
+export { default as MetaKnight, animations } from './MetaKnight';

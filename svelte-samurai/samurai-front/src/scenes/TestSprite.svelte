@@ -1,9 +1,9 @@
 <script>
-import GameLayout from '../components/GameLayout';
-import Sprite from '../components/sprites/Sprite';
-import Kirby, { animations as kirbyAnims } from '../components/sprites/Kirby';
-import Wadle, { animations as wadleAnims } from '../components/sprites/Wadle';
-import MetaKnight, { animations as mkAnims } from '../components/sprites/MetaKnight';
+import GameLayout from '../ui/GameLayout';
+import Sprite from '../core/Sprite';
+import { Kirby, animations as kirbyAnims } from '../prefabs/kirby';
+import { Wadle, animations as wadleAnims } from '../prefabs/wadle';
+import { MetaKnight, animations as mkAnims } from '../prefabs/metaknight';
 
 const sprites = {
   kirby: {
@@ -35,10 +35,6 @@ const sprites = {
     <section class="animation">
       <div class="animation__body">
         {sprite.iFrame}
-        <!-- <Kirby 
-          {...sprite}
-          bind:iFrame={sprite.iFrame}
-        /> -->
         <svelte:component 
           this={sprite.component}
           {...sprite}
@@ -65,7 +61,6 @@ const sprites = {
     </section>
   {/each}
 </GameLayout>
-
 
 <style lang="less">
 .animation__body, .animation__footer {
