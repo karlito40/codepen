@@ -25,8 +25,6 @@ function initScenario() {
   // suppression du fond noir
     .to(backLayer$.querySelectorAll('.mask'), 0.3, { opacity: 0 })
     .to(frontLayer$.querySelector('.Exclamation'), 0, { opacity: 1 }, `+=${fireAt}`)
-  
-  // * utiliser les labels quand j'aurais internet pour revoir la doc ...
     .call(() => score = 8, null, this, `+=${reactTime}`)
     .to(backLayer$.querySelector('.mask'), 0, { background: 'white', opacity: 1 })
     .addLabel('hit', '+=0.15')
