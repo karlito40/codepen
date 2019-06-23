@@ -1,7 +1,7 @@
 var robot = require("robotjs");
 
 // Speed up the mouse.
-robot.setMouseDelay(3);
+robot.setMouseDelay(2);
 
 // robot.moveMouse(10, 4);
 // robot.mouseClick();
@@ -14,5 +14,6 @@ var width = screenSize.width;
 for (var x = 0; x < width; x++)
 {
 	y = height * Math.sin((twoPI * x) / width) + height;
+	console.log(x, ':', y)
 	robot.moveMouse(x, y);
 }

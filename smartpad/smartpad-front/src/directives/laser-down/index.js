@@ -13,7 +13,7 @@ export default {
 
   unbind($el) {
     if ($el.bkLaser) {
-      $el.bkLaser.stop();
+      $el.bkLaser.disable();
     }
   }
 };

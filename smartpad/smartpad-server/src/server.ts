@@ -1,7 +1,7 @@
 import * as socketio from 'socket.io';
 import * as robot from 'robotjs';
 
-robot.setMouseDelay(1);
+robot.setMouseDelay(0.5);
 
 const port = 81;
 const io = socketio(port);
@@ -22,14 +22,28 @@ io.on('connection', function(socket) {
 
   socket.on('mouse:move', (movement) => {
     console.log('mouse:move received', movement);
+    if(!movement.x && !movement.y) {
+      return;
+    }
+    
     const mouse = robot.getMousePos();
     const destX = mouse.x + movement.x;
     const destY = mouse.y + movement.y;
-    if(destX || destY) {
-      robot.moveMouse(destX, destY);
-      console.log(`mouse dest [${destX}, ${destY}]`);
-    }
     
+    robot.moveMouse(destX, destY);
+
+    // const distanceMax = Math.max(Math.abs(movement.x), Math.abs(movement.y));
+    // const moveBy = 1;
+    // for(let distance = 0; distance < distanceMax; distance += moveBy) {
+    //   const x = Math.min(mouse.x + (distance * Math.sign(movement.x)), destX);
+    //   const y = Math.min(mouse.y + (distance * Math.sign(movement.y)), destY);
+
+    //   robot.moveMouse(x, y);
+    // }
+  });
+
+  socket.on('mouse:click', () => {
+    robot.mouseClick();
   });
 });
 

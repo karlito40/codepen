@@ -1,34 +1,42 @@
 <template>
-  <div class="MouseControl" v-laser="{ 
-    active: true,
-    size: 8,
-    maxPoints: 9,
-    suppressRate: 36,
-    onTick: onLaserUpdate
-  }">
-    lllalal
+  <div class="MouseControl" 
+    v-laser="{ 
+      visible: true,
+      size: 8,
+      maxPoints: 9,
+      suppressRate: 36,
+      onMove: onMove,
+      onRelease: onReleave
+    }"
+    @click="onClick"
+  >
+    Mouse
   </div>
 </template>
 
 <script>
-let i = 0;
 export default {
   methods: {
-    onLaserUpdate ({ pointer }) {
+    onReleave () {
+      this.oldPointer = undefined;
+    },
+
+    onMove ({ pointer }) {
       if (this.oldPointer) {
         const dtX = pointer.clientX - this.oldPointer.clientX;
         const dtY = pointer.clientY - this.oldPointer.clientY;
-        
-        const id = ++i;
-        console.log('id', id)
+
         this.$socket.emit('mouse:move', {
-          id,
-          x: parseFloat(dtX.toFixed(2)),
-          y: parseFloat(dtY.toFixed(2))
+          x: Math.round(dtX),
+          y: Math.round(dtY)
         });
       }
 
       this.oldPointer = pointer;
+    },
+
+    onClick () {
+      this.$socket.emit('mouse:click');
     }
   },
 

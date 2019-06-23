@@ -12,7 +12,8 @@ export default class Laser {
 
     this.tick = this.tick.bind(this);
     this.setPointer = this.setPointer.bind(this);
-    this.release = this.release.bind(this);
+    this.start = this.start.bind(this);
+    this.stop = this.stop.bind(this);
 
     this.update(options);
   }
@@ -24,87 +25,89 @@ export default class Laser {
 
     this.options = {
       debug: false,
-      visible: false,
+      active: false,
       onTick() { },
-      onMove() { },
-      onRelease() { },
       ...this.options,
       ...options
     };
 
-    if (this.options.visible !== prevOptions.visible) {
-      if (this.options.visible) {
-        this.start();
+    if (this.options.active !== prevOptions.active) {
+      if (this.options.active) {
+        this.enable();
       } else {
-        this.stop();
+        this.disable();
       }
     }
   }
 
   setPointer(e) {
     this.pointer = e.touches ? e.touches[0] : e;
-    this.options.onMove(this);
   }
 
-  release() {
-    this.pointer = undefined;
-    this.snake.reset();
-    this.options.onRelease();
+  enable() {
+    this.$el.style.touchAction = 'none';
+    this.$el.addEventListener('pointerdown', this.start);
   }
 
-  start() {
+  disable() {
+    this.stop();
+    this.$el.style.touchAction = 'auto';
+    this.$el.removeEventListener('pointerdown', this.start);
+  }
+
+  start(e) {
+    if (this.isRunning) {
+      return;
+    }
+
+    this.isRunning = true;
     this.$canvas = createCanvas();
-    document.body.appendChild(this.$canvas);
-
     this.ctx = this.$canvas.getContext('2d');
     this.snake.ctx = this.ctx;
-    this.isRunning = true;
 
-    this.$el.style.touchAction = 'none';
     document.body.style.cursor = 'none';
+    document.body.appendChild(this.$canvas);
 
+    this.setPointer(e);
     this.$el.addEventListener('pointermove', this.setPointer);
-    this.$el.addEventListener('pointerup', this.release);
-    this.$el.addEventListener('pointerleave', this.release);
+    this.$el.addEventListener('pointerup', this.stop);
 
     requestAnimationFrame(this.tick);
   }
 
   stop() {
-    this.isRunning = false;
-
     document.body.style.cursor = '';
-    this.$el.style.touchAction = 'auto';
-
-    this.$el.removeEventListener('pointermove', this.setPointer);
-    this.$el.removeEventListener('pointerup', this.release);
-    this.$el.removeEventListener('pointerleave', this.release);
-
+    
+    this.isRunning = false;
+    this.pointer = undefined;
+    this.snake.reset();
     if (this.$canvas) {
       document.body.removeChild(this.$canvas);
       this.$canvas = undefined;
     }
+
+    this.$el.removeEventListener('pointermove', this.setPointer);
+    this.$el.removeEventListener('pointerup', this.stop);
   }
 
   tick() {
-    if (!this.isRunning) {
+    // clear canvas
+    if(!this.isRunning) {
       return;
     }
 
     this.$canvas.width = this.$canvas.width;
-    if (this.isRunning) {
-      if (this.pointer) {
-        this.snake.eat({
-          x: this.pointer.clientX,
-          y: this.pointer.clientY
-        });
+    if (this.pointer) {
+      this.snake.eat({
+        x: this.pointer.clientX,
+        y: this.pointer.clientY
+      });
 
-        this.snake.tick();
-        this.options.onTick(this);
-      }
-
-      requestAnimationFrame(this.tick);
+      this.snake.tick();
+      this.options.onTick(this);
     }
+
+    requestAnimationFrame(this.tick);
   }
 }
 
