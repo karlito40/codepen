@@ -27,8 +27,8 @@ export default {
         const dtY = pointer.clientY - this.oldPointer.clientY;
 
         this.$socket.emit('mouse:move', {
-          x: Math.round(dtX),
-          y: Math.round(dtY)
+          x: dtX,
+          y: dtY
         });
       }
 

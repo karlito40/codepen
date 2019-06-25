@@ -64,7 +64,6 @@ export default class Laser {
     document.body.style.cursor = 'none';
 
     this.$el.addEventListener('pointermove', this.setPointer);
-    this.$el.addEventListener('pointerup', this.release);
     this.$el.addEventListener('pointerleave', this.release);
 
     requestAnimationFrame(this.tick);
@@ -77,7 +76,6 @@ export default class Laser {
     this.$el.style.touchAction = 'auto';
 
     this.$el.removeEventListener('pointermove', this.setPointer);
-    this.$el.removeEventListener('pointerup', this.release);
     this.$el.removeEventListener('pointerleave', this.release);
 
     if (this.$canvas) {
