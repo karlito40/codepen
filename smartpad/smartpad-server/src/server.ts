@@ -1,11 +1,13 @@
-import * as socketio from 'socket.io';
+import * as Server from 'socket.io';
 import * as robot from 'robotjs';
 import { clamp, isEqual } from 'lodash';
 
 robot.setMouseDelay(0);
 
 const port = 81;
-const io = socketio(port);
+const io = new Server(port, {
+  pingInterval: 2000
+});
 
 let mouse = robot.getMousePos();
 let prevMouse = mouse;
@@ -32,7 +34,7 @@ console.log('socket listening on port', port)
 io.on('connection', function(socket) {
   console.log('client connect - ', socket.id);
   updatePresence(io, socket);
-
+  
   socket.on('reconnect', (attemptNumber) => {
     console.log('client reconnect - ', socket.id);
   });
@@ -52,12 +54,8 @@ io.on('connection', function(socket) {
   });
 
   socket.on('mouse:move', (movement) => {
-    console.log('mouse:move received', movement);
-    if(!movement.x && !movement.y) {
-      return;
-    }
-    
-    //const mouse = robot.getMousePos();
+    console.log('mouse:move received', movement, Date.now() - movement.ts);
+    const mouse = robot.getMousePos();
     const destX = mouse.x + movement.x;
     const destY = mouse.y + movement.y;
     updateMouse(destX, destY);  
@@ -73,7 +71,8 @@ io.on('connection', function(socket) {
     // }
   });
 
-  socket.on('mouse:click', () => {
+  socket.on('mouse:click', ({ ts }) => {
+    console.log('mouse:click received', Date.now() - ts);
     robot.mouseClick();
   });
 });
