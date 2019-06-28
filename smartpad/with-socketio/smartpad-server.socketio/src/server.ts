@@ -2,7 +2,7 @@ import * as Server from 'socket.io';
 import * as robot from 'robotjs';
 import { clamp, isEqual } from 'lodash';
 
-robot.setMouseDelay(0);
+robot.setMouseDelay(5);
 
 const port = 81;
 const io = new Server(port, {
@@ -54,25 +54,23 @@ io.on('connection', function(socket) {
   });
 
   socket.on('mouse:move', (movement) => {
-    console.log('mouse:move received', movement, Date.now() - movement.ts);
+    console.log('mouse:move received', movement, Date.now());
     const mouse = robot.getMousePos();
     const destX = mouse.x + movement.x;
     const destY = mouse.y + movement.y;
     updateMouse(destX, destY);  
-    // robot.moveMouse(destX, destY);
-
-    // const distanceMax = Math.max(Math.abs(movement.x), Math.abs(movement.y));
-    // const moveBy = 1;
-    // for(let distance = 0; distance < distanceMax; distance += moveBy) {
-    //   const x = Math.min(mouse.x + (distance * Math.sign(movement.x)), destX);
-    //   const y = Math.min(mouse.y + (distance * Math.sign(movement.y)), destY);
-
-    //   robot.moveMouse(x, y);
-    // }
+  });
+  
+  socket.on('mouse:target_view', (e) => {
+    console.log('mouse:target_view received', e);
+    const destX = screenSize.width * e.left;
+    const destY = screenSize.height * e.top;
+    console.log(destX, destY)
+    robot.moveMouseSmooth(destX, destY);
   });
 
-  socket.on('mouse:click', ({ ts }) => {
-    console.log('mouse:click received', Date.now() - ts);
+  socket.on('mouse:click', () => {
+    console.log('mouse:click received');
     robot.mouseClick();
   });
 });

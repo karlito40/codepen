@@ -1,0 +1,20 @@
+{
+  "name": "smartpad",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "start": "node src/ws.js",
+    "dev": "nodemon src/ws.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "robotjs": "^0.5.1",
+    "ws": "^7.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
