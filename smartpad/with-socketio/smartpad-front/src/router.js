@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import FormMouseMove from './views/FormMouseMove';
 import MouseControl from './views/MouseControl';
 import MouseTarget from './views/MouseTarget';
 import VirtualPad from './views/VirtualPad';
@@ -25,11 +24,6 @@ export default new Router({
       path: '/mouse/control',
       name: 'mouse-control',
       component: MouseControl
-    },
-    {
-      path: '/mouse/move',
-      name: 'mouse-move',
-      component: FormMouseMove
     }
   ]
 })

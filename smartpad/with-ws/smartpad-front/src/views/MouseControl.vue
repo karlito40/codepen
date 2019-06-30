@@ -37,8 +37,8 @@ connection.addEventListener('message', (msg) => {
 })
 export default {
   computed: {
-    ping() {
-      const { ping } = this.$store.state;
+    ping() { 
+      const { ping } = this.$store.state;
       return ping !== undefined ? ping : '-';
     }
   },
