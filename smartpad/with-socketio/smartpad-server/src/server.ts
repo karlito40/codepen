@@ -1,8 +1,8 @@
 import * as Server from 'socket.io';
 import * as robot from 'robotjs';
-import { clamp, isEqual } from 'lodash';
+import { clamp, isEqual } from 'lodash';
 
-robot.setMouseDelay(5);
+robot.setMouseDelay(0);
 
 const port = 81;
 const io = new Server(port, {
