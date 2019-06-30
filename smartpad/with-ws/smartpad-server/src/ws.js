@@ -1,6 +1,6 @@
 const robot = require('robotjs');
 const WebSocket = require('ws')
-const { clamp, isEqual } = require('lodash');
+const { clamp, isEqual } = require('lodash');
 
 const wss = new WebSocket.Server({ port: 8081 })
 
@@ -8,13 +8,15 @@ robot.setMouseDelay(0);
 
 let mouse = robot.getMousePos();
 let prevMouse = mouse;
-const screenSize = robot.getScreenSize();
+// const screenSize = robot.getScreenSize();
 
 function updateMouse(x, y) {
   prevMouse = { ...mouse };
   mouse = {
-    x: clamp(x, 0, screenSize.width),
-    y: clamp(y, 0, screenSize.height)
+    x, 
+    y
+    // x: clamp(x, 0, screenSize.width),
+    // y: clamp(y, 0, screenSize.height)
   }
 }
 
@@ -36,6 +38,11 @@ wss.on('connection', ws => {
       const destX = mouse.x + data.x;
       const destY = mouse.y + data.y;
       updateMouse(destX, destY);  
+    } else if(subject === 'keyboard:tap') {
+      console.log('tap', data.key);
+      robot.keyTap(data.key);
+    } else if(subject === 'mouse:click') {
+      robot.mouseClick();
     }
   });
 })

@@ -8,33 +8,12 @@
       onMove: onMove,
       onRelease: onReleave
     }"
-    @click="onClick"
-    @touchstart="onClick"
   >
     ping: {{ ping }}
   </div>
 </template>
 
 <script>
-const { hostname } = window.location;
-const url = `ws://${hostname}:8081`
-const connection = new WebSocket(url)
-
-connection.onopen = () => {
-  console.log('connect open')
-}
-
-connection.onerror = (error) => {
-  console.log(`WebSocket error: ${error}`)
-}
-
-connection.onmessage = (e) => {
-  console.log(e.data)
-}
-
-connection.addEventListener('message', (msg) => {
-  connection.send(msg.data)
-})
 export default {
   computed: {
     ping() { 
@@ -53,21 +32,13 @@ export default {
         const dtX = pointer.clientX - this.oldPointer.clientX;
         const dtY = pointer.clientY - this.oldPointer.clientY;
         
-        connection.send(JSON.stringify({
+        this.$socket.send(JSON.stringify({
           subject: 'mouse:move',
           data: { x: dtX, y: dtY }
         }));
       }
 
       this.oldPointer = pointer;
-    },
-
-    onClick () {
-      //e.preventDefault();
-      //e.stopPropagation();
-      console.log('click');
-      // connection.send(Date.now()) 
-      // this.$socket.emit('mouse:click', { ts: Date.now() });
     }
   },
 

@@ -1,32 +1,15 @@
-import io from 'socket.io-client';
-import store from './store';
+// import store from './store';
 
 const { hostname } = window.location;
-const socket = io(`http://${hostname}:81`, {
-  transports: ['websocket']
-});
+const url = `ws://${hostname}:8081`
+const socket = new WebSocket(url)
 
-socket.on('connect', () => {
-  console.log('- socket connect');
-  store.dispatch('set', { connected: true });
-});
+socket.onopen = () => {
+  console.log('Socket open')
+}
 
-socket.on('change', (override) => {
-  store.dispatch('set', override);
-});
-
-socket.on('disconnect', () => {
-  console.log('- socket disconnect');
-  store.dispatch('set', { connected: false });
-});
-
-socket.on('reconnect', () => {
-  console.log('- socket reconnect');
-  store.dispatch('set', { connected: true });
-});
-
-socket.on('pong', (ping) => {
-  store.dispatch('set', { ping });
-});
+socket.onerror = (error) => {
+  console.log(`Socket error: ${error}`)
+}
 
 export default socket;
