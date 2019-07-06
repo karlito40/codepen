@@ -1,19 +1,16 @@
 <template>
-  <div class="MouseControl" 
-    v-laser="{ 
-      visible: true,
-      size: 8,
-      maxPoints: 9,
-      suppressRate: 36,
-      onMove: onMove,
-      onRelease: onReleave
-    }"
+  <div 
+    class="MouseControl" 
+    @touchstart="onStart"
+    @touchmove="onMove"
   >
     ping: {{ ping }}
   </div>
 </template>
 
 <script>
+import { throttle } from 'lodash-es';
+
 export default {
   computed: {
     ping() { 
@@ -23,31 +20,46 @@ export default {
   },
 
   methods: {
-    onReleave () {
-      this.oldPointer = undefined;
+    onStart(e) {
+      e.preventDefault();
+      this.prevTouches = [...e.touches];
     },
 
-    onMove ({ pointer }) {
-			if (this.oldPointer) {
-        const dtX = pointer.clientX - this.oldPointer.clientX;
-        const dtY = pointer.clientY - this.oldPointer.clientY;
-        
+    onMove: throttle(function (e) {
+      e.preventDefault();
+      const touches = [...e.touches];
+      const bindDistance = (touch) => {
+        const prevTouch = this.prevTouches.find((prevTouch) => prevTouch.identifier === touch.identifier);
+        let delta;
+        if(prevTouch) {
+          const dx = touch.clientX - prevTouch.clientX;
+          const dy = touch.clientY - prevTouch.clientY;
+          const distance = Math.hypot(dx, dy);
+          delta = { dx, dy, distance };
+        }
+
+        return { ...touch, ...delta };
+      };
+
+      const greaterMove = touches
+        .map(bindDistance)
+        .filter((touch) => touch.distance)
+        .sort((a, b) => b.distance - a.distance)[0];
+      
+      if(greaterMove) {
+        const { dx, dy } = greaterMove;
+        const subject = touches.length === 1 ? 'mouse:move' : 'mouse:scroll'; 
         this.$socket.send(JSON.stringify({
-          subject: 'mouse:move',
-          data: { x: dtX, y: dtY }
+          subject,
+          data: { x: dx, y: dy }
         }));
       }
-
-      this.oldPointer = pointer;
-    }
-  },
-
-  beforeDestroy () {
-    this.oldPointer = undefined; 
+      
+      this.prevTouches = touches;
+    }, 3, { trailing: true }),
   }
 }
 </script>
-
 
 <style lang="scss" scoped>
 .MouseControl {
