@@ -3,6 +3,7 @@
     class="MouseControl" 
     @touchstart="onStart"
     @touchmove="onMove"
+    @touchend="onEnd"
   >
     ping: {{ ping }}
   </div>
@@ -10,6 +11,14 @@
 
 <script>
 import { throttle } from 'lodash-es';
+
+const dragOptions = {
+  toleranceX: 5,
+  toleranceY: 5,
+  delayActivation: 300
+};
+
+const clickMs = 160;
 
 export default {
   computed: {
@@ -23,10 +32,84 @@ export default {
     onStart(e) {
       e.preventDefault();
       this.prevTouches = [...e.touches];
+      this.startAt = Date.now();
+      
+      this.dragTimeout = setTimeout(() => {
+				this.$socket.send(JSON.stringify({
+          subject: 'mouse:down',
+          data: { }
+        }));
+        this.dragTimeout = null;
+			}, dragOptions.delayActivation);
     },
 
-    onMove: throttle(function (e) {
+    onEnd({ touches }) {
+      this.preventDrag();
+
+      if(touches.length) {
+        return;
+      }
+
+      this.$socket.send(JSON.stringify({
+        subject: 'mouse:up',
+        data: { }
+      }));  
+
+      if(Date.now() - this.startAt < clickMs) {
+        const send = () => {
+          this.$socket.send(JSON.stringify({
+            subject: 'mouse:click',
+            data: { button: 'left', nbClick: this.nbClick }
+          }));
+          
+          this.nbClick = 0;
+          this.tapTimeout = null;
+        };
+
+        this.nbClick = this.nbClick ? this.nbClick + 1 : 1;
+        clearTimeout(this.tapTimeout);
+        if(this.nbClick === 1) {
+          this.tapTimeout = setTimeout(send, 220)
+        } else {
+          send();
+        }
+      }
+    },
+
+    onMove(e) {
       e.preventDefault();
+      if(this.dragTimeout) {
+        this.checkDragDelay(e);
+      }
+      
+      this.moveMouse(e);
+    },
+
+    preventDrag() {
+      clearTimeout(this.dragTimeout)
+      this.dragTimeout = null;
+    },
+
+    checkDragDelay(e) {
+      if(e.touches.length > 1) {
+        return this.preventDrag();
+      }
+      
+      const touch = e.touches[0];
+      const prevTouch = this.prevTouches.find((prevTouch) => prevTouch.identifier === touch.identifier);
+      const deltaX = Math.abs(touch.clientX - prevTouch.clientX);
+      const deltaY = Math.abs(touch.clientY - prevTouch.clientY);
+      const dpi = window.devicePixelRatio || 1;
+      
+      if (
+        deltaX >= Math.floor(dragOptions.toleranceX / dpi) 
+        || deltaY >= Math.floor(dragOptions.toleranceY / dpi)
+      ) {
+        this.preventDrag();
+      }
+    },
+
+    moveMouse: throttle(function (e) {
       const touches = [...e.touches];
       const bindDistance = (touch) => {
         const prevTouch = this.prevTouches.find((prevTouch) => prevTouch.identifier === touch.identifier);
@@ -57,6 +140,11 @@ export default {
       
       this.prevTouches = touches;
     }, 3, { trailing: true }),
+  },
+
+  beforeDestroy() {
+    this.preventDrag();
+    clearTimeout(this.tapTimeout);
   }
 }
 </script>

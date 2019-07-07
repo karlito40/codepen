@@ -24,20 +24,27 @@ function updateMouse(x, y) {
 })()
 
 wss.on('connection', ws => {
-  ws.on('message', function incoming(message) {
+  ws.on('message', function (message) {
     const { subject, data } = JSON.parse(message);
+    console.log(subject, data);
 
-    if(subject === 'mouse:move') {
+    if(subject === 'mouse:down') {
+      robot.mouseToggle('down');
+    } else if(subject === 'mouse:up') {
+      robot.mouseToggle('up');
+    } else if(subject === 'mouse:move') {
       const destX = mouse.x + data.x;
       const destY = mouse.y + data.y;
       updateMouse(destX, destY);  
-    } else if(subject === 'keyboard:tap') {
-      robot.keyTap(data.key);
     } else if(subject === 'mouse:click') {
-      robot.mouseClick();
+      for(let i = 0; i<data.nbClick; i++) {
+        robot.mouseClick(data.button, !!i);
+      }
     } else if(subject === 'mouse:scroll') {
       const dir = -1;
       robot.scrollMouse(data.x * dir, data.y * dir);
+    } else if(subject === 'keyboard:tap') {
+      robot.keyTap(data.key);
     }
   });
 })
