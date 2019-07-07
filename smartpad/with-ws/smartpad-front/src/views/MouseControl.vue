@@ -35,7 +35,7 @@ export default {
       this.startAt = Date.now();
       
       this.dragTimeout = setTimeout(() => {
-				this.$socket.send(JSON.stringify({
+        this.$socket.send(JSON.stringify({
           subject: 'mouse:down',
           data: { }
         }));

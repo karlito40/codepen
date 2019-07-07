@@ -30,6 +30,10 @@ wss.on('connection', ws => {
 
     if(subject === 'mouse:down') {
       robot.mouseToggle('down');
+      ws.send(JSON.stringify({
+        subject: 'mouse:down',
+        data: { enabled: true }
+      }));
     } else if(subject === 'mouse:up') {
       robot.mouseToggle('up');
     } else if(subject === 'mouse:move') {

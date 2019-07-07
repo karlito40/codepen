@@ -12,4 +12,11 @@ socket.onerror = (error) => {
   console.log(`Socket error: ${error}`)
 }
 
+socket.onmessage = (e) => {
+  const { subject } = JSON.parse(e.data);
+  if(subject === 'mouse:down') {
+    window.navigator.vibrate(50);
+  }
+}
+
 export default socket;
