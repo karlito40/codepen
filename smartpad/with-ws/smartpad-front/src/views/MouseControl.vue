@@ -34,13 +34,15 @@ export default {
       this.prevTouches = [...e.touches];
       this.startAt = Date.now();
       
-      this.dragTimeout = setTimeout(() => {
-        this.$socket.send(JSON.stringify({
-          subject: 'mouse:down',
-          data: { }
-        }));
-        this.dragTimeout = null;
-			}, dragOptions.delayActivation);
+      if(e.touches.length === 1) {
+        this.dragTimeout = setTimeout(() => {
+          this.$socket.send(JSON.stringify({
+            subject: 'mouse:down',
+            data: { }
+          }));
+          this.dragTimeout = null;
+        }, dragOptions.delayActivation);
+      }
     },
 
     onEnd({ touches }) {
