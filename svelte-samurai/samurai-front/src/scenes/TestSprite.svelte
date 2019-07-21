@@ -4,6 +4,7 @@ import Sprite from '../core/Sprite';
 import { Kirby, animations as kirbyAnims } from '../prefabs/kirby';
 import { Wadle, animations as wadleAnims } from '../prefabs/wadle';
 import { MetaKnight, animations as mkAnims } from '../prefabs/metaknight';
+import Explosion, { frames as explosionFrames } from '../prefabs/Explosion';
 
 const sprites = {
   kirby: {
@@ -26,6 +27,13 @@ const sprites = {
     iFrame: 0,
     animation: Object.keys(mkAnims)[0],
     animations: Object.keys(mkAnims)
+  },
+  explosion: {
+    component: Explosion,
+    autoplay: true,
+    iFrame: 0,
+    animation: explosionFrames,
+    animations: []
   }
 };
 </script>

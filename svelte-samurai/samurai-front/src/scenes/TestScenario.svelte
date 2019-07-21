@@ -3,12 +3,21 @@ import { onMount } from 'svelte';
 import { TimelineMax, Linear } from 'gsap/all';
 import { Kirby, KirbyStare } from '../prefabs/kirby';
 import { Wadle, WadleStare } from '../prefabs/wadle';
-import GameLayout from '../ui/GameLayout';
+import Explosion from '../prefabs/Explosion';
 import Exclamation from '../prefabs/Exclamation';
+import GameLayout from '../ui/GameLayout';
 
 let backLayer$;
 let frontLayer$;
 let score = 0;
+let explosion = {
+  frame: 0,
+  play: false
+};
+
+$: if (explosion.play) {
+  explosion.frame = 0;
+}
 
 let tl;
 function initScenario() {
@@ -26,10 +35,17 @@ function initScenario() {
     .to(backLayer$.querySelectorAll('.mask'), 0.3, { opacity: 0 })
     .to(frontLayer$.querySelector('.Exclamation'), 0, { opacity: 1 }, `+=${fireAt}`)
     .call(() => score = 8, null, this, `+=${reactTime}`)
+    .to(frontLayer$.querySelector('.Exclamation'), 0, { opacity: 0 })
+    // white background
     .to(backLayer$.querySelector('.mask'), 0, { background: 'white', opacity: 1 })
-    .addLabel('hit', '+=0.15')
+    .addLabel('hit', '+=0.03')
+    // red hit background
     .to(backLayer$, 0, { mixBlendMode: 'lighten' }, 'hit')
-    .to(backLayer$.querySelector('.mask'), 0, { background: 'red'}, 'hit');
+    .to(backLayer$.querySelector('.mask'), 0.1, { background: 'red'}, 'hit')
+    .addLabel('hit:after')
+    .to(backLayer$, 0, { mixBlendMode: 'normal'}, 'hit:after') // remove red hit backgroubd
+    .to(backLayer$.querySelector('.mask'), 0, { background: 'transparent', opacity: 0}, 'hit:after')
+    //
 }
 
 function toggleScenario() {
@@ -42,10 +58,15 @@ function toggleScenario() {
     tl.play()
   }
 }
+
+function toggleExplosion() {
+  explosion.play = !explosion.play
+}
 </script>
 
 <div class="debug-bar">
   <button on:click={toggleScenario}>Toggle</button>
+  <button on:click={toggleExplosion}>toggle explosion</button>
 </div>
 
 <GameLayout toScore={score}>
@@ -55,8 +76,19 @@ function toggleScenario() {
     <WadleStare from="right"/>
   </div>
   <div class="character-layer layer">
-    <Kirby class="chara is-left" animation="idle"/>
-    <Wadle class="chara is-right" animation="idle"/>
+    <div class="chara is-left">
+      <Explosion
+        bind:iFrame={explosion.frame}
+        autoplay={explosion.play}
+        class={explosion.play ? 'is-active' : ''}
+        on:complete={() => explosion.play = false}
+      />
+      <Kirby animation="idle"/>
+    </div>
+    <div class="chara is-right">
+      <Explosion autoplay={false} on:complete={console.log}/>
+      <Wadle  animation="idle"/>
+    </div>
   </div>
   <div class="front-layer layer" bind:this={frontLayer$}>
     <Exclamation qty="1"/>
@@ -109,6 +141,14 @@ function toggleScenario() {
       transform: rotateY(180deg);
       right: 65px;
     }
+  }
+
+  :global(.Explosion) {
+    display: none;
+  }
+  
+  :global(.Explosion.is-active) {
+    display: block;
   }
 }
 

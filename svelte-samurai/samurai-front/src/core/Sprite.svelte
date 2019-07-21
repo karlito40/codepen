@@ -1,5 +1,5 @@
 <script>
-import { onMount, beforeUpdate, createEventDispatcher } from 'svelte';
+import { onMount, beforeUpdate, createEventDispatcher, tick } from 'svelte';
 
 let className = '';
 export { className as class };
@@ -8,6 +8,9 @@ export let speed = 100;
 export let infinite = false;
 export let autoplay = true;
 export let iFrame = 0;
+// We can't add this functionality as svelte recreate the entire node
+// (background-image will rerender each frame and produce some blink)
+// export let src = "/samurai-kirby.png"
 
 let currentFrame;
 
@@ -30,6 +33,11 @@ $: {
   }
 
   currentFrame = frames[iFrame];
+  
+  const hasReachEnd = oldFrame !== currentFrame && iFrame == frames.length - 1;
+  if(hasReachEnd) {
+    tick().then(() => dispatch('complete'));
+  }
 }
 
 onMount(() => {
@@ -61,7 +69,7 @@ onMount(() => {
 </div>
 
 <style lang="less">
-.Sprite {
+.Sprite {
   position: relative;
 }
 
