@@ -1,9 +1,9 @@
 <script>
 import GameLayout from '../ui/GameLayout';
 import Sprite from '../core/Sprite';
-import { Kirby, animations as kirbyAnims } from '../prefabs/kirby';
-import { Wadle, animations as wadleAnims } from '../prefabs/wadle';
-import { MetaKnight, animations as mkAnims } from '../prefabs/metaknight';
+import { Kirby, kirby } from '../prefabs/kirby';
+import { Wadle, wadle } from '../prefabs/wadle';
+import { MetaKnight, metaknight } from '../prefabs/metaknight';
 import Explosion, { frames as explosionFrames } from '../prefabs/Explosion';
 
 const sprites = {
@@ -11,22 +11,22 @@ const sprites = {
     component: Kirby,
     autoplay: true,
     iFrame: 0,
-    animation: Object.keys(kirbyAnims)[0],
-    animations: Object.keys(kirbyAnims)
+    animation: Object.keys(kirby.animations)[0],
+    animations: Object.keys(kirby.animations)
   },
   wadle: {
     component: Wadle,
     autoplay: true,
     iFrame: 0,
-    animation: Object.keys(wadleAnims)[0],
-    animations: Object.keys(wadleAnims)
+    animation: Object.keys(wadle.animations)[0],
+    animations: Object.keys(wadle.animations)
   },
   metaKnight: {
     component: MetaKnight,
     autoplay: true,
     iFrame: 0,
-    animation: Object.keys(mkAnims)[0],
-    animations: Object.keys(mkAnims)
+    animation: Object.keys(metaknight.animations)[0],
+    animations: Object.keys(metaknight.animations)
   },
   explosion: {
     component: Explosion,

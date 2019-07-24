@@ -1,25 +1,43 @@
 <script>
 import { onMount } from 'svelte';
-import { TimelineMax, Linear } from 'gsap/all';
-import { Kirby, KirbyStare } from '../prefabs/kirby';
-import { Wadle, WadleStare } from '../prefabs/wadle';
-import Explosion from '../prefabs/Explosion';
+import { TimelineMax, Linear, Elastic } from 'gsap/all';
+import { Kirby, KirbyStare, kirby } from '../prefabs/kirby';
+import { Wadle, WadleStare, wadle } from '../prefabs/wadle';
 import Exclamation from '../prefabs/Exclamation';
 import GameLayout from '../ui/GameLayout';
 
 let backLayer$;
 let frontLayer$;
+let charaLayer$;
 let score = 0;
-let explosion = {
-  frame: 0,
-  play: false
+let tl;
+let winner, loser;
+
+const heroes = {
+  [kirby.id]: Kirby,
+  [wadle.id]: Wadle,
 };
 
-$: if (explosion.play) {
-  explosion.frame = 0;
-}
+const getHeroComponent = (hero) => heroes[hero.id];
 
-let tl;
+const game = {
+  state: 'running',
+  me: {
+    hero: {
+      ...kirby,
+      state: 'idle',
+      component: getHeroComponent(kirby)
+    }
+  },
+  opponent: { 
+    hero: {
+      ...wadle,
+      state: 'idle',
+      component: getHeroComponent(wadle)
+    }
+  }
+};
+
 function initScenario() {
   const fireAt = 1; // 1 seconde 
   const reactTime = 0.8;  
@@ -36,16 +54,26 @@ function initScenario() {
     .to(frontLayer$.querySelector('.Exclamation'), 0, { opacity: 1 }, `+=${fireAt}`)
     .call(() => score = 8, null, this, `+=${reactTime}`)
     .to(frontLayer$.querySelector('.Exclamation'), 0, { opacity: 0 })
-    // white background
-    .to(backLayer$.querySelector('.mask'), 0, { background: 'white', opacity: 1 })
     .addLabel('hit', '+=0.03')
+    // shaking effect
+    // .to([backLayer$, charaLayer$], 0, { y: 1 }, 'hit')
+    // .to([backLayer$, charaLayer$], 0.05, { y: 0, ease: Elastic.easeOut.config( 5, 0.1) }, 'hit')
     // red hit background
     .to(backLayer$, 0, { mixBlendMode: 'lighten' }, 'hit')
-    .to(backLayer$.querySelector('.mask'), 0.1, { background: 'red'}, 'hit')
+    .to(backLayer$.querySelector('.mask'), 0, { opacity: 1 }, 'hit')
+    .to(backLayer$.querySelector('.mask'), 0.04, { background: 'red'}, 'hit')
     .addLabel('hit:after')
     .to(backLayer$, 0, { mixBlendMode: 'normal'}, 'hit:after') // remove red hit backgroubd
-    .to(backLayer$.querySelector('.mask'), 0, { background: 'transparent', opacity: 0}, 'hit:after')
-    //
+    .to(backLayer$.querySelector('.mask'), 0.04, { background: 'white' }, 'hit:after')
+    .to(backLayer$.querySelector('.mask'), 0, { background: 'transparent', opacity: 0})
+    .call(() => {
+      winner = game.me;
+      loser = game.opponent;
+      winner.hero.state = 'attack_' + loser.hero.id;
+      loser.hero.state = 'death_' + winner.hero.id;
+      game.state = 'complete';
+      game = game;
+    });
 }
 
 function toggleScenario() {
@@ -58,15 +86,10 @@ function toggleScenario() {
     tl.play()
   }
 }
-
-function toggleExplosion() {
-  explosion.play = !explosion.play
-}
 </script>
 
 <div class="debug-bar">
   <button on:click={toggleScenario}>Toggle</button>
-  <button on:click={toggleExplosion}>toggle explosion</button>
 </div>
 
 <GameLayout toScore={score}>
@@ -75,23 +98,32 @@ function toggleExplosion() {
     <KirbyStare from="left"/>
     <WadleStare from="right"/>
   </div>
-  <div class="character-layer layer">
+  <div class="character-layer layer" bind:this={charaLayer$}>
     <div class="chara is-left">
-      <Explosion
-        bind:iFrame={explosion.frame}
-        autoplay={explosion.play}
-        class={explosion.play ? 'is-active' : ''}
-        on:complete={() => explosion.play = false}
+      <svelte:component
+        this={game.me.hero.component}
+        animation={game.me.hero.state}
       />
-      <Kirby animation="idle"/>
     </div>
     <div class="chara is-right">
-      <Explosion autoplay={false} on:complete={console.log}/>
-      <Wadle  animation="idle"/>
+      <svelte:component
+        this={game.opponent.hero.component}
+        animation={game.opponent.hero.state}
+        placement="right"
+      />
     </div>
   </div>
   <div class="front-layer layer" bind:this={frontLayer$}>
     <Exclamation qty="1"/>
+    <div class="endgame-feedback">
+      {#if game.state === 'complete'}
+        <div class="endgame-feedback__label">
+          {#if winner} Winner {winner.hero.name}!!
+          {:else} Tie
+          {/if}
+        </div>
+      {/if}
+    </div>
   </div>
 </GameLayout>
 
@@ -107,7 +139,7 @@ function toggleExplosion() {
 }
 
 .back-layer {
-  z-index: 1;
+  & { z-index: 1; }
 
   .mask {
     position: absolute;
@@ -117,9 +149,10 @@ function toggleExplosion() {
   }
 
   :global(.Stare) {
-    position: absolute;
-    left: 0; 
-    right: 0;
+    & {
+      position: absolute;
+      left: 0; right: 0;
+    }
 
     &.from-left { top: 0; }
     &.from-right { bottom: 0; }
@@ -127,39 +160,45 @@ function toggleExplosion() {
 }
 
 .character-layer {
-  z-index: 3;
+  & { z-index: 3; }
 
   :global(.chara) {
-    position: absolute;
-    bottom: 67px;
-
-    &.is-left {
-      left: 46px;
+    
+    & { 
+      position: absolute;
+      bottom: 67px;
     }
-   
-    &.is-right {
-      transform: rotateY(180deg);
-      right: 65px;
-    }
-  }
 
-  :global(.Explosion) {
-    display: none;
-  }
-  
-  :global(.Explosion.is-active) {
-    display: block;
+    &.is-left { left: 46px; }
+    &.is-right { right: 65px; }
   }
 }
 
 .front-layer {
-  z-index: 4;
+  & { z-index: 4; }
 
   :global(.Exclamation) {
     position: absolute;
-    left: 105px;
-    top: 102px;
+    top: 102px; left: 105px; 
     opacity: 0;
+  }
+}
+
+.endgame-feedback {
+  & {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;  
+  }
+
+  .endgame-feedback__label {
+    position: absolute;
+    bottom: 24px;
+    width: 100%;
+    text-align: center;
+    font-family: MatchupPro, sans-serif;
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 23px;
   }
 }
 </style>

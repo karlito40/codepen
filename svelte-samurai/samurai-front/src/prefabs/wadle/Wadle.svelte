@@ -1,35 +1,66 @@
-<script context="module">
-export const animations = {
-  idle: [
-    { width: 29, height: 22, x: 360, y: 142 },
-  ],
-  attack: [
-    { width: 40, height: 31, x: 519, y: 131 },
-    { width: 53, height: 36, x: 399, y: 128 },
-    { width: 53, height: 22, x: 459, y: 140 },
-  ],
-  death: [
-    { width: 40, height: 35, x: 571, y: 129 },
-    { width: 45, height: 24, x: 623, y: 134 },
-  ]
-};
-</script>
-
 <script>
+import { tick } from 'svelte';
+import { TweenMax } from 'gsap/all';
 import Sprite from '../../core/Sprite';
+import Chara from '../utils/Chara';
+import wadle from './entity';
 
+let chara$;
 let className = '';
 export { className as class };
 export let animation;
 export let iFrame = 0;
 export let autoplay = true;
+export let placement;
 
-$: frames = animations[animation];
+$: frames = wadle.animations[animation];
+$: if(animation.includes('death') && !wadle.animations[animation]) {
+  animation = 'death';
+}
+
+/* IDLE */
+$: if(animation === 'idle') {
+  moveChara(0);
+}
+
+/* ATTACK */
+$: {
+  if(animation.includes('attack') && !wadle.animations[animation]) {
+    animation = 'attack';
+  }
+
+  if(animation.includes('attack')) {
+    moveChara(110);
+  }
+}
+
+/* DEATH */
+$: {
+  if(animation.includes('death') && !wadle.animations[animation]) {
+    animation = 'death';
+  }
+
+  if(animation.includes('death')) {
+    moveChara(90);
+  }
+}
+
+async function moveChara(by) {
+  await tick();
+  const dir = placement === 'right' ? -1 : 1;
+  TweenMax.set(chara$, { x: by * dir });
+}
 </script>
 
-<Sprite 
-  class="Wadle {className}"
-  frames={frames} 
-  autoplay={autoplay}
-  bind:iFrame={iFrame}
-/>
+<Chara 
+  class="Wadle {className}" 
+  state={animation} 
+  placement={placement}
+  bind:el$={chara$}
+>
+  <Sprite 
+    frames={frames} 
+    autoplay={autoplay}
+    bind:iFrame={iFrame}
+  />
+</Chara>

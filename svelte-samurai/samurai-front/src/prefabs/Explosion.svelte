@@ -23,7 +23,7 @@ export let iFrame = 0;
     frames={frames} 
     autoplay={autoplay}
     bind:iFrame={iFrame}
-    speed="40"
+    speed="30"
     on:complete
   />
 </div>
