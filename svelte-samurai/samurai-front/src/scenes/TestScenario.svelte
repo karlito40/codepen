@@ -9,6 +9,7 @@ import GameLayout from '../ui/GameLayout';
 let backLayer$;
 let frontLayer$;
 let charaLayer$;
+let curtainLayer$;
 let score = 0;
 let tl;
 let winner, loser;
@@ -78,7 +79,12 @@ function initScenario() {
     .addLabel('endgame', '+=0.1')
     .to(frontLayer$.querySelectorAll('.endgame'), 0, { opacity: 1 }, 'endgame')
     .from(frontLayer$.querySelectorAll('.sign.no-tie'), 0.2, { height: 0, ease: Linear.easeNone }, 'engame')
-    .from(frontLayer$.querySelectorAll('.sign.winner'), 0.3, { height: 0, ease: Linear.easeNone }, 'engame');
+    .from(frontLayer$.querySelectorAll('.sign.winner'), 0.3, { height: 0, ease: Linear.easeNone }, 'engame')
+    .addLabel('next-round', 'endgame+=1.4')
+    .to(frontLayer$.querySelector('.endgame__label'), 0, { opacity: 0 }, 'next-round')
+    .to(frontLayer$.querySelectorAll('.sign.no-tie'), 0.2, { height: 0, ease: Linear.easeNone }, 'next-round+=0.2')
+    .to(frontLayer$.querySelectorAll('.sign.winner'), 0.3, { height: 0, ease: Linear.easeNone }, 'next-round+=0.2')
+    .to(curtainLayer$, 1, { opacity: 1 }, '+=0.4')
 }
 
 function toggleScenario() {
@@ -103,6 +109,7 @@ function toggleScenario() {
     <KirbyStare from="left"/>
     <WadleStare from="right"/>
   </div>
+
   <div class="character-layer layer" bind:this={charaLayer$}>
     <div class="chara is-left">
       <svelte:component
@@ -118,6 +125,7 @@ function toggleScenario() {
       />
     </div>
   </div>
+
   <div class="front-layer layer" bind:this={frontLayer$}>
     <Exclamation qty="1"/>
     <div class="versus">
@@ -134,21 +142,22 @@ function toggleScenario() {
         <div class="info__count">0</div>
       </div>
     </div>
-
     <div class="endgame">
-      {#if game.state === 'complete'}
-        <div class="endgame__label">
-          {#if winner} Winner {winner.hero.name}!!
-          {:else} Tie
-          {/if}
-        </div>
-      {/if}
-
+      <div class="endgame__label">
+        {#if game.state === 'complete'}
+          {winner 
+            ? `Winner ${winner.hero.name}`
+            : 'Tie'
+          }
+        {/if}
+      </div>
       <div class="endgame__sign">
         <div class="sign no-tie"></div>
         <div class="sign winner"></div>
       </div>
     </div>
+
+    <div class="curtain-layer" bind:this={curtainLayer$}></div>
   </div>
 </GameLayout>
 
@@ -161,6 +170,14 @@ function toggleScenario() {
 .debug-bar {
   position: absolute;
   z-index: 10;
+}
+
+.curtain-layer {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: black;
+  opacity: 0;
+  z-index: 20;
 }
 
 .back-layer {
