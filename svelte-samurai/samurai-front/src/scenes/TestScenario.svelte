@@ -51,6 +51,7 @@ function initScenario() {
     .to(backLayer$.querySelectorAll('.Stare'), 0, { opacity: 0 }, '+=1.5')
   // suppression du fond noir
     .to(backLayer$.querySelectorAll('.mask'), 0.3, { opacity: 0 })
+    .to(frontLayer$.querySelector('.versus'), 0, { opacity: 1 })
     .to(frontLayer$.querySelector('.Exclamation'), 0, { opacity: 1 }, `+=${fireAt}`)
     .call(() => score = 8, null, this, `+=${reactTime}`)
     .to(frontLayer$.querySelector('.Exclamation'), 0, { opacity: 0 })
@@ -73,7 +74,11 @@ function initScenario() {
       loser.hero.state = 'death_' + winner.hero.id;
       game.state = 'complete';
       game = game;
-    });
+    })
+    .addLabel('endgame', '+=0.1')
+    .to(frontLayer$.querySelectorAll('.endgame'), 0, { opacity: 1 }, 'endgame')
+    .from(frontLayer$.querySelectorAll('.sign.no-tie'), 0.2, { height: 0, ease: Linear.easeNone }, 'engame')
+    .from(frontLayer$.querySelectorAll('.sign.winner'), 0.3, { height: 0, ease: Linear.easeNone }, 'engame');
 }
 
 function toggleScenario() {
@@ -115,14 +120,34 @@ function toggleScenario() {
   </div>
   <div class="front-layer layer" bind:this={frontLayer$}>
     <Exclamation qty="1"/>
-    <div class="endgame-feedback">
+    <div class="versus">
+      <div class="info">
+        <div class="info__label">Karl</div>
+        <div class="info__count">0</div>
+      </div>
+      <div class="info">
+        <div class="info__label">Left</div>
+        <div class="info__count">1</div>
+      </div>
+      <div class="info">
+        <div class="info__label">Jack</div>
+        <div class="info__count">0</div>
+      </div>
+    </div>
+
+    <div class="endgame">
       {#if game.state === 'complete'}
-        <div class="endgame-feedback__label">
+        <div class="endgame__label">
           {#if winner} Winner {winner.hero.name}!!
           {:else} Tie
           {/if}
         </div>
       {/if}
+
+      <div class="endgame__sign">
+        <div class="sign no-tie"></div>
+        <div class="sign winner"></div>
+      </div>
     </div>
   </div>
 </GameLayout>
@@ -153,7 +178,6 @@ function toggleScenario() {
       position: absolute;
       left: 0; right: 0;
     }
-
     &.from-left { top: 0; }
     &.from-right { bottom: 0; }
   }
@@ -163,12 +187,10 @@ function toggleScenario() {
   & { z-index: 3; }
 
   :global(.chara) {
-    
     & { 
       position: absolute;
       bottom: 67px;
     }
-
     &.is-left { left: 46px; }
     &.is-right { right: 65px; }
   }
@@ -184,13 +206,14 @@ function toggleScenario() {
   }
 }
 
-.endgame-feedback {
+.endgame {
   & {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;  
+    top: 0; left: 0; right: 0; bottom: 0;
+    opacity: 0;
   }
 
-  .endgame-feedback__label {
+  .endgame__label {
     position: absolute;
     bottom: 24px;
     width: 100%;
@@ -200,5 +223,71 @@ function toggleScenario() {
     text-shadow: 1px 1px black;
     font-size: 23px;
   }
+
+  .endgame__sign {
+    .no-tie {
+      background: url(/samurai-kirby.png) no-repeat -34px -105px;
+      width: 22px;
+      height: 38px;
+      position: absolute;
+      top: 35px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .winner {
+      background: url(/samurai-kirby.png) no-repeat -676px -102px;
+      width: 22px;
+      height: 70px;
+      position: absolute;
+      top: 35px;
+      left: 40px;
+    }
+  }
+}
+
+.versus {
+  & {
+    display: flex;
+    position: absolute;
+    top: 20px;
+    left: 40px; 
+    right: 40px;
+    opacity: 0;
+  }
+  
+  .info {
+    & { flex: 1; }
+    &:nth-child(2) { text-align: center; }
+    &:last-child { text-align: right; }
+  }
+
+  .info__label {
+    font-family: MatchupPro, sans-serif;
+    color: #061d9a;
+    text-shadow: 0 0px 2px #7d7676;
+    font-size: 14px;
+  }
+
+  .info:nth-child(2) .info__label {
+    color: white;
+  }
+
+  .info:first-child .info__count, 
+  .info:last-child .info__count {
+    animation: blinker 0.5s step-start infinite;
+  }
+
+  .info__count {
+    font-family: 'Vontens', cursive;
+    color: #e0c90c;
+    font-size: 28px;
+    position: relative;
+    top: -4px;
+  }
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
 }
 </style>
