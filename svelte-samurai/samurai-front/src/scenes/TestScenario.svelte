@@ -1,10 +1,10 @@
 <script>
-import { onMount } from 'svelte';
 import { TimelineMax, Linear, Elastic } from 'gsap/all';
 import { Kirby, KirbyStare, kirby } from '../prefabs/kirby';
 import { Wadle, WadleStare, wadle } from '../prefabs/wadle';
 import Exclamation from '../prefabs/Exclamation';
 import GameLayout from '../ui/GameLayout';
+import SignScore from '../ui/SignScore';
 
 let backLayer$;
 let frontLayer$;
@@ -103,7 +103,7 @@ function toggleScenario() {
   <button on:click={toggleScenario}>Toggle</button>
 </div>
 
-<GameLayout toScore={score}>
+<GameLayout>
   <div class="back-layer layer" bind:this={backLayer$}>
     <div class="mask"></div>
     <KirbyStare from="left"/>
@@ -159,6 +159,8 @@ function toggleScenario() {
 
     <div class="curtain-layer" bind:this={curtainLayer$}></div>
   </div>
+
+  <SignScore toScore={score}/>
 </GameLayout>
 
 <style lang="less">

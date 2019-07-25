@@ -29,7 +29,11 @@ module.exports = {
 						hotReload: true,
 						preprocess: {
 							style: less(),
-						}
+						},
+						onwarn: (warning, handler) => {
+							if (warning.code === 'a11y-autofocus') return;
+							handler(warning);
+						},
 					}
 				}
 			},

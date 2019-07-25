@@ -9,7 +9,7 @@
     "serve": "^11.0.0",
     "style-loader": "^0.23.1",
     "svelte": "^3.6.8",
-    "svelte-loader": "2.13.3",
+    "svelte-loader": "^2.13.5",
     "svelte-preprocess-less": "^0.4.0",
     "webpack": "^4.30.0",
     "webpack-bundle-analyzer": "^3.3.2",

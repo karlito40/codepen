@@ -1,0 +1,92 @@
+<script>
+import { onMount } from 'svelte';
+import { TimelineMax } from 'gsap/all';
+import GameLayout from '../ui/GameLayout';
+import store from '../store';
+import RegisterForm from './RegisterForm';
+import MatchMaking from './MatchMaking';
+import Game from './Game';
+
+let scene = {
+  name: undefined,
+  key: undefined,
+  ready: false
+};
+
+let sceneReady = false;
+let curtainLayer$;
+let tl;
+
+$: if (scene.name === RegisterForm && $store.me) {
+  goTo(MatchMaking);
+}
+
+$: if (scene.name !== Game && $store.game) {
+  goTo(Game);
+}
+
+function goTo(nextScene) {
+  scene.ready = false;
+  if(tl) {
+    tl.kill();
+  }
+  
+  const leaveDuration = scene ? 0.6 : 0;
+
+  tl = new TimelineMax();
+  tl
+    .to(curtainLayer$, leaveDuration, { opacity: 1 })
+    .call(() => scene.name = nextScene)
+    .to(curtainLayer$, 0.6, { opacity: 0 })
+    .call(() => {
+      scene.ready = true;
+      tl = null
+    });
+}
+
+function onComplete() {
+  console.log('on complete')
+}
+
+onMount(() => goTo(RegisterForm));
+</script>
+
+<svelte:head>
+	<title>Samurai Kirby !</title>
+</svelte:head>
+
+<div class="Home">
+  <GameLayout>
+    {#if scene.name}
+      {#each [scene] as item, i (item.key)}
+        <svelte:component 
+          this={scene.name} 
+          ready={scene.ready}
+          on:complete={onComplete}
+        />
+      {/each}
+    {/if}
+    <div class="curtain-layer" bind:this={curtainLayer$}></div>
+  </GameLayout>
+</div>
+
+<style lang="less">
+.Home {
+  & { height: 100%; width: 100%; }
+
+  :global(.UserForm) {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.curtain-layer {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: black;
+  opacity: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+</style>

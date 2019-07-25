@@ -1,10 +1,8 @@
 import { CSSPlugin }  from "gsap/all"
-import * as Socket from './socket';
 import App from './App.svelte';
+import './socket';
 
-const treeShakingStore = [CSSPlugin];
-
-Socket.init();
+const treeShakingCompliant = [CSSPlugin];
 
 const app = new App({
 	target: document.body

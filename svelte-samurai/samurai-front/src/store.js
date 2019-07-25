@@ -4,9 +4,10 @@ import { writable } from 'svelte/store';
 const { subscribe, update } = writable({
   connected: false,
   searching: false,
+  me: undefined,
   nbPlayers: 0,
-  battles: [],
-  selectedBattle: undefined
+  games: [],
+  game: undefined
 });
 
 export default {

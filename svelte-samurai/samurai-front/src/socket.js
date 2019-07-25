@@ -1,39 +1,38 @@
 import io from 'socket.io-client';
 import store from './store';
 
-let _socket = undefined;
+const socket = io('http://localhost:3006');
+socket.on('connect', () => {
+  console.log('- socket connect');
+  store.merge({ connected: true });
+});
 
-export function init() {
-  _socket = io('http://localhost:3006');
-  _socket.on('connect', () => {
-    console.log('- socket connect');
-    store.merge({ connected: true });
-  });
+socket.on('change', (changes) => {
+  console.log('change -', changes);
+  store.merge(changes);
+});
 
-  _socket.on('change', (override) => {
-    store.merge(override);
-  });
+socket.on('disconnect', () => {
+  console.log('- socket disconnect');
+  store.merge({ connected: false });
+});
 
-  _socket.on('disconnect', () => {
-    console.log('- socket disconnect');
-    store.merge({ connected: false });
-  });
-  
-  _socket.on('reconnect', () => {
-    console.log('- socket reconnect');
-    store.merge({ connected: true });
-  });
-}
+socket.on('reconnect', () => {
+  console.log('- socket reconnect');
+  store.merge({ connected: true });
+});
 
-export const battle = {
+export const game = {
   join() {
     store.merge({ searching: true });
-    _socket.emit('battle.join')
+    socket.emit('game.join')
   },
-  list: () => _socket.emit('battle.list'),
-  attack: () => _socket.emit('battle.attack')
-}
+  ready: () => {
+    console.log('ready ->')
+    socket.emit('game.ready')
+  },
+  list: () => socket.emit('game.list'),
+  attack: () => socket.emit('game.attack')
+};
 
-export function socket() {
-  return _socket;
-}
+export default socket;

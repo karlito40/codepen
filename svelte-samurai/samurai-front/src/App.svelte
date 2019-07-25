@@ -6,7 +6,7 @@ import { onDestroy } from 'svelte';
 let Route, params;
 
 const router = Navaid('/')
-  .on('/', () => import('./scenes/Game.svelte').then(renderRoute))
+  .on('/', () => import('./scenes/Home.svelte').then(renderRoute))
   .on('/sprites', () => import('./scenes/TestSprite.svelte').then(renderRoute))
   .on('/scenarios', () => import('./scenes/TestScenario.svelte').then(renderRoute))
   .listen();
@@ -39,6 +39,38 @@ function renderRoute(m, obj) {
   margin: 0;
   height: 100%;
   width: 100%;
+  font-family: MatchupPro, sans-serif;
+  user-select: none;
+}
+
+:global(input) {
+  font-family: MatchupPro, sans-serif;
+  outline: 0;
+  padding: 1px;
+}
+
+:global(button[type="submit"]) {
+  & {
+    cursor: pointer;
+    font-family: MatchupPro, sans-serif;
+    background: linear-gradient(to bottom, #f1e767 0%,#feb645 100%);
+    color: white;
+    text-shadow: 1px 1px black;
+    display: inline-block;
+    border-radius: 2px;
+    border: 1px solid #feb645;
+    transition: 0.2s all;
+    outline: 0;
+  }
+
+  &:hover {
+    border: 1px solid #f1e767;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+  }
+
+  &:active {
+    border: 1px solid black;
+  }
 }
 
 .App {
