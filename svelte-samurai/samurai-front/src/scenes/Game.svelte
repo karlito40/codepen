@@ -148,7 +148,12 @@ function startScenario () {
     .to(frontLayer$.querySelector('.endgame__label'), 0, { opacity: 0 }, 'next-round')
     .to(frontLayer$.querySelectorAll('.sign.no-tie'), 0.2, { height: 0, ease: Linear.easeNone }, 'next-round+=0.2')
     .to(frontLayer$.querySelectorAll('.sign.winner'), 0.3, { height: 0, ease: Linear.easeNone }, 'next-round+=0.2')
-    .call(() => dispatch('restart'), null, null, '+=0.4')
+    .call(() => {
+      // gameSocket.leave(() => {
+      //   store.leaveGame();
+      //   dispatch('complete');
+      // });
+    }, null, null, '+=0.4')
 }
 </script>
 

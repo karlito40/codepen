@@ -3,6 +3,7 @@ import { onMount } from 'svelte';
 import { TimelineMax } from 'gsap/all';
 import GameLayout from '../ui/GameLayout';
 import store from '../store';
+import { game as gameSocket } from '../socket';
 import RegisterForm from './RegisterForm';
 import MatchMaking from './MatchMaking';
 import Game from './Game';
@@ -36,7 +37,20 @@ function goTo(nextScene) {
   tl = new TimelineMax();
   tl
     .to(curtainLayer$, leaveDuration, { opacity: 1 })
-    .call(() => scene.name = nextScene)
+    .call(() => {
+      // if(scene.name === Game) {
+      //   tl.pause();
+      //   gameSocket.leave(() => {
+      //     store.leaveGame();
+      //     console.log('nextScene', nextScene);
+      //     scene.name = nextScene
+      //     tl.play();
+      //   });
+      // } else {
+      //   scene.name = nextScene
+      // }
+      scene.name = nextScene;
+    })
     .to(curtainLayer$, 0.6, { opacity: 0 })
     .call(() => {
       scene.ready = true;
@@ -45,7 +59,10 @@ function goTo(nextScene) {
 }
 
 function onComplete() {
-  console.log('on complete')
+  // console.log('on complete')
+  // if(scene.name === Game) {
+  //   goTo(MatchMaking);
+  // }
 }
 
 onMount(() => goTo(RegisterForm));
@@ -58,13 +75,11 @@ onMount(() => goTo(RegisterForm));
 <div class="Home">
   <GameLayout>
     {#if scene.name}
-      {#each [scene] as item, i (item.key)}
-        <svelte:component 
-          this={scene.name} 
-          ready={scene.ready}
-          on:complete={onComplete}
-        />
-      {/each}
+      <svelte:component 
+        this={scene.name} 
+        ready={scene.ready}
+        on:complete={onComplete}
+      />
     {/if}
     <div class="curtain-layer" bind:this={curtainLayer$}></div>
   </GameLayout>

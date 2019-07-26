@@ -12,7 +12,11 @@ const { subscribe, update } = writable({
 
 export default {
   subscribe,
-  merge: (data) => update(state => merge(state, data))
+  merge: (data) => update(state => merge(state, data)),
+  leaveGame: (data) => update(state => ({
+    ...state,
+    game: undefined
+  })),
 };
 
 /*

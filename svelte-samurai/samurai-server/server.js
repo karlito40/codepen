@@ -79,7 +79,6 @@ io.on('connection', function(socket) {
     console.log('client join matchmaking - ', socket.id);
     
     const rooms = Game.rooms(socket);
-    console.log('rooms', rooms);
     let room = rooms.find(room => room.length < 2 && !room.game.createdAt);
     
     if(!room) {
@@ -107,13 +106,21 @@ io.on('connection', function(socket) {
     // socket.emit('change', { games: Game.list(socket) });
   });
 
+  socket.on('game.leave', (ack) => {
+    const game = Game.current(socket);
+    socket.leave(game.id);
+    ack();
+  });
+
   socket.on('game.ready', () => {
     console.log('game.Ready', socket.user.id);
+
     Game.setUser(Game.current(socket), socket.user.id, { readyAt: Date.now() });
     const game = Game.current(socket);
     const readyList = game.users.filter((user) => user.readyAt);
     if(readyList.length === 2) {
-      const timer = parseInt(random(3, 7, true) * 1000);
+      const timer = parseInt(random(6, 9, true) * 1000);
+      console.log('timer', timer);
       Game.setAndEmit(socket, { startedAt: Date.now() });
 
       game._timeout = setTimeout(function() {
@@ -141,16 +148,20 @@ io.on('connection', function(socket) {
     }
     
     if(!game.winnerId) {
-      game.winnerId = (!game.fireAt) ? Game.getOpponent(socket) : socket.user.id;
+      game.winnerId = (!game.fireAt) ? Game.getOpponent(socket).id : socket.user.id;
       game.completedAt = Date.now();
 
-      io.to(gameId).emit('change', { 
+      io.to(gameId).emit('change', {
         game: {
           reactScore: game.fireAt ? (Date.now() - game.fireAt) / 10 : 0,
           winnerId: game.winnerId,
           completedAt: game.completedAt
         }
       });
+      
+      // setTimeout(() => {
+      //   io.to(gameId).emit('game.end');
+      // }, 1200)
     }
   });
 

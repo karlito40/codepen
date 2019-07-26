@@ -10,7 +10,7 @@ onMount(() => {
   gameSocket.join();
 
   const tl = new TimelineMax({ repeat: -1 });
-  tl.staggerTo(el$.querySelectorAll('span'), 0.5, { opacity: 1 }, 1.2)
+  tl.staggerTo(el$.querySelectorAll('span'), 0.5, { opacity: 1 }, 1.2);
 });
 </script>
 

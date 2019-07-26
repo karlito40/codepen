@@ -12,6 +12,11 @@ socket.on('change', (changes) => {
   store.merge(changes);
 });
 
+socket.on('game.end', () => {
+  console.log('game.end')
+  store.leaveGame();
+});
+
 socket.on('disconnect', () => {
   console.log('- socket disconnect');
   store.merge({ connected: false });
@@ -27,10 +32,8 @@ export const game = {
     store.merge({ searching: true });
     socket.emit('game.join')
   },
-  ready: () => {
-    console.log('ready ->')
-    socket.emit('game.ready')
-  },
+  leave: (cb) => socket.emit('game.leave', cb),
+  ready: () => socket.emit('game.ready'),
   list: () => socket.emit('game.list'),
   attack: () => socket.emit('game.attack')
 };
