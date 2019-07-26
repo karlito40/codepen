@@ -8,6 +8,7 @@ export default {
     attack: [
       { width: 53, height: 34, x: 45, y: 152 },
       { width: 53, height: 24, x: 104, y: 161 },
+      { width: 53, height: 24, x: 165, y: 162 },
       { width: 53, height: 24, x: 225, y: 163 },
     ],
     death: [
