@@ -149,6 +149,7 @@ function startScenario () {
     .to(frontLayer$.querySelectorAll('.sign.no-tie'), 0.2, { height: 0, ease: Linear.easeNone }, 'next-round+=0.2')
     .to(frontLayer$.querySelectorAll('.sign.winner'), 0.3, { height: 0, ease: Linear.easeNone }, 'next-round+=0.2')
     .call(() => {
+      dispatch('complete');
       // gameSocket.leave(() => {
       //   store.leaveGame();
       //   dispatch('complete');

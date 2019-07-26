@@ -4,7 +4,10 @@ import { TimelineMax } from 'gsap/all';
 import GameLayout from '../ui/GameLayout';
 import store from '../store';
 import { game as gameSocket } from '../socket';
+import Beekast from './Beekast';
 import RegisterForm from './RegisterForm';
+import EndSlide from './EndSlide';
+import Thanks from './Thanks';
 import MatchMaking from './MatchMaking';
 import Game from './Game';
 
@@ -22,7 +25,7 @@ $: if (scene.name === RegisterForm && $store.me) {
   goTo(MatchMaking);
 }
 
-$: if (scene.name !== Game && $store.game) {
+$: if (scene.name !== Game && $store.game && !$store.game.completedAt) {
   goTo(Game);
 }
 
@@ -32,8 +35,8 @@ function goTo(nextScene) {
     tl.kill();
   }
   
-  const leaveDuration = scene ? 0.6 : 0;
-
+  const leaveDuration = scene.name ? 0.6 : 0;
+  console.log('leaveDuration', leaveDuration);
   tl = new TimelineMax();
   tl
     .to(curtainLayer$, leaveDuration, { opacity: 1 })
@@ -60,12 +63,20 @@ function goTo(nextScene) {
 
 function onComplete() {
   // console.log('on complete')
-  // if(scene.name === Game) {
-  //   goTo(MatchMaking);
-  // }
+  if(scene.name === Beekast) {
+    goTo(RegisterForm)
+  }
+
+  if(scene.name === Game) {
+    goTo(EndSlide);
+  }
+  
+  if(scene.name === EndSlide) {
+    goTo(Thanks);
+  }
 }
 
-onMount(() => goTo(RegisterForm));
+onMount(() => goTo(Beekast));
 </script>
 
 <svelte:head>
