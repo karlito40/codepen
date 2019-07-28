@@ -1,11 +1,9 @@
 <script>
 import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 import { TimelineMax, Linear, Elastic } from 'gsap/all';
-import * as KirbyHero from '../heroes/kirby';
-import * as WadleHero from '../heroes/wadle';
-import * as MetaKnightHero from '../heroes/metaknight';
 import AssetExclamation from '../components/AssetExclamation';
 import UISignScore from '../components/UISignScore';
+import * as heroes from '../heroes';
 import { game as gameSocket } from '../socket';
 import store from '../store';
 
@@ -18,23 +16,8 @@ let prevStartedAt;
 let winner, loser;
 
 const dispatch = createEventDispatcher();
-const heroMap = {
-  [KirbyHero.kirby.id]: {
-    id: KirbyHero.kirby.id,
-    Body: KirbyHero.Kirby,
-    Stare: KirbyHero.KirbyStare
-  },
-  [WadleHero.wadle.id]: {
-    id: WadleHero.wadle.id,
-    Body: WadleHero.Wadle,
-    Stare: WadleHero.WadleStare
-  },
-  [MetaKnightHero.metaknight.id]: {
-    id: MetaKnightHero.metaknight.id,
-    Body: MetaKnightHero.MetaKnight,
-    Stare: MetaKnightHero.MetaKnightStare
-  }
-};
+
+const getHero = (heroId) => Object.values(heroes).find((hero) => hero.id === heroId);
 
 const userOpponent = $store.game.users.find((user) => user.id !== $store.me.id);
 let battle = {
@@ -43,16 +26,16 @@ let battle = {
     name: $store.me.name,
     hero: {
       state: 'idle',
-      // ...heroMap[$store.me.heroId]
-      ...heroMap[KirbyHero.kirby.id]
+      ...getHero($store.me.heroId)
+      // ...heroes.kirby
     }
   },
   opponent: {
     name: userOpponent.name,
     hero: {
       state: 'idle',
-      // ...heroMap[userOpponent.heroId]
-      ...heroMap[WadleHero.wadle.id]
+      ...getHero(userOpponent.heroId)
+      // ...heroes.wadle
     }
   }
 };
@@ -67,12 +50,6 @@ $: if(prevStartedAt !== $store.game.startedAt && $store.game.startedAt) {
 
 $: if(ready) {
   setTimeout(() => gameSocket.ready(), 1000);
-}
-
-let prevFireAt;
-$: if(tl && prevFireAt !== $store.game.fireAt) {
-  tl.play();
-  prevFireAt = $store.game.fireAt;
 }
 
 let prevWinnerId;
@@ -110,9 +87,9 @@ function startScenario () {
     .to(backLayer$.querySelectorAll('.mask'), 0.3, { opacity: 0 })
     .to(frontLayer$.querySelector('.versus'), 0, { opacity: 1 })
     .call(() => {
-      if(!$store.game.fireAt) { 
-        tl.pause() 
-      }
+      tl.pause();
+      const exclamationAt = $store.game.fireAt - Date.now();
+      setTimeout(() => { tl.play(); }, exclamationAt);
     })
     .to(frontLayer$.querySelector('.Exclamation'), 0, { opacity: 1 })
     .to(frontLayer$.querySelector('.Exclamation'), 0, { opacity: 0 }, '+=0.8')
@@ -149,10 +126,6 @@ function startScenario () {
     .to(frontLayer$.querySelectorAll('.sign.winner'), 0.3, { height: 0, ease: Linear.easeNone }, 'next-round+=0.2')
     .call(() => {
       dispatch('complete');
-      // gameSocket.leave(() => {
-      //   store.leaveGame();
-      //   dispatch('complete');
-      // });
     }, null, null, '+=0.4')
 }
 </script>
@@ -172,13 +145,13 @@ function startScenario () {
 <div class="character-layer layer" bind:this={charaLayer$}>
   <div class="chara is-left">
     <svelte:component
-      this={battle.me.hero.Body}
+      this={battle.me.hero.Character}
       animation={battle.me.hero.state}
     />
   </div>
   <div class="chara is-right">
     <svelte:component
-      this={battle.opponent.hero.Body}
+      this={battle.opponent.hero.Character}
       animation={battle.opponent.hero.state}
       placement="right"
     />

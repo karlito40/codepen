@@ -3,7 +3,7 @@ import { tick } from 'svelte';
 import { TweenMax } from 'gsap/all';
 import Sprite from '../../components/Sprite';
 import BaseCharacter from '../BaseCharacter';
-import kirby from './entity';
+import entity from './entity';
 
 let chara$;
 let className = '';
@@ -13,7 +13,7 @@ export let iFrame = 0;
 export let autoplay = true;
 export let placement;
 
-$: frames = kirby.animations[animation];
+$: frames = entity.animations[animation];
 
 /* IDLE */
 $: if(animation === 'idle') {
@@ -22,7 +22,7 @@ $: if(animation === 'idle') {
 
 /* ATTACK */
 $: {
-  if(animation.includes('attack') && !kirby.animations[animation]) {
+  if(animation.includes('attack') && !entity.animations[animation]) {
     animation = 'attack';
   }
 
@@ -33,7 +33,7 @@ $: {
 
 /* DEATH */
 $: {
-  if(animation.includes('death') && !kirby.animations[animation]) {
+  if(animation.includes('death') && !entity.animations[animation]) {
     animation = 'death';
   }
 

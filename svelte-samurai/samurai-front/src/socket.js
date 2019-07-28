@@ -32,7 +32,7 @@ export const game = {
     store.merge({ searching: true });
     socket.emit('game.join')
   },
-  leave: (cb) => socket.emit('game.leave', cb),
+  // leave: (cb) => socket.emit('game.leave', cb),
   ready: () => socket.emit('game.ready'),
   list: () => socket.emit('game.list'),
   attack: () => socket.emit('game.attack')

@@ -1,3 +1,3 @@
-export { kirby } from './kirby';
-export { wadle } from './wadle';
-export { metaknight } from './metaknight';
+export { default as kirby } from './kirby';
+export { default as wadle } from './wadle';
+export { default as metaKnight } from './metaknight';

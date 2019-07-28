@@ -15,12 +15,15 @@ export let from = 'left'; // ['left', 'right']
   height: 44px;
   width: 100%;
 
-  &.from-left :global(> *) {
-    transform: translateX(-100%);
-  }
-  
-  &.from-right :global(> *) {
+  :global(> *) {
+    position: absolute;
+    top: 0;
+    right: 0;
     transform: translateX(100%);
+  }
+
+  &.from-left {
+    transform: rotateY(180deg);
   }
 }
 

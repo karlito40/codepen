@@ -1,31 +1,29 @@
 <script>
 import LayoutGame from '../components/LayoutGame';
-import { Kirby, kirby } from '../heroes/kirby';
-import { Wadle, wadle } from '../heroes/wadle';
-import { MetaKnight, metaknight } from '../heroes/metaknight';
+import { kirby, wadle, metaKnight } from '../heroes';
 import SpriteExplosion, { frames as explosionFrames } from '../components/SpriteExplosion';
 
 const sprites = {
   kirby: {
-    component: Kirby,
+    component: Kirby.Character,
     autoplay: true,
     iFrame: 0,
     animation: Object.keys(kirby.animations)[0],
     animations: Object.keys(kirby.animations)
   },
   wadle: {
-    component: Wadle,
+    component: Wadle.Character,
     autoplay: true,
     iFrame: 0,
     animation: Object.keys(wadle.animations)[0],
     animations: Object.keys(wadle.animations)
   },
   metaKnight: {
-    component: MetaKnight,
+    component: MetaKnight.Character,
     autoplay: true,
     iFrame: 0,
-    animation: Object.keys(metaknight.animations)[0],
-    animations: Object.keys(metaknight.animations)
+    animation: Object.keys(metaKnight.animations)[0],
+    animations: Object.keys(metaKnight.animations)
   },
   explosion: {
     component: SpriteExplosion,

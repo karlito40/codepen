@@ -1,3 +1,9 @@
-export { default as Wadle } from './Wadle';
-export { default as WadleStare } from './WadleStare';
-export { default as wadle } from './entity';
+import Character from './WadleCharacter';
+import Stare from './WadleStare';
+import entity from './entity';
+
+export default {
+  ...entity,
+  Character,
+  Stare
+};

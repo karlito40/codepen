@@ -25,19 +25,13 @@ const Game = {
 
   setAndEmit (socket, changes) {
     const game = this.current(socket);
-    Object.entries(changes).forEach(([k, v]) => {
-      game[k] = v;
-    });
-    
+    Object.assign(game, changes);
     io.to(game.id).emit('change', { game });
   },
 
   setUser(game, userId, changes) {
     const user = game.users.find((user) => user.id === userId);
-    Object.entries(changes).forEach(([k, v]) => {
-      user[k] = v;
-    });
-
+    Object.assign(user, changes);
     return this;
   },
 
@@ -102,15 +96,13 @@ io.on('connection', function(socket) {
         game: game
       });
     }
-    
-    // socket.emit('change', { games: Game.list(socket) });
   });
 
-  socket.on('game.leave', (ack) => {
-    const game = Game.current(socket);
-    socket.leave(game.id);
-    ack();
-  });
+  // socket.on('game.leave', (ack) => {
+  //   const game = Game.current(socket);
+  //   socket.leave(game.id);
+  //   ack();
+  // });
 
   socket.on('game.ready', () => {
     console.log('game.Ready', socket.user.id);
@@ -120,17 +112,17 @@ io.on('connection', function(socket) {
     const readyList = game.users.filter((user) => user.readyAt);
     if(readyList.length === 2) {
       const timer = parseInt(random(6, 9, true) * 1000);
-      console.log('timer', timer);
-      Game.setAndEmit(socket, { startedAt: Date.now() });
-
-      game._timeout = setTimeout(function() {
-        Game.setAndEmit(socket, { fireAt: Date.now() });
-      }, timer);
+      console.log('timer:', timer);
+      Game.setAndEmit(socket, { 
+        startedAt: Date.now(),
+        fireAt: Date.now() + timer
+      });
     }
   });
 
   socket.on('game.attack', () => {
     console.log('client attack - ', socket.id);
+
     const { gameId } = socket;
     const room = socket.adapter.rooms[gameId];
     
@@ -148,12 +140,14 @@ io.on('connection', function(socket) {
     }
     
     if(!game.winnerId) {
-      game.winnerId = (!game.fireAt) ? Game.getOpponent(socket).id : socket.user.id;
+      const reactTime = Date.now() - game.fireAt;
+      const isFalseStart = reactTime < 0;
+      game.winnerId = (isFalseStart) ? Game.getOpponent(socket).id : socket.user.id;
       game.completedAt = Date.now();
 
       io.to(gameId).emit('change', {
         game: {
-          reactScore: game.fireAt ? (Date.now() - game.fireAt) / 10 : 0,
+          reactScore: !isFalseStart ? reactTime / 10 : 0,
           winnerId: game.winnerId,
           completedAt: game.completedAt
         }

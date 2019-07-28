@@ -1,2 +1,9 @@
-export { default as MetaKnight } from './MetaKnight';
-export { default as metaknight } from './entity';
+import Character from './MetaKnightCharacter';
+import Stare from './MetaKnightStare';
+import entity from './entity';
+
+export default {
+  ...entity,
+  Character,
+  Stare
+};

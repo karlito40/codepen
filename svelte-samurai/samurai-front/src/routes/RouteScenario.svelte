@@ -1,10 +1,9 @@
 <script>
 import { TimelineMax, Linear, Elastic } from 'gsap/all';
-import { Kirby, KirbyStare, kirby } from '../heroes/kirby';
-import { Wadle, WadleStare, wadle } from '../heroes/wadle';
 import AssetExclamation from '../components/AssetExclamation';
 import LayoutGame from '../components/LayoutGame';
 import UISignScore from '../components/UISignScore';
+import { kirby, wadle, metaKnight } from '../heroes';
 
 let backLayer$;
 let frontLayer$;
@@ -14,27 +13,21 @@ let score = 0;
 let tl;
 let winner, loser;
 
-const heroes = {
-  [kirby.id]: Kirby,
-  [wadle.id]: Wadle,
-};
-
-const getHeroComponent = (hero) => heroes[hero.id];
-
 const game = {
   state: 'running',
   me: {
     hero: {
+      // ...kirby,
       ...kirby,
-      state: 'idle',
-      component: getHeroComponent(kirby)
+      // ...wadle,
+      state: 'idle'
     }
   },
   opponent: { 
     hero: {
-      ...wadle,
-      state: 'idle',
-      component: getHeroComponent(wadle)
+      ...metaKnight,
+      // ...kirby,
+      state: 'idle'
     }
   }
 };
@@ -106,20 +99,20 @@ function toggleScenario() {
 <LayoutGame>
   <div class="back-layer layer" bind:this={backLayer$}>
     <div class="mask"></div>
-    <KirbyStare from="left"/>
-    <WadleStare from="right"/>
+    <svelte:component this={game.me.hero.Stare} from="left"/>
+    <svelte:component this={game.opponent.hero.Stare} from="right"/>
   </div>
 
   <div class="character-layer layer" bind:this={charaLayer$}>
     <div class="chara is-left">
       <svelte:component
-        this={game.me.hero.component}
+        this={game.me.hero.Character}
         animation={game.me.hero.state}
       />
     </div>
     <div class="chara is-right">
       <svelte:component
-        this={game.opponent.hero.component}
+        this={game.opponent.hero.Character}
         animation={game.opponent.hero.state}
         placement="right"
       />

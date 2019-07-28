@@ -11,7 +11,6 @@ import SceneGame from '../scenes/SceneGame';
 import store from '../store';
 import { game as gameSocket } from '../socket';
 
-
 let scene = {
   name: undefined,
   key: undefined,
@@ -37,7 +36,6 @@ function goTo(nextScene) {
   }
   
   const leaveDuration = scene.name ? 0.6 : 0;
-  console.log('leaveDuration', leaveDuration);
   tl = new TimelineMax();
   tl
     .to(curtainLayer$, leaveDuration, { opacity: 1 })
