@@ -1,6 +1,6 @@
 <script>
-import Sprite from '../../core/Sprite';
-import Chara from '../utils/Chara';
+import Sprite from '../../components/Sprite';
+import BaseCharacter from '../BaseCharacter';
 import metaknight from './entity';
 
 let className = '';
@@ -16,11 +16,11 @@ $: if(animation.includes('death') && !metaknight.animations[animation]) {
 }
 </script>
 
-<Chara class="MetaKnight {className}" state={animation} placement={placement}>
+<BaseCharacter class="MetaKnight {className}" state={animation} placement={placement}>
   <Sprite 
     frames={frames} 
     autoplay={autoplay}
     bind:iFrame={iFrame}
   />
-</Chara>
+</BaseCharacter>
 

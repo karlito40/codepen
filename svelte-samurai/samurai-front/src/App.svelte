@@ -6,9 +6,9 @@ import { onDestroy } from 'svelte';
 let Route, params;
 
 const router = Navaid('/')
-  .on('/', () => import('./scenes/Home.svelte').then(renderRoute))
-  .on('/sprites', () => import('./scenes/TestSprite.svelte').then(renderRoute))
-  .on('/scenarios', () => import('./scenes/TestScenario.svelte').then(renderRoute))
+  .on('/', () => import('./routes/RouteHome.svelte').then(renderRoute))
+  .on('/sprites', () => import('./routes/RouteSprite.svelte').then(renderRoute))
+  .on('/scenarios', () => import('./routes/RouteScenario.svelte').then(renderRoute))
   .listen();
 
 onDestroy(router.unlisten);

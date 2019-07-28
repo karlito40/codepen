@@ -14,14 +14,14 @@ onMount(() => {
 });
 </script>
 
-<div class="MatchMaking" bind:this={el$}>
+<div class="SceneMatchMaking" bind:this={el$}>
   <div></div>
   <div>Searching match<span>.</span><span>.</span><span>.</span></div>
   <div>{ $store.nbPlayers } player(s) online</div>
 </div>
 
 <style lang="less">
-.MatchMaking {
+.SceneMatchMaking {
   position: absolute;
   z-index: 2;
   top: 0;

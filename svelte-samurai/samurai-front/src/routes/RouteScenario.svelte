@@ -1,10 +1,10 @@
 <script>
 import { TimelineMax, Linear, Elastic } from 'gsap/all';
-import { Kirby, KirbyStare, kirby } from '../prefabs/kirby';
-import { Wadle, WadleStare, wadle } from '../prefabs/wadle';
-import Exclamation from '../prefabs/Exclamation';
-import GameLayout from '../ui/GameLayout';
-import SignScore from '../ui/SignScore';
+import { Kirby, KirbyStare, kirby } from '../heroes/kirby';
+import { Wadle, WadleStare, wadle } from '../heroes/wadle';
+import AssetExclamation from '../components/AssetExclamation';
+import LayoutGame from '../components/LayoutGame';
+import UISignScore from '../components/UISignScore';
 
 let backLayer$;
 let frontLayer$;
@@ -103,7 +103,7 @@ function toggleScenario() {
   <button on:click={toggleScenario}>Toggle</button>
 </div>
 
-<GameLayout>
+<LayoutGame>
   <div class="back-layer layer" bind:this={backLayer$}>
     <div class="mask"></div>
     <KirbyStare from="left"/>
@@ -127,7 +127,7 @@ function toggleScenario() {
   </div>
 
   <div class="front-layer layer" bind:this={frontLayer$}>
-    <Exclamation qty="1"/>
+    <AssetExclamation qty="1"/>
     <div class="versus">
       <div class="info">
         <div class="info__label">Karl</div>
@@ -160,8 +160,8 @@ function toggleScenario() {
     <div class="curtain-layer" bind:this={curtainLayer$}></div>
   </div>
 
-  <SignScore toScore={score}/>
-</GameLayout>
+  <UISignScore toScore={score}/>
+</LayoutGame>
 
 <style lang="less">
 .layer {

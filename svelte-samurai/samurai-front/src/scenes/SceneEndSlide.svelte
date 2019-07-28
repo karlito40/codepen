@@ -1,3 +1,4 @@
+
 <script>
 import { onMount, createEventDispatcher } from 'svelte';
 
@@ -10,16 +11,16 @@ onMount(() => {
 })
 </script>
 
-<div class="Beekast">
-  <div>Beekast</div>
+<div class="SceneEndSlide">
+  <div>That's all folks !!!</div>
 </div>
 
 <style lang="less">
-.Beekast {
+.SceneEndSlide {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #2B2761;
+  background: black;
   color: white;
   text-align: center;
   height: 100%;

@@ -1,5 +1,5 @@
 <script>
-import Explosion from '../Explosion';
+import SpriteExplosion from '../components/SpriteExplosion';
 
 let className = '';
 export { className as class };
@@ -22,7 +22,7 @@ $: if (state.includes('death')) {
 
 <div class="Chara {className}" data-placement={placement} bind:this={el$}>
   <slot/>
-  <Explosion
+  <SpriteExplosion
     bind:iFrame={explosion.frame}
     autoplay={explosion.play}
     class={explosion.play ? 'is-active' : ''}

@@ -1,14 +1,14 @@
 <script>
-import Stare from '../Stare';
+import BaseStare from '../BaseStare';
 
 let className = '';
 export { className as class };
 export let from;
 </script>
 
-<Stare class="WadleStare {className}" from="{from}">
+<BaseStare class="WadleStare {className}" from="{from}">
   <div class="face"></div>
-</Stare>
+</BaseStare>
 
 <style lang="less">
 .face {

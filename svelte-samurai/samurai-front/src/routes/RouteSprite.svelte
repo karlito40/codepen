@@ -1,10 +1,9 @@
 <script>
-import GameLayout from '../ui/GameLayout';
-import Sprite from '../core/Sprite';
-import { Kirby, kirby } from '../prefabs/kirby';
-import { Wadle, wadle } from '../prefabs/wadle';
-import { MetaKnight, metaknight } from '../prefabs/metaknight';
-import Explosion, { frames as explosionFrames } from '../prefabs/Explosion';
+import LayoutGame from '../components/LayoutGame';
+import { Kirby, kirby } from '../heroes/kirby';
+import { Wadle, wadle } from '../heroes/wadle';
+import { MetaKnight, metaknight } from '../heroes/metaknight';
+import SpriteExplosion, { frames as explosionFrames } from '../components/SpriteExplosion';
 
 const sprites = {
   kirby: {
@@ -29,7 +28,7 @@ const sprites = {
     animations: Object.keys(metaknight.animations)
   },
   explosion: {
-    component: Explosion,
+    component: SpriteExplosion,
     autoplay: true,
     iFrame: 0,
     animation: explosionFrames,
@@ -38,7 +37,7 @@ const sprites = {
 };
 </script>
 
-<GameLayout>
+<LayoutGame>
   {#each Object.values(sprites) as sprite}
     <section class="animation">
       <div class="animation__body">
@@ -68,7 +67,7 @@ const sprites = {
       </div>
     </section>
   {/each}
-</GameLayout>
+</LayoutGame>
 
 <style lang="less">
 .animation__body, .animation__footer {

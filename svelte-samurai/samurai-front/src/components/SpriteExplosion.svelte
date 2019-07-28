@@ -9,7 +9,7 @@ export const frames = [
 </script>
 
 <script>
-import Sprite from '../core/Sprite';
+import Sprite from './Sprite';
 
 let className = '';
 export { className as class };

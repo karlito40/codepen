@@ -1,9 +1,9 @@
 <script>
 import { tick } from 'svelte';
 import { TweenMax } from 'gsap/all';
-import Sprite from '../../core/Sprite';
-import Chara from '../utils/Chara';
-import kirby from './entity';
+import Sprite from '../../components/Sprite';
+import BaseCharacter from '../BaseCharacter';
+import wadle from './entity';
 
 let chara$;
 let className = '';
@@ -13,7 +13,10 @@ export let iFrame = 0;
 export let autoplay = true;
 export let placement;
 
-$: frames = kirby.animations[animation];
+$: frames = wadle.animations[animation];
+$: if(animation.includes('death') && !wadle.animations[animation]) {
+  animation = 'death';
+}
 
 /* IDLE */
 $: if(animation === 'idle') {
@@ -22,7 +25,7 @@ $: if(animation === 'idle') {
 
 /* ATTACK */
 $: {
-  if(animation.includes('attack') && !kirby.animations[animation]) {
+  if(animation.includes('attack') && !wadle.animations[animation]) {
     animation = 'attack';
   }
 
@@ -33,7 +36,7 @@ $: {
 
 /* DEATH */
 $: {
-  if(animation.includes('death') && !kirby.animations[animation]) {
+  if(animation.includes('death') && !wadle.animations[animation]) {
     animation = 'death';
   }
 
@@ -49,10 +52,10 @@ async function moveChara(by) {
 }
 </script>
 
-<Chara 
-  class="Kirby {className}" 
+<BaseCharacter 
+  class="Wadle {className}" 
   state={animation} 
-  placement="{placement}"
+  placement={placement}
   bind:el$={chara$}
 >
   <Sprite 
@@ -60,4 +63,4 @@ async function moveChara(by) {
     autoplay={autoplay}
     bind:iFrame={iFrame}
   />
-</Chara>
+</BaseCharacter>

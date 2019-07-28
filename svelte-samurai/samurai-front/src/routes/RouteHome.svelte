@@ -1,15 +1,16 @@
 <script>
 import { onMount } from 'svelte';
 import { TimelineMax } from 'gsap/all';
-import GameLayout from '../ui/GameLayout';
+import LayoutGame from '../components/LayoutGame';
+import SceneSplashScreen from '../scenes/SceneSplashScreen';
+import SceneRegisterUser from '../scenes/SceneRegisterUser';
+import SceneEndSlide from '../scenes/SceneEndSlide';
+import SceneThanks from '../scenes/SceneThanks';
+import SceneMatchMaking from '../scenes/SceneMatchMaking';
+import SceneGame from '../scenes/SceneGame';
 import store from '../store';
 import { game as gameSocket } from '../socket';
-import Beekast from './Beekast';
-import RegisterForm from './RegisterForm';
-import EndSlide from './EndSlide';
-import Thanks from './Thanks';
-import MatchMaking from './MatchMaking';
-import Game from './Game';
+
 
 let scene = {
   name: undefined,
@@ -21,12 +22,12 @@ let sceneReady = false;
 let curtainLayer$;
 let tl;
 
-$: if (scene.name === RegisterForm && $store.me) {
-  goTo(MatchMaking);
+$: if (scene.name === SceneRegisterUser && $store.me) {
+  goTo(SceneMatchMaking);
 }
 
-$: if (scene.name !== Game && $store.game && !$store.game.completedAt) {
-  goTo(Game);
+$: if (scene.name !== SceneGame && $store.game && !$store.game.completedAt) {
+  goTo(SceneGame);
 }
 
 function goTo(nextScene) {
@@ -63,28 +64,28 @@ function goTo(nextScene) {
 
 function onComplete() {
   // console.log('on complete')
-  if(scene.name === Beekast) {
-    goTo(RegisterForm)
+  if(scene.name === SceneSplashScreen) {
+    goTo(SceneRegisterUser)
   }
 
-  if(scene.name === Game) {
-    goTo(EndSlide);
+  if(scene.name === SceneGame) {
+    goTo(SceneEndSlide);
   }
   
-  if(scene.name === EndSlide) {
-    goTo(Thanks);
+  if(scene.name === SceneEndSlide) {
+    goTo(SceneThanks);
   }
 }
 
-onMount(() => goTo(Beekast));
+onMount(() => goTo(SceneSplashScreen));
 </script>
 
 <svelte:head>
 	<title>Samurai Kirby !</title>
 </svelte:head>
 
-<div class="Home">
-  <GameLayout>
+<div class="RouteHome">
+  <LayoutGame>
     {#if scene.name}
       <svelte:component 
         this={scene.name} 
@@ -93,18 +94,18 @@ onMount(() => goTo(Beekast));
       />
     {/if}
     <div class="curtain-layer" bind:this={curtainLayer$}></div>
-  </GameLayout>
+  </LayoutGame>
 </div>
 
 <style lang="less">
-.Home {
+.RouteHome {
   & { height: 100%; width: 100%; }
 
-  :global(.UserForm) {
+  /* :global(.SceneRegisterUser) {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-  }
+  } */
 }
 
 .curtain-layer {

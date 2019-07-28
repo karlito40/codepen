@@ -1,4 +1,3 @@
-
 <script>
 import { onMount, createEventDispatcher } from 'svelte';
 
@@ -11,16 +10,16 @@ onMount(() => {
 })
 </script>
 
-<div class="EndSlide">
-  <div>That's all folks !!!</div>
+<div class="SceneSplashScreen">
+  <div>Karlito inc</div>
 </div>
 
 <style lang="less">
-.EndSlide {
+.SceneSplashScreen {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: black;
+  background: #2B2761;
   color: white;
   text-align: center;
   height: 100%;

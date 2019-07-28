@@ -1,7 +1,7 @@
 <script>
 import { createEventDispatcher } from 'svelte';
 import { sample } from 'lodash-es';
-import * as heroes from '../prefabs/heroes';
+import * as heroes from '../heroes';
 import socket from '../socket';
 
 const dispatch = createEventDispatcher();
@@ -18,7 +18,7 @@ function onSubmit() {
 }
 </script>
 
-<form class="UserForm" on:submit|preventDefault={onSubmit}>
+<form class="SceneRegisterUser" on:submit|preventDefault={onSubmit}>
 	<input 
     type="text"
     placeholder="Enter name..."
@@ -32,9 +32,12 @@ function onSubmit() {
 </form>
 
 <style>
-.UserForm {
+.SceneRegisterUser {
   display: flex;
   align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 
 input {

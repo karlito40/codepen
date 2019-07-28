@@ -26,7 +26,7 @@ function autoScale() {
 
 <svelte:window on:resize={autoScale}/>
 
-<div class="GameLayout" bind:this={game$}>
+<div class="LayoutGame" bind:this={game$}>
   <div 
     class="Game__body" 
     style="{`
@@ -41,7 +41,7 @@ function autoScale() {
 </div>
 
 <style lang="less">
-.GameLayout {
+.LayoutGame {
   width: 100%;
   height: 100%;
   display: flex;

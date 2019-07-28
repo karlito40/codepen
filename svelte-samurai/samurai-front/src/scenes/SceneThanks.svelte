@@ -1,10 +1,10 @@
 
-<div class="Thanks">
+<div class="SceneThanks">
   <div>Thanks for watching •ᴗ•</div>
 </div>
 
 <style lang="less">
-.Thanks {
+.SceneThanks {
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,12 +1,11 @@
 <script>
 import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 import { TimelineMax, Linear, Elastic } from 'gsap/all';
-import * as KirbyHero from '../prefabs/kirby';
-import * as WadleHero from '../prefabs/wadle';
-import * as MetaKnightHero from '../prefabs/metaknight';
-import Exclamation from '../prefabs/Exclamation';
-import GameLayout from '../ui/GameLayout';
-import SignScore from '../ui/SignScore';
+import * as KirbyHero from '../heroes/kirby';
+import * as WadleHero from '../heroes/wadle';
+import * as MetaKnightHero from '../heroes/metaknight';
+import AssetExclamation from '../components/AssetExclamation';
+import UISignScore from '../components/UISignScore';
 import { game as gameSocket } from '../socket';
 import store from '../store';
 
@@ -187,7 +186,7 @@ function startScenario () {
 </div>
 
 <div class="front-layer layer" bind:this={frontLayer$}>
-  <Exclamation qty="1"/>
+  <AssetExclamation qty="1"/>
   <div class="versus">
     <div class="info">
       <div class="info__label">{battle.me.name}</div>
@@ -218,7 +217,7 @@ function startScenario () {
   </div>
 </div>
 
-<SignScore toScore={reactScore}/>
+<UISignScore toScore={reactScore}/>
 
 <style lang="less">
 .layer {
