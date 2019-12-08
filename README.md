@@ -10,4 +10,3 @@ Les projets stockés ici servent uniquement à dépoussiérer des idées. Le cod
 | [vue-timeline-component](https://vue-timeline-component.now.sh/) | Animation d'état avec GSAP                                               | `Vue` `GSAP`               |
 | [vue-portal-class](https://vue-portal-class.now.sh/)             | Insertion de composant en dehors de leur contexte                        | `Vue`                      |
 | [web-builder](https://vue-web-builder.now.sh/)                   | Création de site web en "dessinant"                                      | `Vue` `Vuetify`            |
-| grid-builder                                                     | Création de site web en "grille"                                         | `TODO`                     |
