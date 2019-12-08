@@ -1,0 +1,61 @@
+version: "3.7"
+services:
+  nats:
+    image: 'nats:2.1-alpine3.10'
+    ports:
+      - "4222:4222"
+  mongo:
+    image: 'mongo'
+    ports:
+      - "27017:27017"
+  pulsar:
+    image: apachepulsar/pulsar:2.4.1
+    command: ["bin/pulsar", "standalone", "-nss"]
+    ports:
+      - "6650:6650"
+      - "8080:8080"
+  # pulsar-dashboard:
+  #   image: apachepulsar/pulsar-dashboard:2.4.1
+  #   ports:
+  #     - "8081:80"
+  #   environment:
+  #     - SERVICE_URL=http://pulsar:8080
+  graph:
+    image: bee/beepoc
+    volumes:
+      - ./micro:/deps/micro
+      - ./app/graph:/app/backend
+    depends_on:
+      - nats
+      - mongo
+      - pulsar
+    ports:
+      - "4000:4000"
+  user:
+    image: bee/beepoc
+    depends_on:
+      - nats
+      - mongo
+      - pulsar
+    volumes:
+      - ./micro:/deps/micro
+      - ./app/user:/app/backend
+  auth:
+    image: bee/beepoc
+    depends_on:
+      - nats
+      - mongo
+      - pulsar
+    volumes:
+      - ./micro:/deps/micro
+      - ./app/authentication:/app/backend
+  kast:
+    image: bee/beepoc
+    depends_on:
+      - nats
+      - mongo
+      - pulsar
+    volumes:
+      - ./micro:/deps/micro
+      - ./app/kast:/app/backend
+    

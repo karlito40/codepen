@@ -1,0 +1,63 @@
+# C'est quoi ce projet ?
+
+Ce projet était pour moi un moyen d'expression. Il m'a servi de champ d'étude et d'experimentation pour proposer des pistes d'évolutions à mon equipe/job actuel.
+
+L'idée était de déchiffrer plusieurs chantiers pour améliorer notre vie de tous les jours en tant que dev mais aussi pour améliorer les perfs de notre appli.
+
+J'ai donc du composer avec un existant, garder pas mal de truc (node, bdd, graph, vue & co) et éviter les breaking change. La majorité du code a été rush pour présenter un exemple le plus rapidement possible (notamment le front, oh god le front).
+
+Je mets ce projet en open source puisque la réception de celui-ci n'a pas été à la hauteur de mes attentes... et puisque j'ai tout développé sur mon temps perso... ca ne posera de problèmes à personne. Au final, j'aurais préféré continuer mes projets perso (speech flutter, sko, démineur battle royale) plutôt que de dev des trucs dont je connaissais déjà l'implémentation.
+
+## "Simple, Basique" - Le maitre mot.
+
+Les requetes rpc utilisent maintenant une api simple. On passe d'un `rpc.call('monService', 'maMethode', { data, meta })` à un `$monService.maMethode(data)` ou `$monService.opts(mesOptions).maMethode(data)`. Ce qui permet de faciliter grandement l'implementation de notre graph (et la clarté du code en général). 
+
+Le bootstrap d'un service ne passe plus par des copy/pasta de l'enfer mais par un systeme modulable qui permet d'importer seulement ce dont on a besoin et une meilleure maintenabilité (puisque plus de copy/pasta).
+
+On passe d'un systéme en mode full orchestration à un event driven modéré avec Pulsar (modéré parce que ce n'est jamais bon d'all in sur un et un seul pattern). On peut désormais faire de l'asynchrone et avoir des services qui s'occupent seulement de leur métier. Les avantages qui en découlent sont évident: fonctions plus courtes et plus simple à comprendre, plus besoin de mocker l'univers dans les tests, la vélocité est aussi accrue en facilitant l'ajout de feature.
+
+On arrete la multiplication des libs sans réel intéret pour n'en faire qu'une (création de micro) parce qu'en ce moment on ne sait jamais où mettre les choses ni même ou elles sont.
+
+On remplace rabbitmq par nats dans la gestion du pubsub et du rpc.
+
+On utilise moleculer pour le circuit breaker et la decouverte des services.
+
+Coté front, on utilise les providers pour controller les appelles graphs récurrents. 
+
+On montre également ce que devrait être un véritable design system à l'aide de Vuetify.
+
+
+## Fun stuff... parce qu'il faut bien se faire plaisir
+
+
+Le front dispose de @vue/composition-api pour tester Vue-3 en early access. Vous avez aussi accès à @babel/plugin-proposal-optional-chaining même si j'en ai pas eu besoin :/
+
+
+# Comment démarrer le bordel ?
+
+_Les commandes sont à lancer dans l'ordre_
+
+``` bash
+# Création de l'image docker de dev (necessaire qu'une fois)
+yarn beepoc:build
+
+yarn install
+
+# Install les packages de toutes les apps
+yarn bootstrap
+
+# Lancement du backend
+yarn up
+### yarn up equivaut à un docker-compose up. Vous pouvez utiliser toutes les fonctionnalites de docker-compose normalement. (docker-compose logs, docker-compose stop, docker-compose restart, ...)
+
+# Lancement du front (à effectuer toujours après le yarn up)
+yarn serve
+```
+
+
+Attention early adopters ! Pensez à supprimer vos node_modules pour supprimer toutes vos refs chiantes subsceptibles d'ecraser celles du docker-compose (link + pulsar-client)
+``` bash
+cd beepoc/
+find . -name "node_modules" -type d -prune -exec rm -rf '{}' +
+```
+

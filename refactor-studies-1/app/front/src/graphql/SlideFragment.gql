@@ -1,0 +1,6 @@
+fragment Slide on Slide {
+  id
+  title
+  color
+  duplicating
+}

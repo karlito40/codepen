@@ -1,0 +1,51 @@
+☐ find an idea to reconcialate account on error... 
+☐ use supply in apollo hooks ( beforeMount  + destroy)
+✔ molec mod => use logger mod @done(19-12-01 15:36)
+✔ stop broker on nodemon restart (graceful shutdown) @done(19-12-01 15:36)
+✔ convention over option by default @done(19-12-01 18:39)
+✔ listeners folder (prepare queue) @done(19-12-04 23:50)
+✔ clean vue-apollo graph generation @done(19-12-04 22:58)
+✔ findOneOrThrow @done(19-12-01 17:14)
+☐ enable transaction (replica mongo)
+✔ add avatar @done(19-12-01 18:15)
+☐ add decorator @Has('MyPermission')
+✔ joi input @done(19-12-01 19:32)
+✔ auto micro.stop @done(19-12-01 18:39)
+☐ vuetify skeleton loader
+☐ change internal_server_error graph response on input failed (it's not a fucking internal server error)
+☐ presence
+☐ simple cli for join participant
+☐ listener incr nbParticipant
+✔ duplicate kast @done(19-12-04 23:50)
+☐ automatic cache by tags...
+☐ i18n mods
+☐ handle error on bus callback
+✔ re-activer le temps reel @done(19-12-04 22:59)
+✔ magical bus listener api @done(19-12-04 23:50)
+☐ remove all refetch
+☐ auto generation doc sur les events disponibles
+☐ send only changes on slide.updated
+
+api exploration:
+  ☐ front provider: $user/$kast
+  ☐ const { timeline, kast } = this.$graph; 
+  ☐ $service.read(simple-ql)
+  ☐ $service.write(simple-ql)
+  // with this schema ->
+  /*
+  class UserSchema {
+    title // all by default
+    
+    @Has('user.somePrivilege')
+    token
+
+    @Has('user.someOtherPrivilege')
+    confidential
+  }
+
+demo:
+  ☐ show moleculer shutdown weirdness when not gracefully shutdown (keep une ref sur le pod down) 
+
+En vrac:
+  - API FOR PERMISSION 
+    module.exports = flow(validate, permission)(create)

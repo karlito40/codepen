@@ -1,0 +1,12 @@
+#import "./SlideFragment.gql"
+
+fragment Kast on Kast {
+  id
+  title
+  color
+  backgroundUrl
+  nbParticipant
+  slides {
+    ...Slide
+  }
+}

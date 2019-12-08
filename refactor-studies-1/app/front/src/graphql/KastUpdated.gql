@@ -1,0 +1,10 @@
+subscription kastUpdated ($kastId: ID!) {
+  kastUpdated (kastId: $kastId) {
+    id
+    title
+    color
+    backgroundUrl
+    nbParticipant
+    _changes_
+  }
+}

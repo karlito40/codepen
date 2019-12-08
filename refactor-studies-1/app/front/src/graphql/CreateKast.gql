@@ -1,0 +1,6 @@
+#import "./KastFragment.gql"
+mutation createKast ($input: KastInput!) {
+  createKast (input: $input) {
+    ...Kast
+  }
+}

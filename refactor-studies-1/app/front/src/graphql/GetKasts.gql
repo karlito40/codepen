@@ -1,0 +1,7 @@
+#import "./KastFragment.gql"
+
+query getKasts ($userId: ID!) {
+  getKasts (userId: $userId) {
+    ...Kast
+  }
+}

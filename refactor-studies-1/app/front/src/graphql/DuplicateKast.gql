@@ -1,0 +1,6 @@
+#import "./KastFragment.gql"
+mutation duplicateKast ($kastId: ID!) {
+  duplicateKast (kastId: $kastId) {
+    ...Kast
+  }
+}

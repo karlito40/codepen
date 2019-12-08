@@ -1,0 +1,25 @@
+# TO TEST
+
+FROM node:12
+
+WORKDIR /app/backend
+
+ADD https://www.apache.org/dyn/mirrors/mirrors.cgi?action=download&filename=pulsar/pulsar-2.4.1/DEB/apache-pulsar-client.deb ./apache-pulsar-client.deb
+ADD https://www.apache.org/dyn/mirrors/mirrors.cgi?action=download&filename=pulsar/pulsar-2.4.1/DEB/apache-pulsar-client-dev.deb ./apache-pulsar-client-dev.deb
+
+RUN apt install ./apache-pulsar-client.deb
+RUN apt install ./apache-pulsar-client-dev.deb
+
+# Need a script that copy the wanted backend and the micro folder inside a ./tmp folder
+
+COPY ./tmp/pulsar-client /deps/pulsar-client
+COPY ./tmp/micro /deps/micro
+COPY ./tmp/backend /app/backend
+
+RUN npm i -g yarn nodemon
+
+RUN cd /deps/pulsar-client && yarn install && yarn link
+RUN cd /deps/micro && yarn install && yarn link pulsar-client && yarn link
+RUN cd /app/backend && yarn install && yarn link micro
+
+CMD node /app/backend

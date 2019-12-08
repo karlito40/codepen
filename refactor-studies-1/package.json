@@ -1,0 +1,31 @@
+{
+  "name": "beepoc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "up": "docker-compose up",
+    "serve": "cd app/front && yarn serve",
+    "bootstrap": "concurrently npm:install:*",
+    "install:micro": "cd micro && yarn install",
+    "install:front": "cd app/front && yarn install",
+    "install:graph": "cd app/graph && yarn install",
+    "install:user": "cd app/user && yarn install",
+    "install:auth": "cd app/authentication && yarn install",
+    "install:kast": "cd app/kast && yarn install",
+    "install:__siege": "cd app/__siege && yarn install",
+    "link:micro": "cd micro && yarn link",
+    "beepoc:build": "cd dockers/node && docker build -f Dockerfile.dev -t beepoc . && docker tag beepoc bee/beepoc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.compute.beekast.info:karl/beepoc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^5.0.0"
+  }
+}

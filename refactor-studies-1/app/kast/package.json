@@ -1,0 +1,20 @@
+{
+  "name": "user",
+  "author": "",
+  "license": "ISC",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "_moduleAliases": {
+    "#": "./src"
+  },
+  "dependencies": {
+    "@hapi/joi": "^16.1.8",
+    "date-fns": "^2.8.1",
+    "lodash": "^4.17.15",
+    "module-alias": "^2.2.2"
+  }
+}

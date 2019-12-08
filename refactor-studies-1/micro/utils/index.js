@@ -1,0 +1,1 @@
+module.exports.preserveScope = require('./preserve-scope');

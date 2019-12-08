@@ -1,0 +1,10 @@
+#import "./SlideFragment.gql"
+
+subscription slideUpdated ($kastId: ID!) {
+  slideUpdated (kastId: $kastId) {
+    kastId
+    slide {
+      ...Slide
+    }
+  }
+}

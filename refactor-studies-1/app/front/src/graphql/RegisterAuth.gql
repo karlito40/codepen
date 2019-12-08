@@ -1,0 +1,10 @@
+#import "./UserFragment.gql"
+
+mutation registerAuth ($input: UserInput!) {
+  registerAuth (input: $input) {
+    token
+    user {
+      ...User
+    }
+  }
+}

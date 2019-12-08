@@ -1,0 +1,25 @@
+FROM node:12
+
+WORKDIR /app/backend
+
+RUN apt-get -q update && apt-get -qy install netcat
+
+RUN npm i -g yarn supervisor
+
+ADD https://www.apache.org/dyn/mirrors/mirrors.cgi?action=download&filename=pulsar/pulsar-2.4.1/DEB/apache-pulsar-client.deb ./apache-pulsar-client.deb
+ADD https://www.apache.org/dyn/mirrors/mirrors.cgi?action=download&filename=pulsar/pulsar-2.4.1/DEB/apache-pulsar-client-dev.deb ./apache-pulsar-client-dev.deb
+
+RUN apt install ./apache-pulsar-client.deb
+RUN apt install ./apache-pulsar-client-dev.deb
+
+RUN mkdir /deps
+
+COPY ./pulsar-client /deps/pulsar-client/
+
+RUN cd /deps/pulsar-client && yarn install && yarn link
+
+COPY wait-for.sh /
+COPY start-dev.sh /
+
+CMD /start-dev.sh
+

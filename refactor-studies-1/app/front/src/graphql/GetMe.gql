@@ -1,0 +1,7 @@
+#import "./UserFragment.gql"
+
+query getMe ($token: String!) {
+  getMe (token: $token) {
+    ...User
+  }
+}
