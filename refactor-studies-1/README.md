@@ -23,7 +23,7 @@ J'intégre également de l'event driven modéré (avec Pulsar). Les avantages qu
 - l'ajouts de feature est simplifié 
 - l'asynchrone est désormais possible !
 
-Je retire le faux systeme de middleware utilisé dans l'exposition de nos méthodes liés aux services. Pour vous donner un ordre d'idée le code actuel peut ressembler à ca:
+Je retire le faux systeme de middleware utilisé dans l'exposition de nos méthodes liés aux services. Pour vous donner un ordre d'idée le code actuel ressemble à ca:
 
 ```
 function middleware1 (req, res) {
@@ -43,7 +43,8 @@ module.exports = methodFactory('monService', 'myLoggerMethodeName', {
   .use(middleware1)
   .use(middleware2);
 
-// Evidemment le truc peut vite devenir incomprehensible quand on cumule des dizaines de middleware et que tout le monde mute req et res
+// Evidemment le truc peut vite devenir incomprehensible quand on cumule des dizaines de middleware 
+// et que tout le monde mute req et res
 ```
 
 
