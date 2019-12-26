@@ -28,13 +28,13 @@ function middleware2 (req, res) {
 }
 
 module.exports = methodFactory('monService', 'myLoggerMethodeName', {
-	statsd: require('../lib/statsd'),
-	log: require('../../../lib/log'),
-	permissions: ['things'],
-	inputSchema
+  statsd: require('../lib/statsd'),
+  log: require('../../../lib/log'),
+  permissions: ['things'],
+  inputSchema
 })
-	.use(middleware1)
-	.use(middleware2);
+  .use(middleware1)
+  .use(middleware2);
 
 // Evidemment le truc peut vite devenir incomprehensible
 ```
