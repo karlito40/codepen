@@ -23,7 +23,7 @@ J'intégre également de l'event driven modéré (avec Pulsar). Les avantages qu
 - l'ajouts de feature est simplifié 
 - l'asynchrone est désormais possible !
 
-Je retire le faux systeme de middleware utilisé dans la création de nos services. Pour vous donner un ordre d'idée le code actuel peut ressembler à ca:
+Je retire le faux systeme de middleware utilisé dans l'exposition de nos méthodes liés aux services. Pour vous donner un ordre d'idée le code actuel peut ressembler à ca:
 
 ```
 function middleware1 (req, res) {
