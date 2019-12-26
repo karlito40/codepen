@@ -18,14 +18,14 @@ Le bootstrap d'un service ne passe plus par des copy/pasta de l'enfer mais par u
 
 J'intégre également de l'event driven modéré (avec Pulsar). Les avantages qui en découlent sont évident: fonctions plus courtes et plus simple à comprendre, plus besoin de mocker l'univers dans les tests, les services s'occupent seulement de leur métier, les ajouts de feature sont simplifiés et l'asynchrone est désormais possible !
 
-Je retire le "faux" systeme de middleware utilisé dans la création de nos services. Pour vous donner un ordre d'idée, le code actuel ressemble à ca:
+Je retire le faux systeme de middleware utilisé dans la création de nos services. Pour vous donner un ordre d'idée le code actuel peut ressembler à ca:
 
 ```
 function middleware1 (req, res) {
   req.myThing = calculStuff()
 }
 
-function middleware2 (req, res) {
+async function middleware2 (req, res) {
   res.data = req.myThing + await otherStuff() // res.data sera notre réponse
 }
 
@@ -38,7 +38,7 @@ module.exports = methodFactory('monService', 'myLoggerMethodeName', {
   .use(middleware1)
   .use(middleware2);
 
-// Evidemment le truc peut vite devenir incomprehensible
+// Evidemment le truc peut vite devenir incomprehensible quand on cumule des dizaines de middleware et que tout le monde mute req et res
 ```
 
 
