@@ -4,7 +4,7 @@ Ce projet était pour moi un moyen d'expression. Il m'a servi de champ d'étude 
 
 Le but était d'engager plusieurs chantiers afin d'améliorer notre quotidien et rendre faisable l'infaisable avec notre code actuel.
 
-Je dois donc du composer avec un existant, garder pas mal de truc (node, bdd, graph, vue & co) et éviter les breaking change trop lourd. La majorité du code a été rush (notamment le front, oh god le front).
+Je dois donc composer avec un code existant, garder nos techos actuels (node, bdd, graph, vue & co) et éviter les breaking change trop lourd. La majorité du code a été rush (notamment le front, oh god le front).
 
 Je mets ce projet en open source puisque la réception de celui-ci n'a pas été à la hauteur de mes attentes... et puisque j'ai tout développé sur mon temps perso... ca ne posera de problèmes à personne. Au final, j'aurais préféré continuer mes projets perso (speech flutter, sko, démineur battle royale) plutôt que de dev des trucs dont je savais déjà implémenter.
 
