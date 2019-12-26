@@ -15,18 +15,3 @@ module.exports = async function onDuplicateSlide ({ kastId, slideId }, done) {
   app.emit('slide.updated', { kastId, slide });
   done();
 };
-
-
-// Dans le cas où on aurait peur d'avoir une queue full...
-// ou si on fait plusieurs update/insertion en db sans transaction
-// and so on ... we can exec done() as early as possible
-// and put this shit in an agenda
-/*
-const subMinutes = require('date-fns/sub_minutes')
-
-module.exports.reconciliate = async function reconciliate () {
-  // not opti (we need to limit shit and chunk stuffà
-  const kasts = await Kast.find({ duplicatingAtAt: { $lt: subMinutes(new Date, 10) }});
-  kasts....slides.map(() => app.publish('slide.updated', { kastId, slideId }))
-}
-*/
