@@ -1,6 +1,6 @@
 # C'est quoi ce projet ?
 
-Ce projet était pour moi un moyen d'expression. Il m'a servi de champ d'étude et d'experimentation pour proposer des pistes d'évolutions à mon equipe/job actuel.
+Ce projet était pour moi un moyen d'expression. Il m'a servi de champ d'étude et d'experimentation pour proposer des pistes d'évolutions à mon equipe/job du moment.
 
 Le but était d'engager plusieurs chantiers afin d'améliorer notre quotidien et rendre faisable l'infaisable avec notre code actuel.
 
