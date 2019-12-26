@@ -6,7 +6,9 @@ Le but était d'engager plusieurs chantiers afin d'améliorer notre quotidien et
 
 Je dois donc composer avec un existant, garder nos techos (node, bdd, graph, vue & co) et éviter les breaking change trop lourd. La majorité du code a été rush (notamment le front, oh god le front).
 
-Ce projet passe en open source puisque la réception de celui-ci n'est pas à la hauteur de mes attentes... et puisque j'ai tout développé sur mon temps perso et que tout le monde s'en bat les couilles... cela ne posera de problèmes à personne. Au final, j'aurais préféré continuer mes projets perso (speech flutter, sko, démineur battle royale) plutôt que de dev des trucs qui m'apporte rien.
+Helas, le projet n'a pas recu l'accueil que j'esperais. Aucune discussion n'a été ouverte, aucune idée n'a été débattu et aucune autre solution n'a été proposé. Bref, tout le monde s'en bat les couilles. Les gaulois refractaires aux changements préféront continuer à chercher des excuses plutot que des solutions. Au final, j'aurais préféré continuer mes projets perso (speech flutter, sko, démineur battle royale) plutôt que de dev des trucs qui m'apportent rien.
+
+Je mets tout le bordel en open source puisque de toute facon il y'a tellement mieux à faire si vous partez de zéro.
 
 ## "Simple, Basique" - Le maitre mot.
 
