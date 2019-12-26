@@ -16,7 +16,12 @@ Notre rpc utilise maintenant une api simple. On passe d'un `rpc.call('monService
 
 Le bootstrap d'un service ne passe plus par des copy/pasta de l'enfer mais par un systeme modulable qui permet à la fois d'utiliser seulement ce dont on a besoin ainsi qu'une meilleure maintenabilité (puisque plus de copy/pasta).
 
-J'intégre également de l'event driven modéré (avec Pulsar). Les avantages qui en découlent sont évident: fonctions plus courtes et plus simple à comprendre, plus besoin de mocker l'univers dans les tests, les services s'occupent seulement de leur métier, les ajouts de feature sont simplifiés et l'asynchrone est désormais possible !
+J'intégre également de l'event driven modéré (avec Pulsar). Les avantages qui en découlent sont évident:
+- fonctions plus courtes et plus simples
+- les tests n'ont plus besoin de mocker l'univers 
+- les services s'occupent seulement de leurs métiers 
+- l'ajouts de feature est simplifié 
+- l'asynchrone est désormais possible !
 
 Je retire le faux systeme de middleware utilisé dans la création de nos services. Pour vous donner un ordre d'idée le code actuel peut ressembler à ca:
 
