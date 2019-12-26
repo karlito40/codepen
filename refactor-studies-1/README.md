@@ -2,7 +2,7 @@
 
 Ce projet était pour moi un moyen d'expression. Il m'a servi de champ d'étude et d'experimentation pour proposer des pistes d'évolutions à mon equipe/job actuel.
 
-Le but était de d'engager plusieurs chantiers pour améliorer notre quotidien et rendre faisable l'infaisable avec notre code actuel.
+Le but était d'engager plusieurs chantiers afin d'améliorer notre quotidien et rendre faisable l'infaisable avec notre code actuel.
 
 Je dois donc du composer avec un existant, garder pas mal de truc (node, bdd, graph, vue & co) et éviter les breaking change trop lourd. La majorité du code a été rush (notamment le front, oh god le front).
 
