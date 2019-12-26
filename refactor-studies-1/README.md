@@ -1,4 +1,4 @@
-# C'est quoi ce projet ?
+# C'est quoi ce bordel ?
 
 Ce projet était pour moi un moyen d'expression. Il m'a servi de champ d'étude et d'experimentation pour proposer des pistes d'évolutions à mon equipe/job du moment.
 
