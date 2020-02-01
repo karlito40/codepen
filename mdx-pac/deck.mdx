@@ -1,0 +1,141 @@
+import { future, notes, dots } from 'mdx-deck/themes'
+import { CodeSurfer } from "code-surfer"
+import { nightOwl } from "@code-surfer/themes"
+import { Image } from 'mdx-deck'
+
+export const themes = [future, nightOwl, dots]
+
+<Image src="http://localhost:8081/logo-min-white.svg" size="25%"/>
+
+---
+
+<Image src="http://localhost:8081/logo-full-white.svg" size="35%"/>
+
+---
+
+<div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: white;">
+  <Image src="http://localhost:8081/logo-full-black.svg" size="30%"/>
+</div>
+
+---
+
+# 90
+
+<Notes>
+Le nombre de subscription
+</Notes>
+
+---
+
+<Image src="http://localhost:8081/word-art.png" size="50%"/>
+
+---
+
+<CodeSurfer>
+
+```js 1 title="Title" subtitle="Look at the first line"
+console.log(1);
+console.log(2);
+console.log(3);
+```
+
+```js 1
+console.log(1);
+console.log(2);
+console.log(3);
+```
+
+```js
+console.log(1);
+console.log(2);
+console.log(3);
+console.log(4);
+console.log(5);
+```
+
+</CodeSurfer>
+
+---
+
+import { CodeSurferColumns, Step } from "code-surfer"
+
+<CodeSurferColumns>
+
+<Step subtitle="First Step">
+
+```js
+console.log(1);
+console.log(2);
+```
+
+```js
+console.log("b");
+```
+
+</Step>
+
+<Step subtitle="Second Step">
+
+```js 2
+console.log(1);
+console.log(2);
+```
+
+```js 2
+console.log("a");
+console.log("b");
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurfer>
+
+```js
+console.log(1);
+console.log(2);
+console.log(3);
+```
+
+```diff 1 subtitle="log 1"
+```
+
+```diff 2 subtitle="log 2"
+```
+
+```diff 3 subtitle="log 3"
+```
+
+</CodeSurfer>
+
+---
+
+import { Appear } from 'mdx-deck'
+
+<ul>
+  <li>One</li>
+  <Appear>
+    <li>Two</li>
+    <li>Three</li>
+    <li>Four</li>
+  </Appear>
+</ul>
+
+---
+
+```jsx
+<Button>Beep</Button>
+```
+
+---
+
+```jsx
+<CodeSnippet />
+```
+
+---
+
+# Macro

@@ -1,0 +1,21 @@
+{
+  "name": "mdx-macro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm:mdx\" \"npm:static\"",
+    "mdx": "mdx-deck deck.mdx",
+    "static": "cd static && python -m SimpleHTTPServer 8081"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "mdx-deck": "^3.1.0"
+  },
+  "dependencies": {
+    "code-surfer": "^3.0.0"
+  }
+}
