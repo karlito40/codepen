@@ -3,28 +3,26 @@ io.on('connnection', (socket) => {
   state.update({ me: $user.me() }).flush();
 
   socket.on('agence.join', async ({ agenceId }) => {
-    state.update(await $agence.getSnapshot({ agenceId })).flush();
+    state
+      .merge(await $agence.getSnapshot({ agenceId }))
+      .compute('selectedChiotte', () => state.socket.user.canChier && !state.ongoingWar && state.availableChiottes?.[0])
+      .flush();
 
-    Micro.on('ludo.clock', (ludo, clock) => {
-      if (clock.time !== '3pm') return;
-
-      state.update({
-        availableChiottes: {
-          $pull: { participantId: ludo.id }
-        }
-      }).flush();
+    Micro.on('agence.snapshot.updated', agenceId, (changes) => {
+      state.merge(changes).flush();
     });
+  });
 
-    Micro.on('war.started', agenceId, () => {
-      // DB DRIVER FOR THE WIN !
-      const collateralDamage = random(state.agence.employees);
+  socket.on('war.declared', () => {
+    if (!state.agenceId) return;
 
-      state.update({
-        ongoingWar: true,
-        accidents: {
-          $push: collateralDamage
-        }
-      }).flush();
-    });
+    const collateralDamage = random(state.agence.employees);
+    
+    state.update({
+      ongoingWar: true,
+      accidents: {
+        $push: collateralDamage
+      }
+    }).flush();
   });
 });
