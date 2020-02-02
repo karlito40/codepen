@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm:mdx\" \"npm:static\"",
-    "mdx": "mdx-deck deck.mdx",
-    "static": "cd static && python -m SimpleHTTPServer 8081"
+    "start": "concurrently \"npm:mdx-*\"",
+    "mdx-start": "mdx-deck deck.mdx",
+    "mdx-static": "cd static && python -m SimpleHTTPServer 8081"
   },
   "keywords": [],
   "author": "",

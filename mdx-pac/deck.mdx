@@ -1,5 +1,5 @@
 import { future, notes, dots } from 'mdx-deck/themes'
-import { CodeSurfer } from "code-surfer"
+import { CodeSurfer, CodeSurferColumns, Step } from "code-surfer"
 import { nightOwl } from "@code-surfer/themes"
 import { Image } from 'mdx-deck'
 
@@ -9,20 +9,23 @@ export const themes = [future, nightOwl, dots]
 
 ---
 
-<Image src="http://localhost:8081/logo-full-white.svg" size="35%"/>
-
----
-
-<div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: white;">
-  <Image src="http://localhost:8081/logo-full-black.svg" size="30%"/>
-</div>
-
----
-
 # 90
 
 <Notes>
-Le nombre de subscription
+
+- Le nombre de souscription
+
+</Notes>
+
+---
+
+# XXX
+
+<Notes>
+
+- Le nombre de mutation 
+- ...et autant de souscription manquante 
+
 </Notes>
 
 ---
@@ -31,59 +34,80 @@ Le nombre de subscription
 
 ---
 
+Une histoire.
+
+---
+
 <CodeSurfer>
 
-```js 1 title="Title" subtitle="Look at the first line"
-console.log(1);
-console.log(2);
-console.log(3);
+```js file=./scenarios/hell/hell-1.js
 ```
 
-```js 1
-console.log(1);
-console.log(2);
-console.log(3);
+```js file=./scenarios/hell/hell-2.js
 ```
 
-```js
-console.log(1);
-console.log(2);
-console.log(3);
-console.log(4);
-console.log(5);
+```js file=./scenarios/hell/hell-3.js
+```
+
+```js file=./scenarios/hell/hell-4.js
+```
+
+```js file=./scenarios/hell/hell-5.js
+```
+
+```js file=./scenarios/hell/hell-6.js
+```
+
+```js file=./scenarios/hell/hell-7.js
+```
+
+```js file=./scenarios/hell/hell-8.js
+```
+
+```js file=./scenarios/hell/hell-9.js
+```
+
+```js file=./scenarios/hell/hell-10.js
+```
+
+```js 134 file=./scenarios/hell/hell-full.js
+```
+
+```js file=./scenarios/hell/hell-full.js
 ```
 
 </CodeSurfer>
 
 ---
 
-import { CodeSurferColumns, Step } from "code-surfer"
+# 156
+
+---
+
+<Image src="http://localhost:8081/game-in-a-twit.png" size="25%"/>
+
+<i>Pendant ce temps dans un autre univers...</i>
+
+---
 
 <CodeSurferColumns>
 
-<Step subtitle="First Step">
+<Step>
 
-```js
-console.log(1);
-console.log(2);
+```js file=./scenarios/hell/hell-computed-1.js
 ```
 
-```js
-console.log("b");
+```js file=./scenarios/hell/hell-test-1.js
 ```
 
 </Step>
 
-<Step subtitle="Second Step">
+<Step subtitle="Oops">
 
-```js 2
-console.log(1);
-console.log(2);
+```js file=./scenarios/hell/hell-computed-2.js
 ```
 
-```js 2
-console.log("a");
-console.log("b");
+```js file=./scenarios/hell/hell-test-2.js
 ```
 
 </Step>
@@ -92,50 +116,83 @@ console.log("b");
 
 ---
 
+Des croisements.
+
+---
+
+<Image src="http://localhost:8081/croisement.jpg" size="25%"/>
+
+---
+
+<Image src="http://localhost:8081/sko@2x.png" size="30%"/>
+
+<i>Un piège ?</i>
+
+---
+
+<Image src="http://localhost:8081/ghostbusters.jpg" size="70%"/>
+
+---
+
+# Une nouvelle ère
+
+---
+
+# What if ...
+
+---
+
 <CodeSurfer>
 
-```js
-console.log(1);
-console.log(2);
-console.log(3);
+```js title="I could simply do that" file=./scenarios/beekast-universe/beekast-universe-1.js
 ```
 
-```diff 1 subtitle="log 1"
+```js title="Or even better..." file=./scenarios/beekast-universe/beekast-universe-2.js
 ```
 
-```diff 2 subtitle="log 2"
-```
-
-```diff 3 subtitle="log 3"
+```js 1:9 title="Or even better..." file=./scenarios/beekast-universe/beekast-universe-3.vue
 ```
 
 </CodeSurfer>
 
 ---
 
-import { Appear } from 'mdx-deck'
-
-<ul>
-  <li>One</li>
-  <Appear>
-    <li>Two</li>
-    <li>Three</li>
-    <li>Four</li>
-  </Appear>
-</ul>
+# 26
 
 ---
 
-```jsx
-<Button>Beep</Button>
-```
+# Rêvons
+
+<Notes>
+
+- Ouvrez vos chakra
+- Tout nous rappelle que c'est notre travail. Si on peut eviter de nous rappeller tous les jours que c'est notre travaille
+- Presentation dans Figma
+- Activités = Donjon
+- Zone = Raid
+
+</Notes>
 
 ---
 
-```jsx
-<CodeSnippet />
-```
+<Image src="http://localhost:8081/fig.png" size="70%"/>
 
 ---
 
-# Macro
+<Image src="http://localhost:8081/map-to-game.png" size="70%"/>
+
+---
+
+> L'utilisateur ne demande pas, il agit.
+
+<Notes>
+
+- Changement de paradigme. Changement d'etait d'espri
+
+</Notes>
+
+---
+
+<div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: white;">
+  <Image src="http://localhost:8081/logo-full-black.svg" size="30%"/>
+</div>
