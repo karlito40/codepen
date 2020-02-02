@@ -1,16 +1,14 @@
 io.on('connnection', async (socket) => {
   const state = State(socket);
-  state.update({ me: await $user.me() }).flush();
+
+  state.update({ me: await $user.me() });
 
   socket.on('agence.join', async ({ agenceId }) => {
     state
       .merge(await $agence.getSnapshot({ agenceId }))
-      .compute('selectedChiotte', () => state.socket.user.canChier && !state.ongoingWar && state.availableChiottes?.[0])
-      .flush();
+      .compute('selectedChiotte', () => state.socket.user.canChier && !state.ongoingWar && state.availableChiottes?.[0]);
 
-    Micro.on('agence.snapshot.updated', agenceId, (changes) => {
-      state.merge(changes).flush();
-    });
+    Micro.on('agence.snapshot.updated', agenceId, state.bind(state));
   });
 
   socket.on('war.declared', () => {
@@ -23,6 +21,8 @@ io.on('connnection', async (socket) => {
       accidents: {
         $push: collateralDamage
       }
-    }).flush();
+    });
   });
+
+  Game.tick(() => state.flush());
 });

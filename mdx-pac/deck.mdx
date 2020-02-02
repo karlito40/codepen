@@ -92,7 +92,7 @@ Une histoire.
 
 <Notes>
 
-- Ce qui se passe dans les toilettes reste dans les toilettes... surtout entre adepte
+- Rencontre en soirée ? Ce qui se passe dans les toilettes reste dans les toilettes... surtout entre adepte
 des souscriptions. Secte ?
 
 - schema http + temps reel en parallele... source de verite (+seb citation).
@@ -273,9 +273,12 @@ Vu comme ca effectivement on sortira jamais rien. Apollo aura finit de croiser l
 
 - Ouvrez vos chakra
 - Tout nous rappelle que c'est notre travail. Si on peut eviter de nous rappeller tous les jours que c'est notre travaille
+- On arrete les excuses
 - Presentation dans Figma
 - Activités = Donjon
 - Zone = Raid
+- "Beekast est particulier", "c'est complique", "Vous en connaissez beaucoup des sites avec autant de temps reel ?"
+- Perso oui... et je suis sûr que vous aussi. Quel systeme d'apres vous se base uniquement sur le temps reel ?
 
 </Notes>
 
@@ -306,19 +309,50 @@ Jouons.
 
 souscription aux armes (ah merde j'ai oublié de prendre en compte le couteau), aux deplacements (ah merde j'ai oublié le saut), aux morts, aux scores, aux temps, aux rounds... etc
 
+- Je me deplace sur la map et le serveur me renvoie des conneries, en l'occurence ici, des slides
+- Alors qu'actuellement, je reclame toutes les conneries qui sont suscpetibles de m'arriver (plus ou moins)
+
+- A prendre avec des pincettes... 
+
 </Notes>
 
 ---
 
 <CodeSurfer>
 
-```js title="Precedemment..." file=./scenarios/beekast-universe/beekast-universe-3.vue
+```js 4:7 title="On demande" file=./scenarios/beekast-universe/beekast-universe-1.js
 ```
 
-```js file=./scenarios/dream/dream-component.vue
+```js 14 title="On agit" file=./scenarios/dream/dream-component.vue
 ```
 
 </CodeSurfer>
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```js title="La demande..." file=./scenarios/beekast-universe/beekast-universe-comparaison.vue
+```
+
+```js title="..." file=./scenarios/beekast-universe/beekast-universe-comparaison.vue
+```
+
+</Step>
+
+<Step>
+
+```js title="La demande..." file=./scenarios/beekast-universe/beekast-universe-comparaison.vue
+```
+
+```js title="devient" file=./scenarios/dream/dream-component.vue
+```
+
+</Step>
+
+</CodeSurferColumns>
 
 ---
 
@@ -340,6 +374,22 @@ souscription aux armes (ah merde j'ai oublié de prendre en compte le couteau), 
 ```
 
 </CodeSurfer>
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```js title="Store" file=./scenarios/dream/dream-store.js
+```
+
+```js title="Component" file=./scenarios/dream/dream-component.vue
+```
+
+</Step>
+
+</CodeSurferColumns>
 
 ---
 
@@ -390,7 +440,13 @@ souscription aux armes (ah merde j'ai oublié de prendre en compte le couteau), 
 ```js file=./scenarios/dream/dream-4.js
 ```
 
-```js title="And it's done." file=./scenarios/dream/dream-4.js
+```js title="Almost done..." file=./scenarios/dream/dream-4.js
+```
+
+```js title="Simple, Basique." file=./scenarios/dream/dream-5.js
+```
+
+```js title="Perfection." file=./scenarios/dream/dream-5.js
 ```
 
 </CodeSurfer>
@@ -398,6 +454,9 @@ souscription aux armes (ah merde j'ai oublié de prendre en compte le couteau), 
 <Notes>
 
 - Reflechir à la gestion d'erreurs
+- Actuellement le client front crash parce qu'on recoit des events non controlés, le flux
+n'est pas filtre..
+- avec Game.tick on a meme pas besoin du systeme de zone pour le poc
 
 </Notes>
 

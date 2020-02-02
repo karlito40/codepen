@@ -1,6 +1,6 @@
-io.on('connnection', (socket) => {
+io.on('connnection', async (socket) => {
   const state = State(socket);
-  state.update({ me: $user.me() }).flush();
+  state.update({ me: await $user.me() }).flush();
 
   socket.on('agence.join', async ({ agenceId }) => {
     state
