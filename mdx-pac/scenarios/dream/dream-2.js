@@ -7,8 +7,9 @@ io.on('connnection', (socket) => {
       .update({
         agence: await $agence.findOne({ agenceId }, 'id accidents'),
         availableChiottes: await $chiotte.find({ agenceId, available: true }),
+        ongoingWar: false
       })
-      .compute('selectedChiotte', () => state.socket.user.canChier && state.availableChiottes?.[0])
+      .compute('selectedChiotte', () => state.socket.user.canChier && !state.ongoingWar && state.availableChiottes?.[0])
       .flush();
   
     const employees = await $agence.getEmployees({ agenceId });
@@ -25,13 +26,14 @@ io.on('connnection', (socket) => {
     });
 
     Micro.on('war.started', agenceId, () => {
+      state.update({ ongoingWar: true }).flush();
+
       const collateralDamage = await $user.fireRocket({ 
         from: state.user.id, 
         to: random(state.agence.employees),
       });
 
       state.update({ 
-        availableChiottes: [],
         accidents: {
           $push: collateralDamage
         }

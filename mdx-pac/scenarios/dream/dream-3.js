@@ -7,8 +7,9 @@ io.on('connnection', (socket) => {
       .update({
         agence: await $agence.findOne({ agenceId }, 'id accidents'),
         availableChiottes: await $chiotte.find({ agenceId, available: true }),
+        ongoingWar: false
       })
-      .compute('selectedChiotte', () => state.socket.user.canChier && state.availableChiottes?.[0])
+      .compute('selectedChiotte', () => state.socket.user.canChier && !state.ongoingWar && state.availableChiottes?.[0])
       .flush();
   
     const employees = await $agence.getEmployees({ agenceId });
@@ -29,8 +30,8 @@ io.on('connnection', (socket) => {
       // DB DRIVER FOR THE WIN !
       const collateralDamage = random(state.agence.employees);
 
-      state.update({ 
-        availableChiottes: [],
+      state.update({
+        ongoingWar: true,
         accidents: {
           $push: collateralDamage
         }

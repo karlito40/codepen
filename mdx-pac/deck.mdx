@@ -46,43 +46,60 @@ Une histoire.
 
 <CodeSurfer>
 
-```js file=./scenarios/hell/hell-1.js
+```js title="Il etait une fois..." file=./scenarios/hell/hell-1.js
 ```
 
-```js file=./scenarios/hell/hell-2.js
+```js title="Un homme avec des besoins..." file=./scenarios/hell/hell-2.js
 ```
 
-```js file=./scenarios/hell/hell-3.js
+```js title="Un homme avec des besoins..." file=./scenarios/hell/hell-3.js
 ```
 
-```js file=./scenarios/hell/hell-4.js
+```js title="Qui connaissait les limites." file=./scenarios/hell/hell-4.js
 ```
 
-```js file=./scenarios/hell/hell-5.js
+```js title="Il attendait son heure..." file=./scenarios/hell/hell-5.js
 ```
 
-```js file=./scenarios/hell/hell-6.js
+```js title="A l'affut du danger." file=./scenarios/hell/hell-6.js
 ```
 
-```js file=./scenarios/hell/hell-7.js
+```js title="A la menace, il repondait." file=./scenarios/hell/hell-7.js
 ```
 
-```js file=./scenarios/hell/hell-8.js
+```js title="A la menace, il repondait..." file=./scenarios/hell/hell-8.js
 ```
 
-```js file=./scenarios/hell/hell-9.js
+```js title="De toutes ses forces..." file=./scenarios/hell/hell-9.js
 ```
 
-```js file=./scenarios/hell/hell-10.js
+```js title="Pour atteindre son but..." file=./scenarios/hell/hell-10.js
 ```
 
-```js 134 file=./scenarios/hell/hell-full.js
+```js 134 title="Pour atteindre son but..." file=./scenarios/hell/hell-full.js
 ```
 
-```js file=./scenarios/hell/hell-full.js
+```js title="Les chiottes." file=./scenarios/hell/hell-full.js
+```
+
+```js 131:152 title="Source de vérité." file=./scenarios/hell/hell-full.js
+```
+
+```js 83:108 title="Source de Trump." file=./scenarios/hell/hell-full.js
 ```
 
 </CodeSurfer>
+
+<Notes>
+
+schema http + temps reel en parallele... source de verite (+seb citation).
+Ca ressemble a une rustine pour cacher nos vrais problemes. C'est comme appliquer du scotch sur des fuites... => et comme ca fuit tellement on va rajouter des tests unitaire par dessus en esperant que les gens ne testent pas trop.
+Osef des participants.
+
+source de verite => scientique
+source temps reel => trump
+
+</Notes>
 
 ---
 
@@ -106,7 +123,7 @@ Une histoire.
 
 <CodeSurferColumns>
 
-<Step>
+<Step title="Les tests nous sauverons">
 
 ```js file=./scenarios/hell/hell-computed-1.js
 ```
@@ -116,12 +133,32 @@ Une histoire.
 
 </Step>
 
-<Step subtitle="Oops">
+<Step title="...">
+
+```js file=./scenarios/hell/hell-computed-1.js
+```
+
+```js file=./scenarios/hell/hell-test-2.js
+```
+
+</Step>
+
+<Step title="Bug appeared and...  it's fix guys !">
 
 ```js file=./scenarios/hell/hell-computed-2.js
 ```
 
 ```js file=./scenarios/hell/hell-test-2.js
+```
+
+</Step>
+
+<Step title="Oops">
+
+```js file=./scenarios/hell/hell-computed-2.js
+```
+
+```js file=./scenarios/hell/hell-test-3.js
 ```
 
 </Step>
@@ -157,12 +194,30 @@ Des croisements.
 - Mon premier sko tient sur 60/70 lignes coté serveur avec plus de fonctionnalités que tous ceux présenté jusqu'a maintenant
 avec un temps de dev bien moins long.
 - "On aura jamais le temps"... mais on a le temps de faire les choses 2 ou 3 fois sans problemes
+- websocket naturel. A aucun moment vous vous etes dit "c'est un piege, il faut que je fasse du http"... sauf 1 de mémoire qu'on a pris pour un con
+- ca vous a pris du temps parce que vous avez continué avec vos délires de gerer 50000 events... (rien que penser à comment les nommer...)
+
+Vu comme ca effectivement on sortira jamais rien. Apollo aura finit de croiser l'univers qu'on aura fait aucune activité.
+
+- Est ce qu'on a encore besoin d'http ? (exemple de Meteor).
 
 </Notes>
 
 ---
 
-<Image src="http://localhost:8081/ghostbusters.jpg" size="70%"/>
+<Image src="http://localhost:8081/ghostbusters.jpg" size="70%">
+
+# Apollolol
+
+</Image>
+
+<Notes>
+
+- Ne croisez pas les effluves
+- Perf apocalyptique d'apollo.
+- Apollo: "Moi je croise les effluves ansi que tout l'univers. Et alors ?"
+
+</Notes>
 
 ---
 
@@ -171,6 +226,14 @@ avec un temps de dev bien moins long.
 ---
 
 # What if ...
+
+<Notes>
+
+- On pourrait s'astreindre de toutes ces problematiques
+- Foutre à la poubelle apollo
+- "Gardons la stack parce qu'on a la connait"... 
+
+</Notes>
 
 ---
 
@@ -227,15 +290,16 @@ Jouons.
 
 ---
 
-> L'utilisateur ne demande pas, il agit.
+"L'utilisateur ne demande pas, il agit."
 
 <Notes>
 
-- Changement de paradigme. Changement d'etait d'esprit.
+- Changement de paradigme. Changement d'etat d'esprit.
 - Il se deplace, emet des actions, il fait sa vie...
-- Le serveur est autoritaire ! C'est lui le roi.
+- Le serveur est autoritaire ! C'est lui le boss.
 - Chaque chose à sa place.
 - Le front n'a plus aucune logique ! Si ce n'est l'ouverture de popup
+- Allegorie sur les FPS
 
 </Notes>
 
@@ -294,31 +358,40 @@ Jouons.
 ```js 2:3 file=./scenarios/dream/dream-2.js
 ```
 
-```js 6:12 file=./scenarios/dream/dream-2.js
+```js 6:13 file=./scenarios/dream/dream-2.js
 ```
 
-```js 14:15 file=./scenarios/dream/dream-2.js
+```js 15:16 file=./scenarios/dream/dream-2.js
 ```
 
-```js 17:25 file=./scenarios/dream/dream-2.js
+```js 18:26 file=./scenarios/dream/dream-2.js
 ```
 
-```js 27:39 file=./scenarios/dream/dream-2.js
+```js 28:40 file=./scenarios/dream/dream-2.js
 ```
 
 ```js file=./scenarios/dream/dream-3.js
 ```
 
-```js 15:16 file=./scenarios/dream/dream-3.js
+```js 16:17 file=./scenarios/dream/dream-3.js
 ```
 
-```js 29:30 file=./scenarios/dream/dream-3.js
+```js 30:31 file=./scenarios/dream/dream-3.js
+```
+
+```js 34 file=./scenarios/dream/dream-3.js
 ```
 
 ```js file=./scenarios/dream/dream-4.js
 ```
 
 </CodeSurfer>
+
+<Notes>
+
+- Reflechir à la gestion d'erreurs
+
+</Notes>
 
 ---
 
@@ -335,19 +408,19 @@ Jouons.
 
 ---
 
-And much more to come.
+# And much more
 
 <Notes>
 
 - Driver
 - Tick... (batch commands)
-- No microlith, No microservice, No monoservice
+- No microlith, No microservice, No monolith
 
 </Notes>
 
 ---
 
-
 <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: white;">
   <Image src="http://localhost:8081/logo-full-black.svg" size="30%"/>
 </div>
+

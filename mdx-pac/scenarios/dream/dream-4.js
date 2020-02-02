@@ -15,12 +15,12 @@ io.on('connnection', (socket) => {
       }).flush();
     });
 
-    // DB DRIVER !
     Micro.on('war.started', agenceId, () => {
+      // DB DRIVER FOR THE WIN !
       const collateralDamage = random(state.agence.employees);
 
-      state.update({ 
-        availableChiottes: [],
+      state.update({
+        ongoingWar: true,
         accidents: {
           $push: collateralDamage
         }

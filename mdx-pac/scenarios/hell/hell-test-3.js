@@ -16,3 +16,10 @@ test('What the fuck am i testing', () => {
 // ... mon appli est testé aux petits oignons
 // ... j'ai les 27 combinaisons, je doute de rien  :thumbsup:
 
+// ... 
+// ... 
+// ... 
+// ...  Wait ? What sorcery is this ?
+// ...  Dude ! 
+// ... (╯°□°）╯︵ ┻━┻ 
+
