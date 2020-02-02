@@ -14,5 +14,5 @@ test('What the fuck am i testing', () => {
 
 // ... une journée plus tard
 // ... mon appli est testé aux petits oignons
-// ... j'ai les 27 combinaisons, je doute de rien  :thumbsup:
+// ... j'ai les 8 combinaisons, je doute de rien  :thumbsup:
 
