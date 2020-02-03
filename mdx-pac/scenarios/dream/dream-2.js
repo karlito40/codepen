@@ -9,7 +9,7 @@ io.on('connnection', async (socket) => {
         availableChiottes: await $chiotte.find({ agenceId, available: true }),
         ongoingWar: false
       })
-      .compute('selectedChiotte', () => state.socket.user.canChier && !state.ongoingWar && state.availableChiottes?.[0])
+      .compute('selectedChiotte', () => socket.user.canChier && !state.ongoingWar && state.availableChiottes?.[0])
       .flush();
   
     const employees = await $agence.getEmployees({ agenceId });

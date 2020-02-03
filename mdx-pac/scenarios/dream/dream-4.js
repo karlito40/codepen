@@ -5,7 +5,7 @@ io.on('connnection', async (socket) => {
   socket.on('agence.join', async ({ agenceId }) => {
     state
       .merge(await $agence.getSnapshot({ agenceId }))
-      .compute('selectedChiotte', () => state.socket.user.canChier && !state.ongoingWar && state.availableChiottes?.[0])
+      .compute('selectedChiotte', () => socket.user.canChier && !state.ongoingWar && state.availableChiottes?.[0])
       .flush();
 
     Micro.on('agence.snapshot.updated', agenceId, (changes) => {
@@ -13,7 +13,7 @@ io.on('connnection', async (socket) => {
     });
   });
 
-  socket.on('war.declared', () => {
+  socket.on('war.declare', () => {
     if (!state.agenceId) return;
 
     const collateralDamage = random(state.agence.employees);
