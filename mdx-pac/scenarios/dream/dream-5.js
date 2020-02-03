@@ -8,18 +8,16 @@ io.on('connnection', async (socket) => {
       .merge(await $agence.getSnapshot({ agenceId }))
       .compute('selectedChiotte', () => state.socket.user.canChier && !state.ongoingWar && state.availableChiottes?.[0]);
 
-    Micro.on('agence.snapshot.updated', agenceId, state.bind(state));
+    Micro.on('agence.snapshot.updated', agenceId, state.merge.bind(state));
   });
 
   socket.on('war.declared', () => {
     if (!state.agenceId) return;
 
-    const collateralDamage = random(state.agence.employees);
-    
     state.update({
       ongoingWar: true,
       accidents: {
-        $push: collateralDamage
+        $push: random(state.agence.employees)
       }
     });
   });
