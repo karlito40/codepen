@@ -3,7 +3,7 @@ io.on('connnection', async (socket) => {
   const userState = State(socket);
   const appState = AppState({ agenceState, userState });
 
-  const userSnapshot = await $state.snapshot('user', { token: socket.token }, initialUserState);
+  const userSnapshot = await $state.snapshot('user', { token: socket.token });
   userState.link(userSnapshot);
   // registerSnapshot does something like: 
   /* link (snapshot) {
@@ -13,7 +13,7 @@ io.on('connnection', async (socket) => {
   */
 
   socket.on('agence.join', async ({ agenceId }) => {
-    const agenceSnapeshot = await $state.snapshot('agence', { agenceId }, initialAgenceState);
+    const agenceSnapeshot = await $state.snapshot('agence', { agenceId });
     agenceState.link(agenceSnapeshot);
 
     const selectedChiotte = socket.user.canChier && !agenceState.ongoingWar && state.availableChiottes?.[0];
