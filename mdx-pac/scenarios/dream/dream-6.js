@@ -35,7 +35,7 @@ io.on('connnection', async (socket) => {
     agenceState.update({
       ongoingWar: true,
       accidents: {
-        $push: random(state.agence.employees)
+        $push: random(agenceState.employees)
       }
     });
   });
