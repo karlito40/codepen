@@ -1,6 +1,7 @@
 io.on('connnection', async (socket) => {
   const agenceState = State(socket);
   const userState = State(socket);
+  const appState = AppState({ agenceState, userState });
 
   const userSnapshot = await $state.snapshot('user', { token: socket.token }, initialUserState);
   userState.link(userSnapshot);
@@ -39,8 +40,5 @@ io.on('connnection', async (socket) => {
     });
   });
 
-  Game.tick(() => {
-    userState.flush();
-    agenceState.flush();
-  });
+  Game.tick(() => appState.flush());
 });
