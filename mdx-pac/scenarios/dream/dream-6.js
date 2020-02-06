@@ -40,5 +40,8 @@ io.on('connnection', async (socket) => {
     });
   });
 
+  // flush processer must await or use a stream service
+  // to be able to create an optimistic reponse
+  // and then rollback to the last snapshot if anything happens
   Game.tick(() => appState.flush());
 });
