@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 import gsap from 'gsap';
 import Draggable from 'gsap/Draggable';
 import { Viewport } from 'pixi-viewport';
+import * as Scene from './scenes';
 
 // pour firefox...
 PIXI.settings.SPRITE_MAX_TEXTURES = Math.min(PIXI.settings.SPRITE_MAX_TEXTURES , 16);
@@ -53,19 +54,35 @@ photoIds.forEach((photoId) => {
 
 PIXI.Loader.shared.load(main);
 
+function addDraggable (displayObject) {
+  displayObject.buttonMode = true;
+  displayObject.interactive = true;
+
+  displayObject
+    .on('pointerdown', onDragStart)
+    .on('pointerup', onDragEnd)
+    .on('pointerupoutside', onDragEnd)
+    .on('pointermove', onDragMove);
+}
+
+function getBounds (displayObject) {
+	return {
+		left: displayObject.x,
+		right: displayObject.x + displayObject.width,
+		top: displayObject.y,
+		bottom: displayObject.y + displayObject.height,
+		height: displayObject.height,
+		centerY: displayObject.y + displayObject.height / 2,
+		centerY: displayObject.y + displayObject.height / 2,
+	}
+}
+
 function main (_, resources) {
   const sprites = photoIds.map((resourceId) => {
     const sprite = new PIXI.Sprite(resources[resourceId].texture);
-    sprite.buttonMode = true;
-    sprite.interactive = true;
     sprite.hitArea = new PIXI.Rectangle(0, 0, sprite.width, sprite.height);
+    addDraggable(sprite);
 
-    sprite
-      .on('pointerdown', onDragStart)
-      .on('pointerup', onDragEnd)
-      .on('pointerupoutside', onDragEnd)
-      .on('pointermove', onDragMove);
-  
     viewport.addChild(sprite);
 
     return sprite;
@@ -97,6 +114,53 @@ function main (_, resources) {
   
   sprites[8].x = -500;
   sprites[8].y = 900;
+
+  // Activities
+  // -----------------
+  const board1 = Scene.Board();
+  board1.x = 200;
+  board1.y = 400;
+	addDraggable(board1);
+	viewport.addChild(board1);
+
+	const board2 = Scene.Board();
+  board2.x = -800;
+  board2.y = -400;
+  addDraggable(board2);
+  viewport.addChild(board2);
+	
+	const board3 = Scene.Board();
+  board3.x = 1600;
+  board3.y = 800;
+  addDraggable(board3);
+	viewport.addChild(board3);
+	
+	const board4 = Scene.Board();
+  board4.x = 3000;
+  board4.y = -1600;
+  addDraggable(board4);
+	viewport.addChild(board4);
+	
+	const board5 = Scene.Board();
+  board5.x = -1600;
+  board5.y = 1300;
+  addDraggable(board5);
+	viewport.addChild(board5);
+	
+	const bounds2 = getBounds(board2);
+	const bounds3 = getBounds(board3);
+	console.log('bounds2', bounds2);
+	console.log('bounds3', bounds3);
+	const linkBetweenActivities = new PIXI.Graphics();
+	linkBetweenActivities.beginFill(0x6462EA);
+	linkBetweenActivities.lineStyle({
+		width: 10,
+		color: 0x6462EA
+	});
+	// linkBetweenActivities.lineStyle(1, 0xf3a33f);
+	linkBetweenActivities.moveTo(bounds2.right, board2.centerY);
+	linkBetweenActivities.lineTo(bounds3.centerY, bounds3.left);
+	viewport.addChild(linkBetweenActivities);
 }
 
 function onDragStart(event) {
