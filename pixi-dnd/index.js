@@ -2,15 +2,9 @@ import * as PIXI from 'pixi.js';
 import gsap from 'gsap';
 import Draggable from 'gsap/Draggable';
 import { Viewport } from 'pixi-viewport';
-import Photo1 from './images/photo-1.jpeg';
-import Photo2 from './images/photo-2.jpeg';
-import Photo3 from './images/photo-3.jpeg';
-import Photo4 from './images/photo-4.jpeg';
-import Photo5 from './images/photo-5.jpeg';
-import Photo6 from './images/photo-6.jpeg';
-import Photo7 from './images/photo-7.jpeg';
-import Photo8 from './images/photo-8.jpeg';
-import Photo9 from './images/photo-9.jpeg';
+
+// pour firefox...
+PIXI.settings.SPRITE_MAX_TEXTURES = Math.min(PIXI.settings.SPRITE_MAX_TEXTURES , 16);
 
 gsap.registerPlugin(Draggable); 
 
@@ -51,20 +45,16 @@ function resumeCamera() {
   viewport.plugins.resume('decelerate');
 }
 
-PIXI.Loader.shared
-  .add('photo1', Photo1)
-  .add('photo2', Photo2)
-  .add('photo3', Photo3)
-  .add('photo4', Photo4)
-  .add('photo5', Photo5)
-  .add('photo6', Photo6)
-  .add('photo7', Photo7)
-  .add('photo8', Photo8)
-  .add('photo9', Photo9)
-  .load(main);
+const photoIds = ['photo-1', 'photo-2', 'photo-3', 'photo-4', 'photo-5', 'photo-6', 'photo-7', 'photo-8', 'photo-9'];
+
+photoIds.forEach((photoId) => {
+  PIXI.Loader.shared.add(photoId, `${location.protocol}//${location.hostname}:8081/${photoId}.jpeg`);
+});
+
+PIXI.Loader.shared.load(main);
 
 function main (_, resources) {
-  const sprites = ['photo1', 'photo2', 'photo3', 'photo4', 'photo5', 'photo6', 'photo7', 'photo8', 'photo9'].map((resourceId) => {
+  const sprites = photoIds.map((resourceId) => {
     const sprite = new PIXI.Sprite(resources[resourceId].texture);
     sprite.buttonMode = true;
     sprite.interactive = true;
@@ -111,6 +101,7 @@ function main (_, resources) {
 
 function onDragStart(event) {
   pauseCamera();
+
   if (this.tween) {
     this.tween.kill();
   }
@@ -130,6 +121,7 @@ function onDragMove() {
 
 function onDragEnd() {
   resumeCamera();
+  
   this.data = null;
   this.lastPosition = null;
 }

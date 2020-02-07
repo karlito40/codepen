@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel index.html"
+    "dev": "concurrently \"npm:dev-*\"",
+    "dev-start": "parcel index.html",
+    "dev-static": "cd static && http-server -p 8081 --cors"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +17,8 @@
     "pixi.js": "^5.2.1"
   },
   "devDependencies": {
+    "concurrently": "^5.1.0",
+    "http-server": "^0.12.1",
     "parcel-bundler": "^1.12.4"
   }
 }
