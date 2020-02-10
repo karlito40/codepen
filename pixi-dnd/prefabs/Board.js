@@ -1,9 +1,16 @@
 import * as PIXI from 'pixi.js';
 
-export default function Board () {
+export default function Board ({ isSelected } = {}) {
   const scene = new PIXI.Container();
   
   const background = new PIXI.Graphics();
+  if (isSelected) {
+    background.lineStyle({
+      color: 0x6462EA,
+      width: 3
+    });
+  }
+
   background.beginFill(0xFFFFFF);
   background.drawRoundedRect(0, 0, 1024, 600, 10);
 
