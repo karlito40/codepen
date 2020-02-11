@@ -3,38 +3,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <div class="sidebar"></div>
-    <div class="right-panel"></div>
+    <div id="app"></div>
     <script src="./index.js"></script>
   </body>
   <style>
-    html, body {
-      padding: 0;
-      margin: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    html {
-      position: fixed;
-      overflow: hidden;
-    }
-
-    .sidebar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 50px;
-      background: #412347;
-      text-align: center;
-      padding: 10px 0;
-    }
-
-    img {
-      width: 70%;
-    }
-
     .right-panel {
       position: fixed;
       top: 0;
@@ -50,13 +22,6 @@
 
     .right-panel.is-open {
       transform: translateX(0);
-    }
-
-    @media only screen and (max-width: 767px) {
-      .sidebar {
-        width: 100%;
-        height: 50px;
-      }
     }
   </style>
 </html>

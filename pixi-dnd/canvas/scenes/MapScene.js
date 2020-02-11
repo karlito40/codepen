@@ -38,43 +38,7 @@ export default class MapScene {
       .wheel()
       .decelerate();
 
-    const resources = PIXI.Loader.shared.resources;
-    const sprites = photoIds.map((resourceId) => {
-      const sprite = new PIXI.Sprite(resources[resourceId].texture);
-      sprite.hitArea = new PIXI.Rectangle(0, 0, sprite.width, sprite.height);
-      this._addDrag(sprite);
-  
-      this.viewport.addChild(sprite);
-  
-      return sprite;
-    });
-  
-    sprites[0].x = -200;
-    sprites[0].y = -1300;
-  
-    sprites[1].x = 400;
-    sprites[1].y = 1500;
-  
-    sprites[2].x = 900;
-    sprites[2].y = 100;
-    
-    sprites[3].x = -1400;
-    sprites[3].y = -300;
-  
-    sprites[4].x = -600;
-    sprites[4].y = 200;
-  
-    sprites[5].x = 1400;
-    sprites[5].y = -800;
-    
-    sprites[6].x = 2000;
-    sprites[6].y = 700;
-    
-    sprites[7].x = -3000;
-    sprites[7].y = 1000;
-    
-    sprites[8].x = -500;
-    sprites[8].y = 900;
+    // this._buildImages();
   
     this.linkBetweenActivities = new PIXI.Graphics();
     this.viewport.addChild(this.linkBetweenActivities);
@@ -125,6 +89,46 @@ export default class MapScene {
     });
     this.linkBetweenActivities.moveTo(bounds2.right - 10, bounds2.centerY);
     this.linkBetweenActivities.lineTo(bounds3.left + 10, bounds3.centerY);
+  }
+
+  _buildImages () {
+    const resources = PIXI.Loader.shared.resources;
+    const sprites = photoIds.map((resourceId) => {
+      const sprite = new PIXI.Sprite(resources[resourceId].texture);
+      sprite.hitArea = new PIXI.Rectangle(0, 0, sprite.width, sprite.height);
+      this._addDrag(sprite);
+  
+      this.viewport.addChild(sprite);
+  
+      return sprite;
+    });
+  
+    sprites[0].x = -200;
+    sprites[0].y = -1300;
+  
+    sprites[1].x = 400;
+    sprites[1].y = 1500;
+  
+    sprites[2].x = 900;
+    sprites[2].y = 100;
+    
+    sprites[3].x = -1400;
+    sprites[3].y = -300;
+  
+    sprites[4].x = -600;
+    sprites[4].y = 200;
+  
+    sprites[5].x = 1400;
+    sprites[5].y = -800;
+    
+    sprites[6].x = 2000;
+    sprites[6].y = 700;
+    
+    sprites[7].x = -3000;
+    sprites[7].y = 1000;
+    
+    sprites[8].x = -500;
+    sprites[8].y = 900;
   }
 
   _addDrag (displayObject) {
