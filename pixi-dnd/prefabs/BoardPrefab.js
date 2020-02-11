@@ -26,7 +26,6 @@ export default function Board ({ isSelected } = {}) {
     fontFamily : 'Arial',
     fontSize: 14,
   });
-
   subtitle.x = 30;
   subtitle.y = 50;
 
@@ -72,7 +71,6 @@ export default function Board ({ isSelected } = {}) {
   categoryContainer.x = 30;
   categoryContainer.y = 110;
   scene.addChild(categoryContainer);
-
 
   const button = new PIXI.Container();
   button.x = 490;
