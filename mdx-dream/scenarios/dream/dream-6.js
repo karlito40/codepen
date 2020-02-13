@@ -7,6 +7,7 @@ io.on('connnection', async (socket) => {
   userState.link(userSnapshot);
 
   socket.on('agence.join', async ({ agenceId }) => {
+    // i'm pretty sure initialAgenceState may be duplicate though :(
     const agenceSnapeshot = await Snapshot('agence', { agenceId }, initialAgenceState);
     agenceState.link(agenceSnapeshot);
 
