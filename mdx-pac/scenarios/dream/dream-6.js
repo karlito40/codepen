@@ -3,17 +3,11 @@ io.on('connnection', async (socket) => {
   const userState = State(socket);
   const appState = AppState({ agenceState, userState });
 
-  const userSnapshot = await $state.snapshot('user', { token: socket.token });
+  const userSnapshot = await Snapshot('user', { token: socket.token }, initialUserState);
   userState.link(userSnapshot);
-  // registerSnapshot does something like: 
-  /* link (snapshot) {
-      this.merge(snapshot.state())
-      snapshot.onUpdate((changes) => this.merge(changes))
-  }
-  */
 
   socket.on('agence.join', async ({ agenceId }) => {
-    const agenceSnapeshot = await $state.snapshot('agence', { agenceId });
+    const agenceSnapeshot = await Snapshot('agence', { agenceId }, initialAgenceState);
     agenceState.link(agenceSnapeshot);
 
     const selectedChiotte = socket.user.canChier && !agenceState.ongoingWar && state.availableChiottes?.[0];
