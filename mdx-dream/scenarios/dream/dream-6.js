@@ -1,36 +1,36 @@
 io.on('connnection', async (socket) => {
-  const agenceState = State(socket);
-  const userState = State(socket);
-  const appState = AppState({ agenceState, userState });
+  const agenceStore = Store(socket);
+  const userStore = Store(socket);
+  const appStore = AppStore(socket, { agenceStore, userStore });
 
   const userSnapshot = await Snapshot('user', { token: socket.token }, initialUserState);
-  userState.link(userSnapshot);
+  userStore.link(userSnapshot);
 
   socket.on('agence.join', async ({ agenceId }) => {
     // i'm pretty sure initialAgenceState may be duplicate though :(
-    const agenceSnapeshot = await Snapshot('agence', { agenceId }, initialAgenceState);
-    agenceState.link(agenceSnapeshot);
+    const agenceSnapeshot = await Snapshot('agence', { agenceId }, initialAgenceSate);
+    agenceStore.link(agenceSnapeshot);
 
-    const selectedChiotte = socket.user.canChier && !agenceState.ongoingWar && state.availableChiottes?.[0];
-    userState.update({ selectedChiotte });
+    const selectedChiotte = socket.user.canChier && !agenceStore.ongoingWar && state.availableChiottes?.[0];
+    userStore.update({ selectedChiotte });
   });
 
   socket.on('agence.duplicate', () => {
-    if (!agenceState.__isAlive) return;
+    if (!agenceStore.__isAlive) return;
 
-    const newAgence = omit(agenceState.clone(), ['id', 'employees.id']);
-    userState.update({ agences: { $push: newAgence } });
+    const newAgence = omit(agenceStore.clone(), ['id', 'employees.id']);
+    userStore.update({ agences: { $push: newAgence } });
   });
 
-  socket.on('agence.leave', () => agenceState.destroy());
+  socket.on('agence.leave', () => agenceStore.destroy());
 
   socket.on('war.declare', () => {
-    if (!agenceState.__isAlive) return;
+    if (!agenceStore.__isAlive) return;
 
-    agenceState.update({
+    agenceStore.update({
       ongoingWar: true,
       accidents: {
-        $push: random(agenceState.employees)
+        $push: random(agenceStore.employees)
       }
     });
   });
@@ -38,5 +38,5 @@ io.on('connnection', async (socket) => {
   // flush processer must await or use a stream service
   // to be able to create an optimistic reponse
   // and then rollback to the last snapshot if anything happens
-  Game.tick(() => appState.flush());
+  Game.tick(() => appStore.flush());
 });
