@@ -80,6 +80,9 @@ export default async function Snapshot (collection, where, initialState) {
 
 // todo gestion des id
 // + relational refs
+// ---------- pb
+// not working for user (les snapshots doivent etre crée en fonction du where)...
+// mongo memory limit...
 const $db = {
   addOperation (operation) {
     return mongodb.__operations.insert({ operation });
@@ -128,3 +131,37 @@ const $db = {
     });
   }
 }
+
+
+// Sans event sourcing
+// TODO: HANDLE "WHERE" SNAPSHOT
+const $db2 = {
+  update (operation) {
+    const actionByCollection = groupByCollection(operation);
+    
+    actionByCollection.forEach(async (action) => {
+      const lastSnapshot = await mongodb[action.collection].findOne(action.snapshotId);
+      const state = driver(lastSnapshot.state, action);
+      await mongodb[action.collection].insert({ state });
+
+      Pubsub.emit(`${action.collection}.snapshot.updated`, {
+        where: associate(Object.keys(await mongodb[action.collection].getIndexes(), state)), // well just to show the logic behind...
+        changes: diff(lastSnapshot.state, state)
+      });
+    });
+  },
+
+  create (collection, where, initialState) {
+    await this.createIndex(collection, 'compound', Object.keys(where)); // MEH (just to remember to handle index)
+    await mongodb[action.collection].insert({ state: initialState });
+  },
+
+  snapshot (collection, where, initialState) {
+    const hasCollection = (await mongodb.collectionNames(collection)).length > 0;
+    if (!hasCollection) {
+      this.create(collection, where, initialState);
+    }
+
+    return mongodb[collection].findOne(where);
+  },
+};
