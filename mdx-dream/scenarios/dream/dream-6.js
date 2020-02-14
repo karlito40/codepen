@@ -7,7 +7,6 @@ io.on('connnection', async (socket) => {
   userStore.link(userSnapshot);
 
   socket.on('agence.join', async ({ agenceId }) => {
-    // i'm pretty sure initialAgenceState may be duplicate though :(
     const agenceSnapeshot = await Snapshot('agence', { agenceId }, initialAgenceSate);
     agenceStore.link(agenceSnapeshot);
 
@@ -35,8 +34,5 @@ io.on('connnection', async (socket) => {
     });
   });
 
-  // flush processer must await or use a stream service
-  // to be able to create an optimistic reponse
-  // and then rollback to the last snapshot if anything happens
   Game.tick(() => appStore.flush());
 });
