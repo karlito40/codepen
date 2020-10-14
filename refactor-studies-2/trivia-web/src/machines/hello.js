@@ -1,10 +1,11 @@
-import { createMachine, transition, state, invoke, reduce } from 'robot3'
+import { createMachine, transition, state, invoke, reduce, immediate } from 'robot3'
 // import { ref, watch } from 'vue'
 import { ref } from 'vue'
 import { client as apolloClient } from '../apollo'
 import gql from 'graphql-tag'
 
 const context = () => ({
+  test: { blabla: 'stuff' },
   hello: null
 });
 
@@ -21,9 +22,12 @@ export default createMachine({
     )
   ),
   success: state(
-    transition('fetch', 'loading')
+    transition('fetch', 'loading'),
+    transition('reset', 'reset')
   ),
-  error: state()
+  reset: state(
+    immediate('idle', reduce((ctx) => ({ ...ctx, hello: null })))
+  )
 }, context);
 
 
@@ -42,6 +46,7 @@ function loadHello (context, { msg }) {
     `
   }
   apolloClient.query(query)
+  // TODO: remove watcher
   apolloClient.watchQuery(query).subscribe((res) => {
     hello.value = res
   })
