@@ -45,7 +45,7 @@ function loadHello (context, { msg }) {
       }
     `
   }
-  apolloClient.query(query)
+  
   // TODO: remove watcher
   apolloClient.watchQuery(query).subscribe((res) => {
     hello.value = res
