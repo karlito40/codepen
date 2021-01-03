@@ -24,3 +24,30 @@ iframe[data-xstate] {
   border: 0;
   opacity: 0.9;
 }
+
+.AwareTabNav ul {
+  display: flex;
+  border: 1px solid black;
+  margin: 0;
+  padding: 0;
+}
+
+.AwareTabNav ul li {
+  list-style: none;
+  border-right: 1px solid black;
+  padding: 0.8rem;
+  cursor: pointer;
+}
+
+.AwareTabNav ul li:last-child {
+  border: 0;
+}
+
+.AwareTabNav ul li:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.AwareRoom .message-list {
+  height: 270px;
+  overflow: auto;
+}

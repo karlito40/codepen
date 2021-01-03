@@ -1,3 +1,4 @@
+import { ref } from "vue";
 import { onBeforeUnmount, onMounted, shallowRef } from "vue/dist/vue.esm-bundler";
 import { interpret, State } from "xstate";
 
@@ -31,21 +32,24 @@ export default function useMachine (machine, options) {
     rehydratedState ? State.create(rehydratedState) : undefined
   );
 
-  const state = shallowRef(service.state);
+  const stateRef = shallowRef(service.state);
+  const contextRef = shallowRef(service.state.context);
   
   onMounted(() => {
     service.onTransition((currentState) => {
       if (currentState.changed) {
-        state.value = currentState;
+        stateRef.value = currentState;
+        contextRef.value = currentState.context;
       }
     });
 
-    state.value = service.state;
+    stateRef.value = service.state;
+    contextRef.value = service.state.context;
   });
 
   onBeforeUnmount(() => {
     service.stop();
   });
 
-  return { state, send: service.send, service };
+  return { state: stateRef, context: contextRef, send: service.send, service };
 }

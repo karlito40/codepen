@@ -1,3 +1,3 @@
-import { main as mainLayer } from "./layer-paint/main";
+import { main as render } from "./app-renderer/main";
 
-mainLayer();
+render();

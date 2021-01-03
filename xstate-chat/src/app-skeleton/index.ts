@@ -1,0 +1,1 @@
+export { tabsMachine } from './tabs-machine';
