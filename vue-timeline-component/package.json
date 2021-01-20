@@ -9,7 +9,7 @@
     "deploy": "npm run build && now --public && now alias"
   },
   "dependencies": {
-    "gsap": "^2.0.2",
+    "gsap": "^3.6.0",
     "vue": "^2.5.17",
     "vue-portal-class": "^0.0.1",
     "vue-router": "^3.0.1"
