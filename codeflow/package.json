@@ -1,0 +1,21 @@
+{
+  "name": "codeflow",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "gsap": "^3.6.1",
+    "leader-line": "^1.0.5",
+    "lodash-es": "^4.17.21",
+    "panzoom": "^9.4.1",
+    "vue": "^3.0.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.1.5",
+    "@vue/compiler-sfc": "^3.0.5",
+    "vite": "^2.1.3"
+  }
+}
