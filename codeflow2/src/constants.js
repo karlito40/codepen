@@ -1,0 +1,1 @@
+export const STROKE_NODE_WIDTH = 2
