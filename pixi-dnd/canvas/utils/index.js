@@ -1,1 +1,0 @@
-export { default as getBounds } from './get-bounds';
