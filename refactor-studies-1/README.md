@@ -38,7 +38,7 @@ Le front dispose de @vue/composition-api pour tester Vue-3 en early access. Vous
 
 Ma copie a été revu et simplifié. L'api ressemble dorénavant à quelque chose du genre:
 
-```
+``` javascript
 // bootstrap.js
 const { Mongo, Event, Ignite } = require('micro')
 
