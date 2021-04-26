@@ -34,6 +34,29 @@ On montre également ce que devrait être un véritable design system à l'aide 
 Le front dispose de @vue/composition-api pour tester Vue-3 en early access. Vous avez aussi accès à @babel/plugin-proposal-optional-chaining même si j'en ai pas eu besoin :/
 
 
+## Maintenant
+
+Ma copie a été revu et simplifié. L'api ressemble maintenant à quelque chose du genre:
+
+```
+// bootstrap.js
+const { Mongo, Event, Ignite } = require('micro')
+
+const micro = Ignite()
+
+micro
+  .add('mongo', new Mongo(someConf))
+  .add('event', new Event(stuff))
+
+micro.start()
+
+// imports.js
+const { mongo, event } = require('micro/mods') // no proxy 
+mongo.doStuff()
+```
+
+
+
 # Comment démarrer le bordel ?
 
 _Les commandes sont à lancer dans l'ordre_
