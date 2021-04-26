@@ -34,9 +34,9 @@ On montre également ce que devrait être un véritable design system à l'aide 
 Le front dispose de @vue/composition-api pour tester Vue-3 en early access. Vous avez aussi accès à @babel/plugin-proposal-optional-chaining même si j'en ai pas eu besoin :/
 
 
-## Maintenant
+## Présent
 
-Ma copie a été revu et simplifié. L'api ressemble maintenant à quelque chose du genre:
+Ma copie a été revu et simplifié. L'api ressemble dorénavant à quelque chose du genre:
 
 ```
 // bootstrap.js
